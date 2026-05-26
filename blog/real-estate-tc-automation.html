@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Make.com Workflow That Automates a Real Estate Transaction From Contract to Close — Project Promethean</title>
+  <meta name="description" content="I built an automation that takes a contract PDF and instantly creates an Airtable record, sends a deal timeline, and builds five calendar events — no manual data entry required.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="canonical" href="https://projectpromethean.com/blog/real-estate-tc-automation.html">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://projectpromethean.com/blog/real-estate-tc-automation.html">
+  <meta property="og:title" content="The Make.com Workflow That Automates a Real Estate Transaction From Contract to Close">
+  <meta property="og:description" content="I built an automation that takes a contract PDF and instantly creates an Airtable record, sends a deal timeline, and builds five calendar events — no manual data entry required.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="blog.css">
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">Project Promethean</a>
+      <ul class="nav-links">
+        <li><a href="../#services">Services</a></li>
+        <li><a href="../#how-it-works">How It Works</a></li>
+        <li><a href="../#about">About</a></li>
+        <li><a href="index.html" style="color: var(--text)">Blog</a></li>
+        <li><a href="../#contact" class="nav-cta">Let's Talk</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="article-hero">
+    <a href="index.html" class="article-back">← Back to Blog</a>
+    <span class="article-tag">Real Estate</span>
+    <h1>The Make.com Workflow That Automates a Real Estate Transaction From Contract to Close</h1>
+    <div class="article-meta">
+      <span>May 24, 2026</span>
+      <span>·</span>
+      <span>6 min read</span>
+    </div>
+  </div>
+
+  <div class="article-body">
+
+    <p>A transaction coordinator managing 20–30 active deals at once is essentially a human database. Every time an offer is accepted, they manually pull the contract, extract the key dates, enter everything into a spreadsheet, draft a timeline email for the agent, and set a series of calendar reminders — one for each contingency deadline.</p>
+
+    <p>It takes 30–45 minutes per deal. Multiply that across a full pipeline and you're looking at entire days every month spent on data entry that could have been handled by a system in about 90 seconds.</p>
+
+    <p>I built that system. Here's how it works.</p>
+
+    <h2>What I Built</h2>
+
+    <p>The automation handles everything that happens the moment a purchase agreement is accepted: extracting the deal data, creating the transaction record, notifying the agent, and building out the full deadline calendar — all triggered by a single PDF upload.</p>
+
+    <p>The stack is Make.com as the orchestration layer, Claude (Anthropic's AI) for document intelligence, Airtable as the transaction database, Gmail for agent communication, and Google Calendar for deadline tracking. No custom code. No developer required.</p>
+
+    <p>It's built specifically around the California Association of Realtors RPA — the standard CAR contingency periods, deadline structures, and field layout are handled out of the box.</p>
+
+    <h2>How It Works</h2>
+
+    <p>The agent uploads the signed purchase agreement PDF through a simple web form — property address, PDF, submit. That's it. The upload hits a Make.com webhook and the scenario runs automatically from there.</p>
+
+    <figure class="article-image">
+      <img src="img/tc-upload-form.png" alt="Contract upload page showing a property address field filled with '7842 Vineyard Ave, Rancho Cucamonga, CA 91730' and a PDF file selected">
+      <figcaption>The upload page. One field, one file, one button. The agent is done in under 30 seconds.</figcaption>
+    </figure>
+
+    <figure class="article-image">
+      <img src="img/tc-make-pipeline.webp" alt="Make.com scenario showing 10 connected modules: Webhook, HTTP (Claude API), JSON Parse, Airtable Create, Airtable Get, Gmail, and four Google Calendar modules — all showing green success checkmarks">
+      <figcaption>The full 10-module pipeline in Make.com. Every module runs automatically from a single upload trigger.</figcaption>
+    </figure>
+
+    <div class="article-step">
+      <div class="article-step-num">Step 01</div>
+      <h4>Claude reads the contract</h4>
+      <p>The PDF is sent to Claude's API with a structured prompt asking it to extract every deal-relevant field: property address, buyer names, agent names and DRE license numbers, purchase price, loan amount, close of escrow date, and all four contingency types — inspection, loan, appraisal, and EMD. Claude returns clean, structured JSON. No OCR, no regex, no template matching. It reads the document the way a person would, regardless of how it's formatted.</p>
+    </div>
+
+    <div class="article-step">
+      <div class="article-step-num">Step 02</div>
+      <h4>Airtable record is created</h4>
+      <p>Make.com parses the JSON and maps all extracted fields into a new record in the Airtable transaction tracker. Formula fields calculate the five key deadlines automatically — EMD due date, inspection contingency removal, loan contingency removal, appraisal contingency removal, and final close of escrow — based on the acceptance date and the contingency windows pulled directly from the contract.</p>
+    </div>
+
+    <figure class="article-image">
+      <img src="img/tc-airtable.webp" alt="Airtable transaction tracker showing a new record for 7842 Vineyard Ave with buyer Marcus Holloway, agent Ryan Torres, offer price $627,500, brokerage Pacific Coast Realty Group, and listing agent Sandra Mehta all populated automatically">
+      <figcaption>The deal logs to Airtable automatically — every field extracted from the PDF, no manual entry.</figcaption>
+    </figure>
+
+    <div class="article-step">
+      <div class="article-step-num">Step 03</div>
+      <h4>Deal timeline email goes to the agent</h4>
+      <p>The moment the record is created, Make.com retrieves the calculated deadline fields and sends the agent a formatted deal timeline email: property address, all parties, purchase price, and every contingency deadline laid out clearly. The close of escrow date is called out prominently. The agent has the full picture in their inbox before they've had a chance to open the contract themselves.</p>
+    </div>
+
+    <figure class="article-image">
+      <img src="img/tc-email-full.webp" alt="Deal timeline email showing property at 7842 Vineyard Ave, buyer Marcus Holloway, agent Ryan Torres at Pacific Coast Realty Group, with all five deadline dates: EMD June 4, Inspection June 18, Loan June 22, Appraisal June 18, Close of Escrow July 1 highlighted in purple">
+      <figcaption>The deal timeline email — every deadline formatted and labeled, sent automatically within 90 seconds of upload.</figcaption>
+    </figure>
+
+    <div class="article-step">
+      <div class="article-step-num">Step 04</div>
+      <h4>Five calendar events are created</h4>
+      <p>One Google Calendar event per deadline — EMD, inspection, loan, appraisal, COE — each created automatically with the property address in the title. No manual calendar entry. Nothing gets missed because nothing was manually entered.</p>
+    </div>
+
+    <figure class="article-image">
+      <img src="img/tc-calendar.webp" alt="Google Calendar showing June 2026 with five automatically created events: EMD Due on June 4, Appraisal and Inspection Contingency on June 18, Loan Contingency on June 22, and Close of Escrow on July 1 — all for 7842 Vineyard Ave Rancho Cucamonga">
+      <figcaption>Five calendar events, zero manual entries. The full contingency timeline lands on the agent's calendar automatically.</figcaption>
+    </figure>
+
+    <h2>What This Replaced</h2>
+
+    <p>Before this system, every accepted offer meant the same manual sequence: open the PDF, find the acceptance date, calculate each contingency deadline by hand, enter everything into a spreadsheet, write and send the timeline email, and set five separate calendar reminders. Thirty to forty-five minutes of focused attention, every time, on work that produced no value beyond the record itself.</p>
+
+    <div class="article-callout">
+      <p>The automation handles a new transaction in about 90 seconds. The TC's job shifted from data entry to deal management — same pipeline, completely different use of time.</p>
+    </div>
+
+    <p>It also eliminated a category of errors that were essentially guaranteed under the manual process. Contingency dates miscalculated by a day. Reminder emails that never got sent because something else came up. Calendar events created for the wrong property. These aren't hypothetical failure modes — they're the kinds of mistakes that happen when humans do repetitive data entry at volume, and in real estate, a missed contingency deadline can cost a client their deposit.</p>
+
+    <h2>How You'd Adapt This</h2>
+
+    <p>The core pattern here — document in, structured data out, notifications and records created automatically — applies well beyond real estate TCs. A few natural variations:</p>
+
+    <ul>
+      <li><strong>Law firms</strong> receiving signed agreements or court filings could extract key dates and parties, create matter records, and calendar deadlines automatically</li>
+      <li><strong>Property managers</strong> processing lease agreements could pull tenant info, rent amounts, and lease end dates into a property management database without manual entry</li>
+      <li><strong>Mortgage brokers</strong> handling loan applications could extract borrower details and document checklist items and route them to the right processor immediately</li>
+      <li><strong>Any service business</strong> using signed contracts could trigger their onboarding workflow automatically the moment a deal closes — no one needs to manually start the process</li>
+    </ul>
+
+    <p>The document changes. The structure of the automation doesn't.</p>
+
+    <div class="article-cta">
+      <h3>Want something like this for your business?</h3>
+      <p>If you're doing repetitive data entry from documents — contracts, applications, intake forms, PDFs of any kind — there's a good chance this pattern applies to your workflow. Book a free call and we'll map it out.</p>
+      <a href="../#contact" class="btn btn-primary">Book a Free Call</a>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">Project Promethean</span>
+      <span class="footer-copy">© 2026 Project Promethean &nbsp;·&nbsp; <a href="mailto:hello@projectpromethean.com">hello@projectpromethean.com</a></span>
+    </div>
+  </footer>
+
+  <script src="../script.js" defer></script>
+</body>
+</html>
