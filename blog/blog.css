@@ -41,7 +41,7 @@ body:has(.article-body) .article-step h4 { color: #0f0f1a; }
 body:has(.article-body) .article-step p  { color: #4b5563; }
 
 body:has(.article-body) .article-callout {
-  background: rgba(0, 212, 255, 0.06);
+  background: rgba(232, 160, 32, 0.06);
 }
 body:has(.article-body) .article-callout p { color: #1e293b; font-style: italic; }
 
@@ -102,8 +102,8 @@ body:has(.article-body) .article-cta p  { color: #4b5563; }
   color: inherit;
 }
 .blog-card:hover {
-  border-color: rgba(0, 212, 255, 0.35);
-  box-shadow: 0 0 28px rgba(0, 212, 255, 0.07);
+  border-color: rgba(232, 160, 32, 0.35);
+  box-shadow: 0 0 28px rgba(232, 160, 32, 0.07);
   transform: translateY(-4px);
 }
 .blog-card-tag {
@@ -267,7 +267,7 @@ body:has(.article-body) .article-image {
 }
 
 .article-callout {
-  background: rgba(0, 212, 255, 0.05);
+  background: rgba(232, 160, 32, 0.05);
   border-left: 3px solid var(--cyan);
   border-radius: 0 8px 8px 0;
   padding: 1.25rem 1.5rem;
