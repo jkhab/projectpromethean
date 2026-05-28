@@ -274,6 +274,7 @@
             <div class="flow-step">Agent assigned &amp; notified</div>
           </div>
           <p class="automation-result">Every lead gets a response in under a minute, 24/7.</p>
+          <a href="blog/real-estate-ai-automation.html" class="automation-link">Read the case study →</a>
         </div>
 
         <div class="automation-card reveal">
@@ -323,7 +324,7 @@
         <p class="section-label">About</p>
         <h2 class="section-heading">Built for small businesses, not enterprise budgets.</h2>
         <p class="about-body">Project Promethean is built on a simple belief: the automation systems that help large companies save thousands of hours per year should be available to every small business owner who's tired of copy-pasting data, chasing follow-ups, and doing the same thing fifty times a week.</p>
-        <p class="about-body">We've spent 10+ years inside fast-moving SaaS companies building exactly these systems — deploying AI tools, migrating platforms, and integrating complex toolstacks. Now we build them for you, scoped and priced for a small business that doesn't have an IT department.</p>
+        <p class="about-body">I've spent 10+ years inside fast-moving SaaS companies building exactly these systems — deploying AI tools, migrating platforms, and integrating complex toolstacks. Now I build them for you, scoped and priced for a small business that doesn't have an IT department.</p>
       </div>
     </div>
   </section>
@@ -401,8 +402,19 @@
           <input type="email" id="email" name="email" placeholder="you@company.com" required>
         </div>
         <div class="form-group">
-          <label for="message">What do you want to automate?</label>
-          <textarea id="message" name="message" placeholder="Describe your current workflow or the problem you're trying to solve..." rows="5" required></textarea>
+          <label>What's the biggest bottleneck?</label>
+          <div class="form-pills">
+            <button type="button" class="pill" data-value="Document &amp; Data Entry">Document &amp; Data Entry</button>
+            <button type="button" class="pill" data-value="CRM &amp; Lead Management">CRM &amp; Lead Management</button>
+            <button type="button" class="pill" data-value="Customer Support">Customer Support</button>
+            <button type="button" class="pill" data-value="Client Onboarding">Client Onboarding</button>
+            <button type="button" class="pill" data-value="Something Else">Something Else</button>
+          </div>
+          <input type="hidden" name="category" id="form-category">
+        </div>
+        <div class="form-group">
+          <label for="message">Tell us more <span style="font-weight:400;opacity:0.6;">(optional)</span></label>
+          <textarea id="message" name="message" placeholder="Any extra context — we'll figure out the rest on the call." rows="4"></textarea>
         </div>
         <button type="submit" class="btn btn-primary btn-full" id="submit-btn">Send Message</button>
         <p class="form-note">No commitment. We'll respond within one business day.</p>

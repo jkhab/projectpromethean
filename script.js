@@ -55,6 +55,15 @@ document.querySelectorAll('.faq-q').forEach(btn => {
   });
 });
 
+// Pain point pill selection
+document.querySelectorAll('.pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    document.getElementById('form-category').value = pill.dataset.value;
+  });
+});
+
 // Contact form — Formspree async submit
 const form = document.getElementById('contact-form');
 const submitBtn = document.getElementById('submit-btn');
