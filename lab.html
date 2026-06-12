@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF62P8L1W2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VF62P8L1W2');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Lab — Project Promethean</title>
+  <meta name="description" content="Production AI systems designed, built, and operated solo: a consumer AI iOS app, a document-extraction pipeline for real estate, AI triage SaaS, and an institutional-knowledge assistant for enterprise support.">
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://projectpromethean.com/lab.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://projectpromethean.com/lab.html">
+  <meta property="og:title" content="The Lab — Project Promethean">
+  <meta property="og:description" content="Production AI systems designed, built, and operated solo. Real users, real documents, real deadlines, real unit economics.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .lab-head { padding-top: 150px; }
+    .lab-head h1 { font-family: var(--font-display); color: var(--heading); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 600; line-height: 1.15; margin-bottom: 20px; }
+    .lab-intro { color: var(--text); max-width: 720px; margin-bottom: 14px; }
+    .lab-stack { display: grid; gap: 26px; max-width: 880px; margin: 0 auto; }
+    .lab-stack .automation-card { width: 100%; }
+    .lab-note { color: var(--text-muted); font-size: 0.92rem; max-width: 880px; margin: 26px auto 0; border-left: 2px solid var(--border-hover); padding-left: 14px; }
+    .lab-status { color: var(--text-muted); font-size: 0.9rem; margin-top: 10px; }
+    .lab-decisions { margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">🔥Project Promethean</a>
+      <ul class="nav-links">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#how-it-works">The Process</a></li>
+        <li><a href="index.html#services">What We Build</a></li>
+        <li><a href="lab.html" style="color: var(--text)">The Lab</a></li>
+        <li><a href="blog/">Blog</a></li>
+        <li><a href="index.html#contact" class="nav-cta">Let's Talk</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <section class="section lab-head" id="lab">
+    <div class="container container-narrow">
+      <div class="reveal">
+        <p class="section-label">The Lab</p>
+        <h1>Built, shipped, and running.</h1>
+        <p class="lab-intro">A support organization can't experiment on its customers. So I experiment on my own products. Everything on this page is a production system I designed, built, and operate myself: AI does the implementation, and ten years of running enterprise B2B support operations decides what gets built, what will break, and what it should cost.</p>
+        <p class="lab-intro">I'm not a software engineer, and that's the point. These projects are where I learn what AI can actually hold in production: real users, real documents, real deadlines, real unit economics. The findings show up in every client engagement.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section class="section section-alt" id="lab-projects">
+    <div class="container">
+      <div class="lab-stack">
+
+        <div class="automation-card reveal">
+          <div class="automation-meta">
+            <span class="automation-tag tag-service">Consumer AI</span>
+          </div>
+          <h4>Work the Steps</h4>
+          <p class="automation-pain">The question: can one operator ship a consumer AI product that holds a sensitive conversation safely, at a sustainable per-user cost?</p>
+          <p>A paid iOS app with a Claude-powered conversational guide, built for the 12-step recovery community. Daily check-ins become saved reflections, reflections surface recurring themes, and themes feed structured step work, so the hardest part of the program never starts from a blank page.</p>
+          <div class="flow">
+            <div class="flow-step">Daily check-in</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Reflection</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Recurring themes</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Step work</div>
+          </div>
+          <p class="lab-decisions">Operator decisions baked in: a controlled voice and prompt architecture; per-user cost guardrails (prompt caching, daily fair-use caps, hard spend limits); crisis resources that bypass every gate and are never paywalled; end-to-end encryption with data kept on the device; subscriptions, trials, and App Store compliance.</p>
+          <p class="lab-status">Status: in final App Store review. Stack: React Native, Claude API behind a rate-limited relay, RevenueCat.</p>
+          <a href="https://workthesteps.app" class="automation-link">workthesteps.app →</a>
+        </div>
+
+        <div class="automation-card reveal">
+          <div class="automation-meta">
+            <span class="automation-tag tag-re">Real Estate</span>
+          </div>
+          <h4>Virtual TC</h4>
+          <p class="automation-pain">The question: how much of a transaction coordinator's intake can AI run against real contracts with real deadlines?</p>
+          <p>An 11-module pipeline. An executed purchase agreement goes in; a structured deal record, a client timeline email, and calendar deadline events come out, in minutes.</p>
+          <div class="flow">
+            <div class="flow-step">Contract PDF</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">AI extraction</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Deal record</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Timeline email</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Deadline events</div>
+          </div>
+          <p class="lab-decisions">Built for messy reality: extraction against scanned, inconsistent PDFs; deadline logic derived from the contract's own terms; framed AI-assisted and human-verified, because liability lives in the gaps.</p>
+          <p class="lab-status">Status: pipeline complete, brokerage pilot in motion. Stack: Make.com, Claude API, Airtable, Gmail, Google Calendar.</p>
+          <a href="blog/real-estate-tc-automation.html" class="automation-link">Read the build story →</a>
+        </div>
+
+        <div class="automation-card reveal">
+          <div class="automation-meta">
+            <span class="automation-tag tag-ops">Operations</span>
+          </div>
+          <h4>PropAgent</h4>
+          <p class="automation-pain">The question: will a small landlord trust AI to triage tenant messages and draft the replies?</p>
+          <p>A multi-tenant web app. An inbound tenant email becomes a categorized, prioritized issue with a drafted reply waiting for approval.</p>
+          <div class="flow">
+            <div class="flow-step">Tenant email</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">AI triage</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Priority &amp; category</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Drafted reply</div>
+          </div>
+          <p class="lab-status">Status: live. Stack: Next.js, Supabase, Claude API, Vercel.</p>
+          <a href="https://propagent.vercel.app" class="automation-link">propagent.vercel.app →</a>
+        </div>
+
+        <div class="automation-card reveal">
+          <div class="automation-meta">
+            <span class="automation-tag tag-service">Customer Support</span>
+          </div>
+          <h4>The Institutional-Knowledge Assistant</h4>
+          <p class="automation-pain">The question: can years of accumulated support nuance be captured so a team stops depending on any one person's memory?</p>
+          <p>An internal AI assistant built inside my day job at an enterprise B2B SaaS company. An agent pastes a customer question and gets a grounded draft response, built from full product documentation plus the judgment patterns that usually take years of exposure to accumulate. It normalizes response quality, speeds up ticket handling, and carries the new-hire training load.</p>
+          <div class="flow">
+            <div class="flow-step">Customer question</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Grounded draft</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Agent review</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Reply sent</div>
+          </div>
+          <p class="lab-status">Status: in daily use by a live enterprise support team.</p>
+        </div>
+
+      </div>
+
+      <p class="lab-note reveal">Also in production: two local lead-generation properties with end-to-end measurement (GA4, Google Tag Manager, Search Console, conversion-event wiring) and AI-discoverability work. They are the testing ground for how I instrument funnels and prove outcomes.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" id="lab-cta">
+    <div class="container container-narrow">
+      <div class="reveal">
+        <p class="section-label">Work With Me</p>
+        <h2 class="section-heading">Want a system like this inside your business?</h2>
+        <p class="contact-sub">Start with a conversation. Free 30-minute call, plain English, no commitment.</p>
+        <div class="hero-actions" style="margin-top: 24px;">
+          <a href="index.html#contact" class="btn btn-primary">Book a Free Call</a>
+          <a href="blog/" class="btn btn-ghost">Read the Blog</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">🔥Project Promethean</span>
+      <span class="footer-copy">© 2026 Project Promethean</span>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
