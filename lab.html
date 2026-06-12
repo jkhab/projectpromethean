@@ -60,7 +60,8 @@
     .automation-pain { color: #6f6c63; }
     .lab-status, .lab-note, .flow-arrow { color: #6f6c63; }
     .automation-card { background: #faf9f5; border-color: #e3dfd4; box-shadow: 0 2px 18px rgba(60, 50, 30, 0.06); }
-    .flow-step { background: #efece4; border-color: #ddd8cc; color: #3f3d37; }
+    .flow-step { background: transparent; border: 1px solid #cfc9ba; border-radius: 7px; color: #55524a; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.72rem; }
+    .flow-arrow { color: #b3ad9e; }
     .receipt-list li { border-bottom-color: #e3dfd4; }
     .receipt-list strong { color: #1a1916; }
     .lab-shot { border-color: #ddd8cc; box-shadow: 0 4px 24px rgba(60, 50, 30, 0.08); }
@@ -70,6 +71,21 @@
     .automation-link { color: #a06a14; }
     .btn-ghost { color: #1a1916; border-color: rgba(26, 25, 22, 0.3); }
     .btn-ghost:hover { background: rgba(26, 25, 22, 0.05); border-color: rgba(26, 25, 22, 0.45); }
+
+    /* Sticky rail: desktop only, lights up as you scroll */
+    .lab-rail { position: fixed; left: 26px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 4px; z-index: 60; }
+    .lab-rail a { font-size: 0.72rem; letter-spacing: 0.04em; color: #8a857a; text-decoration: none; padding: 5px 0 5px 14px; border-left: 2px solid transparent; max-width: 150px; line-height: 1.3; transition: color 0.2s ease, border-color 0.2s ease; }
+    .lab-rail a:hover { color: #1a1916; }
+    .lab-rail a.active { color: #1a1916; border-left-color: #b87c1c; }
+    @media (max-width: 1249px) { .lab-rail { display: none; } }
+
+    /* Split card: text left, tall screenshot right, desktop only */
+    @media (min-width: 900px) {
+      .card-split { display: grid; grid-template-columns: 1.1fr 0.9fr; column-gap: 30px; }
+      .card-split > * { grid-column: 1; }
+      .card-split .card-media { grid-column: 2; grid-row: 1 / span 12; align-self: center; }
+      .card-split .lab-shot--tall { max-width: 100%; margin: 0; }
+    }
   </style>
 </head>
 <body>
@@ -91,6 +107,16 @@
     </div>
   </nav>
 
+  <!-- STICKY RAIL -->
+  <aside class="lab-rail" aria-label="On this page">
+    <a href="#wts">Work the Steps</a>
+    <a href="#vtc">Virtual TC</a>
+    <a href="#offerletter">OfferLetter</a>
+    <a href="#assistant">Assistant</a>
+    <a href="#leadgen">Lead-Gen</a>
+    <a href="#receipts">Receipts</a>
+  </aside>
+
   <!-- HEADER -->
   <section class="section lab-head" id="lab">
     <div class="container container-narrow">
@@ -108,7 +134,7 @@
     <div class="container">
       <div class="lab-stack">
 
-        <div class="automation-card reveal">
+        <div class="automation-card reveal card-split" id="wts">
           <div class="automation-meta">
             <span class="automation-tag tag-service">Consumer AI</span>
           </div>
@@ -125,14 +151,16 @@
             <div class="flow-step">Step work</div>
           </div>
           <p class="lab-decisions">Operator decisions baked in: a controlled voice and prompt architecture; per-user cost guardrails (prompt caching, daily fair-use caps, hard spend limits); crisis resources that bypass every gate and are never paywalled; end-to-end encryption with data kept on the device; subscriptions, trials, and App Store compliance.</p>
-          <a href="https://workthesteps.app" target="_blank" rel="noopener" aria-label="Visit the Work the Steps site">
-            <img class="lab-shot lab-shot--tall" src="img/lab-wts-threads.png" alt="Work the Steps: recurring themes surfacing from daily check-ins on the reflections screen" loading="lazy">
-          </a>
+          <div class="card-media">
+            <a href="https://workthesteps.app" target="_blank" rel="noopener" aria-label="Visit the Work the Steps site">
+              <img class="lab-shot lab-shot--tall" src="img/lab-wts-threads.png" alt="Work the Steps: recurring themes surfacing from daily check-ins on the reflections screen" loading="lazy">
+            </a>
+          </div>
           <p class="lab-status">Status: in final App Store review. Stack: React Native, Claude API behind a rate-limited relay, RevenueCat.</p>
           <a href="https://workthesteps.app" class="btn btn-ghost" target="_blank" rel="noopener" style="margin-top: 14px;">Visit workthesteps.app →</a>
         </div>
 
-        <div class="automation-card reveal">
+        <div class="automation-card reveal" id="vtc">
           <div class="automation-meta">
             <span class="automation-tag tag-re">Real Estate</span>
           </div>
@@ -156,7 +184,7 @@
           <a href="blog/real-estate-tc-automation.html" class="automation-link">Read the build story →</a>
         </div>
 
-        <div class="automation-card reveal">
+        <div class="automation-card reveal" id="offerletter">
           <div class="automation-meta">
             <span class="automation-tag tag-re">Voice AI</span>
           </div>
@@ -169,7 +197,7 @@
           <a href="blog/voice-to-text-real-estate-contract.html" class="automation-link">Read the build story →</a>
         </div>
 
-        <div class="automation-card reveal">
+        <div class="automation-card reveal" id="assistant">
           <div class="automation-meta">
             <span class="automation-tag tag-service">Customer Support</span>
           </div>
@@ -188,7 +216,7 @@
           <p class="lab-status">Status: built and deployed inside an enterprise B2B SaaS support team.</p>
         </div>
 
-        <div class="automation-card reveal">
+        <div class="automation-card reveal" id="leadgen">
           <div class="automation-meta">
             <span class="automation-tag tag-ops">Measurement</span>
           </div>
@@ -297,5 +325,27 @@
   </footer>
 
   <script src="script.js" defer></script>
+  <script>
+    (() => {
+      const links = Array.from(document.querySelectorAll('.lab-rail a'));
+      const pairs = links
+        .map(a => [a, document.querySelector(a.getAttribute('href'))])
+        .filter(p => p[1]);
+      let ticking = false;
+      const update = () => {
+        ticking = false;
+        const line = innerHeight * 0.42;
+        let current = null;
+        for (const [a, t] of pairs) {
+          if (t.getBoundingClientRect().top <= line) current = a;
+        }
+        links.forEach(l => l.classList.toggle('active', l === current));
+      };
+      addEventListener('scroll', () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      update();
+    })();
+  </script>
 </body>
 </html>
