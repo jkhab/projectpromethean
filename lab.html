@@ -13,7 +13,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Lab — Project Promethean</title>
-  <meta name="description" content="Production AI systems designed, built, and operated solo: a consumer AI iOS app, a document-extraction pipeline for real estate, and an institutional-knowledge assistant for enterprise support.">
+  <meta name="description" content="Production AI systems designed, built, and operated solo: a consumer AI iOS app, a document-extraction pipeline for real estate, a voice-driven contract tool, and an institutional-knowledge assistant for enterprise support.">
   <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
 
   <!-- Favicon -->
@@ -135,6 +135,19 @@
 
         <div class="automation-card reveal">
           <div class="automation-meta">
+            <span class="automation-tag tag-re">Voice AI</span>
+          </div>
+          <h4>OfferLetter</h4>
+          <p class="automation-pain">The question: can a real estate agent write a 27-page purchase agreement by talking?</p>
+          <p>A web form covering every field of the California purchase agreement, driven by voice. The agent speaks the deal in plain language, the fields populate across the form, the address geocodes itself, and the finished data maps into the official CAR PDF, routed to the buyer for review and then to the listing agent. Thirty to forty-five minutes of form entry became about five minutes of talking.</p>
+          <img class="lab-shot" src="blog/img/voice-form-screenshot.png" alt="OfferLetter voice intake: a spoken deal transcript and 18 form fields populated from a single voice input, with the street address geocoded" loading="lazy">
+          <p class="lab-decisions">Built for how agents actually work: profile auto-fill, support for up to three buyers, contingency math, close-of-escrow as days or a date, and voice input that never makes you narrate field names.</p>
+          <p class="lab-status">Status: built, demonstrated, and deliberately retired. Its browser-side API key got drained, and that bill became the guardrail list in Receipts below. Stack: Cloudflare Pages, browser voice capture, Claude API via Make.com, Google Maps geocoding.</p>
+          <a href="blog/voice-to-text-real-estate-contract.html" class="automation-link">Read the build story →</a>
+        </div>
+
+        <div class="automation-card reveal">
+          <div class="automation-meta">
             <span class="automation-tag tag-service">Customer Support</span>
           </div>
           <h4>The Institutional-Knowledge Assistant</h4>
@@ -206,7 +219,7 @@
             <span class="automation-tag tag-re">Tuition</span>
           </div>
           <h4>One expensive lesson</h4>
-          <p>An earlier public tool of mine shipped with an API key reachable from the browser. Someone found it and drained it, and I shut the tool down. Everything I run now assumes that person exists:</p>
+          <p>OfferLetter, the voice tool above, shipped with an API key reachable from the browser. Someone found it and drained it, and I shut the deployment down. Everything I run now assumes that person exists:</p>
           <ul class="receipt-list">
             <li>Keys live server-side, behind a relay. The client never holds one.</li>
             <li>Per-IP rate limits on the relay: 20 requests a minute, 300 a day.</li>
