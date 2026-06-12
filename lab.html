@@ -43,6 +43,10 @@
     .lab-decisions { margin-top: 12px; }
     .lab-shot { display: block; width: 100%; height: auto; margin: 18px 0 4px; border-radius: 10px; border: 1px solid var(--border); }
     .lab-shot--tall { max-width: 320px; margin-left: auto; margin-right: auto; }
+    .receipt-list { list-style: none; margin: 14px 0 0; padding: 0; }
+    .receipt-list li { padding: 9px 0; border-bottom: 1px solid var(--border); }
+    .receipt-list li:last-child { border-bottom: none; }
+    .receipt-list strong { color: var(--heading); }
   </style>
 </head>
 <body>
@@ -154,8 +158,70 @@
     </div>
   </section>
 
+  <!-- RECEIPTS -->
+  <section class="section" id="receipts">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Receipts</p>
+        <h2 class="section-heading">The two questions every AI system gets asked.</h2>
+        <p class="lab-intro">Money and safety. Most pitches answer both with adjectives, so here are the actual numbers and the actual architecture from the app above, plus one lesson I paid for.</p>
+      </div>
+      <div class="lab-stack">
+
+        <div class="automation-card reveal">
+          <div class="automation-meta">
+            <span class="automation-tag tag-ops">Unit Economics</span>
+          </div>
+          <h4>What a $5.99 subscriber actually costs</h4>
+          <p>A subscription with a recurring AI cost only works if the math is done before launch. Mine was. The pieces:</p>
+          <ul class="receipt-list">
+            <li><strong>Net revenue:</strong> $5.99 a month, less Apple's commission at the small-developer rate, lands around $5.09.</li>
+            <li><strong>The dominant cost is long conversations.</strong> Prompt caching on every turn re-reads the history at a fraction of full price and cuts a long session's input cost roughly in half.</li>
+            <li><strong>Fair-use caps:</strong> a soft cap at 40 AI turns a day, where the guide starts pointing toward a meeting or a phone call, and a hard cap at 80 with a warm pause until tomorrow. Crisis messages are exempt from both.</li>
+            <li><strong>A hard monthly spend ceiling</strong> at the API account, sized to the user base and raised deliberately, never automatically.</li>
+            <li><strong>The result:</strong> even a heavy daily voice user pencils out to roughly $3 a month of margin, modeled before the App Store ever saw the build.</li>
+          </ul>
+        </div>
+
+        <div class="automation-card reveal">
+          <div class="automation-meta">
+            <span class="automation-tag tag-service">Safety Architecture</span>
+          </div>
+          <h4>The one path that bypasses everything</h4>
+          <p>In a recovery app, the most important architecture decision is the exception. Crisis language is checked on every single turn, and when the check fires, every commercial gate in the product stands down.</p>
+          <div class="flow">
+            <div class="flow-step">Message arrives</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Crisis check, every turn</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Caps, trial, paywall yield</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Crisis resources, human handoff</div>
+          </div>
+          <p class="lab-decisions">The daily cap, the trial limit, and the paywall all step aside. The guide also stops being clever: its only job becomes pointing at people, the 988 line, and a meeting. Crisis resources are phone numbers, never a feature, and never gated. Even the fair-use pause message leads with the crisis line.</p>
+        </div>
+
+        <div class="automation-card reveal">
+          <div class="automation-meta">
+            <span class="automation-tag tag-re">Tuition</span>
+          </div>
+          <h4>One expensive lesson</h4>
+          <p>An earlier public tool of mine shipped with an API key reachable from the browser. Someone found it and drained it, and I shut the tool down. Everything I run now assumes that person exists:</p>
+          <ul class="receipt-list">
+            <li>Keys live server-side, behind a relay. The client never holds one.</li>
+            <li>Per-IP rate limits on the relay: 20 requests a minute, 300 a day.</li>
+            <li>A model whitelist, so a borrowed endpoint can't be pointed at a bigger, costlier model.</li>
+            <li>Hard monthly caps with alerts before the ceiling, and a kill switch that can turn a feature off over the air without an app release.</li>
+          </ul>
+          <p class="lab-status">Every line on that list exists because of one bill.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
-  <section class="section" id="lab-cta">
+  <section class="section section-alt" id="lab-cta">
     <div class="container container-narrow">
       <div class="reveal">
         <p class="section-label">Work With Me</p>
