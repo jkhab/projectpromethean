@@ -47,6 +47,25 @@
     .receipt-list li { padding: 9px 0; border-bottom: 1px solid var(--border); }
     .receipt-list li:last-child { border-bottom: none; }
     .receipt-list strong { color: var(--heading); }
+
+    /* Light reading theme, same system as the blog articles: nav and footer stay dark */
+    body { background: #fafafa; }
+    body::after { opacity: 0.012; }
+    .nav { background: rgba(8, 8, 16, 0.92); backdrop-filter: blur(10px); }
+    .footer { background: #080810; }
+    .lab-head h1, .section-heading, .automation-card h4 { color: #0f0f1a; }
+    .lab-intro, .automation-card p, .contact-sub { color: #374151; }
+    .automation-pain { color: #6b7280; }
+    .lab-status, .lab-note, .flow-arrow { color: #6b7280; }
+    .automation-card { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05); }
+    .flow-step { background: #f1f5f9; border-color: #e2e8f0; color: #374151; }
+    .receipt-list li { border-bottom-color: #e2e8f0; }
+    .receipt-list strong { color: #111827; }
+    .lab-shot { border-color: #e2e8f0; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07); }
+    .lab-note { border-left-color: rgba(232, 160, 32, 0.5); }
+    .section-alt { background: #f1f5f9; }
+    .btn-ghost { color: #0f0f1a; border-color: rgba(15, 15, 26, 0.25); }
+    .btn-ghost:hover { background: rgba(15, 15, 26, 0.05); border-color: rgba(15, 15, 26, 0.4); }
   </style>
 </head>
 <body>
