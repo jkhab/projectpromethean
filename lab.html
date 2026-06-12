@@ -60,8 +60,14 @@
     .automation-pain { color: #6f6c63; }
     .lab-status, .lab-note, .flow-arrow { color: #6f6c63; }
     .automation-card { background: #faf9f5; border-color: #e3dfd4; box-shadow: 0 2px 18px rgba(60, 50, 30, 0.06); }
-    .flow-step { background: transparent; border: 1px solid #cfc9ba; border-radius: 7px; color: #55524a; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.72rem; }
-    .flow-arrow { color: #b3ad9e; }
+    .flow-step { position: relative; background: transparent; border: 1px solid #cfc9ba; border-radius: 7px; color: #55524a; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.72rem; padding: 6px 11px; }
+    .flow-arrow { display: none; }
+    .flow { gap: 26px; row-gap: 12px; }
+    .flow-step:not(:first-child)::before { content: "→"; position: absolute; left: -20px; top: 50%; transform: translateY(-50%); color: #b3ad9e; font-size: 0.8rem; }
+    .card-split .flow-step { font-size: 0.66rem; padding: 5px 9px; }
+    .card-split .flow { gap: 22px; }
+    .card-split .flow-step:not(:first-child)::before { left: -17px; }
+    .card-specs { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.7rem; letter-spacing: 0.02em; color: #8a857a; margin: 2px 0 12px; }
     .receipt-list li { border-bottom-color: #e3dfd4; }
     .receipt-list strong { color: #1a1916; }
     .lab-shot { border-color: #ddd8cc; box-shadow: 0 4px 24px rgba(60, 50, 30, 0.08); }
@@ -74,7 +80,7 @@
 
     /* Sticky rail: desktop only, lights up as you scroll */
     .lab-rail { position: fixed; left: 26px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 4px; z-index: 60; }
-    .lab-rail a { font-size: 0.72rem; letter-spacing: 0.04em; color: #8a857a; text-decoration: none; padding: 5px 0 5px 14px; border-left: 2px solid transparent; max-width: 150px; line-height: 1.3; transition: color 0.2s ease, border-color 0.2s ease; }
+    .lab-rail a { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8a857a; text-decoration: none; padding: 5px 0 5px 14px; border-left: 2px solid transparent; max-width: 150px; line-height: 1.4; transition: color 0.2s ease, border-color 0.2s ease; }
     .lab-rail a:hover { color: #1a1916; }
     .lab-rail a.active { color: #1a1916; border-left-color: #b87c1c; }
     @media (max-width: 1249px) { .lab-rail { display: none; } }
@@ -139,6 +145,7 @@
             <span class="automation-tag tag-service">Consumer AI</span>
           </div>
           <h4>Work the Steps</h4>
+          <p class="card-specs">Claude Sonnet 4.6 · React Native · App Store review</p>
           <p class="automation-pain">The question: can one operator ship a consumer AI product that holds a sensitive conversation safely, at a sustainable per-user cost?</p>
           <p>A paid iOS app with a Claude-powered conversational guide, built for the 12-step recovery community. Daily check-ins become saved reflections, reflections surface recurring themes, and themes feed structured step work, so the hardest part of the program never starts from a blank page.</p>
           <div class="flow">
@@ -156,7 +163,6 @@
               <img class="lab-shot lab-shot--tall" src="img/lab-wts-threads.png" alt="Work the Steps: recurring themes surfacing from daily check-ins on the reflections screen" loading="lazy">
             </a>
           </div>
-          <p class="lab-status">Status: in final App Store review. Stack: React Native, Claude API behind a rate-limited relay, RevenueCat.</p>
           <a href="https://workthesteps.app" class="btn btn-ghost" target="_blank" rel="noopener" style="margin-top: 14px;">Visit workthesteps.app →</a>
         </div>
 
@@ -165,6 +171,7 @@
             <span class="automation-tag tag-re">Real Estate</span>
           </div>
           <h4>Virtual TC</h4>
+          <p class="card-specs">Claude · Make.com · Airtable · pilot in motion</p>
           <p class="automation-pain">The question: how much of a transaction coordinator's intake can AI run against real contracts with real deadlines?</p>
           <p>An 11-module pipeline. An executed purchase agreement goes in; a structured deal record, a client timeline email, and calendar deadline events come out, in minutes.</p>
           <div class="flow">
@@ -180,7 +187,6 @@
           </div>
           <p class="lab-decisions">Built for messy reality: extraction against scanned, inconsistent PDFs; deadline logic derived from the contract's own terms; framed AI-assisted and human-verified, because liability lives in the gaps.</p>
           <img class="lab-shot" src="blog/img/tc-email-full.webp" alt="Virtual TC output: the generated deal timeline email with deal summary, key dates and deadlines, and next steps" loading="lazy">
-          <p class="lab-status">Status: pipeline complete, brokerage pilot in motion. Stack: Make.com, Claude API, Airtable, Gmail, Google Calendar.</p>
           <a href="blog/real-estate-tc-automation.html" class="automation-link">Read the build story →</a>
         </div>
 
@@ -189,6 +195,7 @@
             <span class="automation-tag tag-re">Voice AI</span>
           </div>
           <h4>OfferLetter</h4>
+          <p class="card-specs">Claude · browser voice capture · Cloudflare Pages · retired</p>
           <p class="automation-pain">The question: can a real estate agent write a 27-page purchase agreement by talking?</p>
           <p>A web form covering every field of the California purchase agreement, driven by voice. The agent speaks the deal in plain language, the fields populate across the form, the address geocodes itself, and the finished data maps into the official CAR PDF, routed to the buyer for review and then to the listing agent. Thirty to forty-five minutes of form entry became about five minutes of talking.</p>
           <img class="lab-shot" src="blog/img/voice-form-screenshot.png" alt="OfferLetter voice intake: a spoken deal transcript and 18 form fields populated from a single voice input, with the street address geocoded" loading="lazy">
@@ -202,6 +209,7 @@
             <span class="automation-tag tag-service">Customer Support</span>
           </div>
           <h4>The Institutional-Knowledge Assistant</h4>
+          <p class="card-specs">Claude · enterprise internal deployment</p>
           <p class="automation-pain">The question: can years of accumulated support nuance be captured so a team stops depending on any one person's memory?</p>
           <p>An internal AI assistant built inside my day job at an enterprise B2B SaaS company. An agent pastes a customer question and gets a grounded draft response, built from full product documentation plus the judgment patterns that usually take years of exposure to accumulate. It normalizes response quality, speeds up ticket handling, and carries the new-hire training load.</p>
           <div class="flow">
@@ -213,7 +221,6 @@
             <div class="flow-arrow">→</div>
             <div class="flow-step">Reply sent</div>
           </div>
-          <p class="lab-status">Status: built and deployed inside an enterprise B2B SaaS support team.</p>
         </div>
 
         <div class="automation-card reveal" id="leadgen">
@@ -221,6 +228,7 @@
             <span class="automation-tag tag-ops">Measurement</span>
           </div>
           <h4>Two Lead-Generation Properties</h4>
+          <p class="card-specs">GA4 · Google Tag Manager · Search Console · live</p>
           <p class="automation-pain">The question: can search and AI-answer visibility be built from zero and measured honestly?</p>
           <p>Two local lead-generation sites, live and in production: about 40 pages of data-backed content between them, built on state licensing datasets rather than scraped filler. GA4 and Google Tag Manager are wired end to end, Search Console runs on both, conversion events fire on real form submissions, and AI crawlers are deliberately allowed so the sites are citable by answer engines.</p>
           <div class="flow">
