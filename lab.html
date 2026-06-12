@@ -41,6 +41,8 @@
     .lab-note { color: var(--text-muted); font-size: 0.92rem; max-width: 880px; margin: 26px auto 0; border-left: 2px solid var(--border-hover); padding-left: 14px; }
     .lab-status { color: var(--text-muted); font-size: 0.9rem; margin-top: 10px; }
     .lab-decisions { margin-top: 12px; }
+    .lab-shot { display: block; width: 100%; height: auto; margin: 18px 0 4px; border-radius: 10px; border: 1px solid var(--border); }
+    .lab-shot--tall { max-width: 320px; margin-left: auto; margin-right: auto; }
   </style>
 </head>
 <body>
@@ -96,6 +98,7 @@
             <div class="flow-step">Step work</div>
           </div>
           <p class="lab-decisions">Operator decisions baked in: a controlled voice and prompt architecture; per-user cost guardrails (prompt caching, daily fair-use caps, hard spend limits); crisis resources that bypass every gate and are never paywalled; end-to-end encryption with data kept on the device; subscriptions, trials, and App Store compliance.</p>
+          <img class="lab-shot lab-shot--tall" src="img/lab-wts-threads.png" alt="Work the Steps: recurring themes surfacing from daily check-ins on the reflections screen" loading="lazy">
           <p class="lab-status">Status: in final App Store review. Stack: React Native, Claude API behind a rate-limited relay, RevenueCat.</p>
           <a href="https://workthesteps.app" class="automation-link">workthesteps.app →</a>
         </div>
@@ -119,6 +122,7 @@
             <div class="flow-step">Deadline events</div>
           </div>
           <p class="lab-decisions">Built for messy reality: extraction against scanned, inconsistent PDFs; deadline logic derived from the contract's own terms; framed AI-assisted and human-verified, because liability lives in the gaps.</p>
+          <img class="lab-shot" src="blog/img/tc-email-full.webp" alt="Virtual TC output: the generated deal timeline email with deal summary, key dates and deadlines, and next steps" loading="lazy">
           <p class="lab-status">Status: pipeline complete, brokerage pilot in motion. Stack: Make.com, Claude API, Airtable, Gmail, Google Calendar.</p>
           <a href="blog/real-estate-tc-automation.html" class="automation-link">Read the build story →</a>
         </div>
