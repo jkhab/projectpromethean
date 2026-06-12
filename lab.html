@@ -49,8 +49,10 @@
     .receipt-list strong { color: var(--heading); }
 
     /* Warm-paper reading theme: dimmer and warmer than the blog's white; nav and footer stay dark */
-    body { background: #f1efe9; }
+    body { background: #f1efe9; color: #3f3d37; }
     body::after { opacity: 0.015; }
+    .automation-card li { color: #3f3d37; }
+    .automation-tag { filter: brightness(0.74) saturate(1.2); }
     .nav { background: rgba(8, 8, 16, 0.92); backdrop-filter: blur(10px); }
     .footer { background: #080810; }
     .lab-head h1, .section-heading, .automation-card h4 { color: #1a1916; }
@@ -186,9 +188,26 @@
           <p class="lab-status">Status: built and deployed inside an enterprise B2B SaaS support team.</p>
         </div>
 
-      </div>
+        <div class="automation-card reveal">
+          <div class="automation-meta">
+            <span class="automation-tag tag-ops">Measurement</span>
+          </div>
+          <h4>Two Lead-Generation Properties</h4>
+          <p class="automation-pain">The question: can search and AI-answer visibility be built from zero and measured honestly?</p>
+          <p>Two local lead-generation sites, live and in production: about 40 pages of data-backed content between them, built on state licensing datasets rather than scraped filler. GA4 and Google Tag Manager are wired end to end, Search Console runs on both, conversion events fire on real form submissions, and AI crawlers are deliberately allowed so the sites are citable by answer engines.</p>
+          <div class="flow">
+            <div class="flow-step">Public dataset</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Data-backed pages</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Search + AI visibility</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Measured leads</div>
+          </div>
+          <p class="lab-status">Status: live, with partner agreements in negotiation. Deliberately unnamed here; they compete in their own markets. They are where I pressure-test how to instrument funnels and prove outcomes before claiming them.</p>
+        </div>
 
-      <p class="lab-note reveal">Also in production: two local lead-generation properties with end-to-end measurement (GA4, Google Tag Manager, Search Console, conversion-event wiring) and AI-discoverability work. They are the testing ground for how I instrument funnels and prove outcomes.</p>
+      </div>
     </div>
   </section>
 
