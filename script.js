@@ -8,7 +8,9 @@ window.addEventListener('scroll', () => {
 const toggle = document.getElementById('nav-mobile-toggle');
 const navLinks = document.querySelector('.nav-links');
 toggle.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
+  const open = navLinks.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', open);
+  toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
 });
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', () => navLinks.classList.remove('open'));
@@ -58,8 +60,9 @@ document.querySelectorAll('.faq-q').forEach(btn => {
 // Pain point pill selection
 document.querySelectorAll('.pill').forEach(pill => {
   pill.addEventListener('click', () => {
-    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.pill').forEach(p => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
     pill.classList.add('active');
+    pill.setAttribute('aria-pressed', 'true');
     document.getElementById('form-category').value = pill.dataset.value;
   });
 });
