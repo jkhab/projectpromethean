@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://projectpromethian.com/sitemap.xml
+Sitemap: https://projectpromethean.com/sitemap.xml
