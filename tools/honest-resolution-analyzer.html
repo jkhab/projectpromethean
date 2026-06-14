@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF62P8L1W2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VF62P8L1W2');
+  </script>
+
+  <title>Honest-Resolution Analyzer — Project Promethean</title>
+  <meta name="description" content="Upload a ticket export and see how much of your resolved volume actually came back. Account-level recontact, broken out by category. Nothing leaves your browser.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="canonical" href="https://projectpromethean.com/tools/honest-resolution-analyzer.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://projectpromethean.com/tools/honest-resolution-analyzer.html">
+  <meta property="og:title" content="Honest-Resolution Analyzer">
+  <meta property="og:description" content="Upload a ticket export and see how much of your resolved volume actually came back, the recontact your containment number hides.">
+  <meta property="og:image" content="https://projectpromethean.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Honest-Resolution Analyzer">
+  <meta name="twitter:description" content="Upload a ticket export and see how much of your resolved volume actually came back.">
+  <meta name="twitter:image" content="https://projectpromethean.com/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+  <style>
+    .tool-head { padding: 9rem 2rem 1.5rem; max-width: 860px; margin: 0 auto; }
+    .tool-head .section-label { display: block; }
+    .tool-head h1 { font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 2.9rem); font-weight: 600; letter-spacing: -0.025em; color: var(--heading); line-height: 1.12; margin-bottom: 1rem; }
+    .tool-head p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.6; max-width: 700px; }
+    .tool-wrap { max-width: 860px; margin: 0 auto; padding: 1rem 2rem 3rem; }
+    .drop { border: 1.5px dashed var(--border-hover); border-radius: var(--radius); background: var(--card); padding: 2.5rem 1.5rem; text-align: center; transition: border-color var(--ease), background var(--ease); cursor: pointer; display: block; }
+    .drop:hover, .drop.over { border-color: var(--accent); background: var(--accent-soft); }
+    .drop .di { font-size: 1.05rem; color: var(--heading); font-weight: 500; margin-bottom: 0.35rem; }
+    .drop .ds { font-size: 0.9rem; color: var(--text-muted); }
+    .drop input { display: none; }
+    .row-actions { display: flex; gap: 0.75rem; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
+    .map { display: none; margin-top: 1.5rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 1.25rem 1.5rem; }
+    .map.show { display: block; }
+    .map h3 { font-size: 0.95rem; font-weight: 600; color: var(--heading); margin-bottom: 0.25rem; }
+    .map .sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .map-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem; }
+    .map-field label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.3rem; }
+    .map-field select { width: 100%; padding: 0.6rem 0.7rem; border: 1px solid var(--border); border-radius: 9px; background: var(--bg); font-family: var(--font-body); font-size: 0.9rem; color: var(--heading); outline: none; }
+    .map-field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .window { display: flex; align-items: center; gap: 1rem; margin-top: 1.25rem; padding-top: 1.1rem; border-top: 1px solid var(--border); }
+    .window label { font-size: 0.85rem; font-weight: 500; color: var(--heading); white-space: nowrap; }
+    .window input[type=range] { flex: 1; }
+    .window .val { font-size: 0.9rem; font-weight: 600; color: var(--accent); min-width: 64px; text-align: right; }
+
+    .results { display: none; margin-top: 1.75rem; }
+    .results.show { display: block; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.85rem; margin-bottom: 1.5rem; }
+    .stat { background: var(--surface); border-radius: var(--radius); padding: 1.1rem 1.25rem; }
+    .stat .v { font-family: var(--font-display); font-size: 2rem; font-weight: 600; letter-spacing: -0.02em; color: var(--heading); line-height: 1; }
+    .stat .v.hot { color: var(--accent); }
+    .stat .l { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.35; }
+    .verdict { border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 10px 10px 0; padding: 1.1rem 1.35rem; font-size: 1.02rem; color: var(--heading); line-height: 1.55; margin-bottom: 1.75rem; }
+    .bk h3 { font-size: 0.95rem; font-weight: 600; color: var(--heading); margin-bottom: 0.9rem; }
+    .bar-row { margin-bottom: 0.85rem; }
+    .bar-top { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 0.3rem; }
+    .bar-top .cat { color: var(--heading); font-weight: 500; }
+    .bar-top .pct { color: var(--text-muted); }
+    .bar { height: 8px; background: var(--surface); border-radius: 100px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--accent); border-radius: 100px; }
+    .note { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; margin-top: 1.5rem; }
+    .err { color: #b91c1c; font-size: 0.9rem; margin-top: 0.75rem; }
+    .tool-foot-note { max-width: 860px; margin: 0 auto; padding: 0 2rem 4rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+    .tool-foot-note a { color: var(--accent); }
+    @media (max-width: 768px) {
+      .tool-head { padding: 7rem 1.25rem 1.25rem; }
+      .tool-wrap { padding: 1rem 1.25rem 3rem; }
+      .tool-foot-note { padding: 0 1.25rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">🔥Project Promethean</a>
+      <ul class="nav-links" id="nav-menu">
+        <li><a href="../#about">About</a></li>
+        <li><a href="../#how-it-works">The Process</a></li>
+        <li><a href="../#services">Engagements</a></li>
+        <li><a href="../lab.html">The Lab</a></li>
+        <li><a href="../blog/">Blog</a></li>
+        <li><a href="../tools/">Tools</a></li>
+        <li><a href="../#contact" class="nav-cta">Let's Talk</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="tool-head">
+    <p class="section-label">Tool</p>
+    <h1>Honest-Resolution Analyzer</h1>
+    <p>Your containment or resolution rate counts the moment you closed the ticket. This counts what happened next. Upload a ticket export and it shows how often the same account came back inside a window you set, the repeat volume your dashboard hides. Everything runs in your browser; nothing is uploaded.</p>
+  </div>
+
+  <div class="tool-wrap">
+    <label class="drop" id="drop">
+      <div class="di">Drop a ticket export here, or click to choose a CSV</div>
+      <div class="ds">Needs an account or company column and a created-date column. A category and a status column make it sharper.</div>
+      <input type="file" id="file" accept=".csv,text/csv">
+    </label>
+    <div class="row-actions">
+      <button class="btn btn-ghost" id="sampleBtn" type="button">Load sample data</button>
+      <span class="ds" id="fileName"></span>
+    </div>
+    <div class="err" id="err"></div>
+
+    <div class="map" id="map">
+      <h3>Map your columns</h3>
+      <div class="sub">I guessed from the headers. Fix any that are wrong.</div>
+      <div class="map-grid">
+        <div class="map-field"><label>Account / company</label><select id="m-account"></select></div>
+        <div class="map-field"><label>Created date</label><select id="m-date"></select></div>
+        <div class="map-field"><label>Category (optional)</label><select id="m-category"></select></div>
+        <div class="map-field"><label>Status (optional)</label><select id="m-status"></select></div>
+      </div>
+      <div class="window">
+        <label>Recontact window</label>
+        <input type="range" id="win" min="1" max="90" step="1" value="30">
+        <span class="val" id="winVal">30 days</span>
+      </div>
+    </div>
+
+    <div class="results" id="results">
+      <div class="cards" id="cards"></div>
+      <div class="verdict" id="verdict"></div>
+      <div class="bk" id="bk"></div>
+      <p class="note" id="windowNote"></p>
+    </div>
+  </div>
+
+  <p class="tool-foot-note">Built by Johnny Khabushani. The idea comes from <a href="../blog/how-to-tell-if-support-ai-is-working.html">this piece</a> on why resolution rate lies. Want help instrumenting this for real? <a href="../#contact">Get in touch</a>.</p>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">🔥Project Promethean</span>
+      <span class="footer-copy">© 2026 Project Promethean</span>
+    </div>
+  </footer>
+
+  <script src="../script.js" defer></script>
+  <script>
+    const SAMPLE = `account,created_at,category,status,subject
+Acme Foods,2026-04-02,Data Feed,Solved,New product not in feed
+Acme Foods,2026-04-19,Data Feed,Solved,Still not seeing the SKU
+Acme Foods,2026-05-14,Billing,Solved,Invoice question
+Globex,2026-04-05,Integration,Solved,API key setup
+Globex,2026-04-12,Integration,Open,Integration dropped overnight
+Initech,2026-04-08,Login,Solved,Cannot log in
+Umbrella,2026-04-10,Data Feed,Solved,Connect retailer feed
+Umbrella,2026-05-01,Data Feed,Solved,Feed connected but empty
+Stark Industries,2026-04-11,Reporting,Solved,Export not downloading
+Wayne Enterprises,2026-04-12,Integration,Solved,Webhook not firing
+Wayne Enterprises,2026-04-29,Integration,Open,Webhook stopped again
+Wonka,2026-04-15,Billing,Solved,Update card on file
+Hooli,2026-04-16,Data Feed,Solved,Map new stores
+Hooli,2026-04-24,Data Feed,Solved,Stores still missing
+Soylent,2026-04-18,Login,Solved,Password reset
+Cyberdyne,2026-04-20,Integration,Solved,SSO configuration
+Cyberdyne,2026-05-09,Integration,Open,SSO broke after release
+Tyrell,2026-04-22,Reporting,Solved,Add a custom report
+Pied Piper,2026-04-24,Login,Solved,Two-factor help
+Vandelay,2026-04-25,Billing,Solved,Refund request
+Massive Dynamic,2026-04-27,Data Feed,Solved,Feed mapping wrong
+Massive Dynamic,2026-05-12,Data Feed,Open,Mapping wrong again
+Gekko Co,2026-04-28,Reporting,Solved,Schedule a report
+Oscorp,2026-04-30,Integration,Solved,Connect CRM
+Oscorp,2026-05-15,Integration,Open,CRM sync failing
+Nakatomi,2026-05-02,Login,Solved,Locked out
+Bluth Company,2026-05-04,Billing,Solved,Seat count
+Prestige Worldwide,2026-05-06,Data Feed,Solved,Onboard feed`;
+
+    function parseCSV(text) {
+      const rows = []; let row = [], f = '', q = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (q) {
+          if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; }
+          else f += c;
+        } else {
+          if (c === '"') q = true;
+          else if (c === ',') { row.push(f); f = ''; }
+          else if (c === '\n') { row.push(f); rows.push(row); row = []; f = ''; }
+          else if (c !== '\r') f += c;
+        }
+      }
+      if (f.length || row.length) { row.push(f); rows.push(row); }
+      return rows.filter(r => r.some(x => x.trim() !== ''));
+    }
+
+    let HEADERS = [], DATA = [];
+    const $ = id => document.getElementById(id);
+    const guess = (re) => HEADERS.findIndex(h => re.test(h.toLowerCase()));
+
+    function loadParsed(text, name) {
+      $('err').textContent = '';
+      const rows = parseCSV(text);
+      if (rows.length < 2) { $('err').textContent = 'That file did not have a header row and at least one data row.'; return; }
+      HEADERS = rows[0].map(h => h.trim());
+      DATA = rows.slice(1).map(r => { const o = {}; HEADERS.forEach((h, i) => o[h] = (r[i] || '').trim()); return o; });
+      $('fileName').textContent = name + ' · ' + DATA.length + ' rows';
+      const fill = (sel, gi, optional) => {
+        const s = $(sel);
+        s.innerHTML = (optional ? '<option value="">(none)</option>' : '') + HEADERS.map(h => `<option>${h}</option>`).join('');
+        if (gi >= 0) s.value = HEADERS[gi];
+      };
+      fill('m-account', guess(/account|org|company|customer|client/), false);
+      fill('m-date', guess(/created|date|opened|^time/), false);
+      fill('m-category', guess(/categor|type|topic|reason|tag|group|about|subject/), true);
+      fill('m-status', guess(/status|state|resolv|closed|solved/), true);
+      $('map').classList.add('show');
+      analyze();
+    }
+
+    function analyze() {
+      const ca = $('m-account').value, cd = $('m-date').value, cc = $('m-category').value, cs = $('m-status').value;
+      const W = +$('win').value;
+      const winMs = W * 86400000;
+      const resolvedRe = /resolv|closed|solved|done|complete/i;
+      let skipped = 0;
+      const tickets = [];
+      DATA.forEach(r => {
+        const acc = (r[ca] || '').trim();
+        const d = new Date((r[cd] || '').trim());
+        if (!acc || isNaN(d)) { skipped++; return; }
+        tickets.push({ acc, d: d.getTime(), cat: cc ? (r[cc] || 'Uncategorized').trim() || 'Uncategorized' : null, resolved: cs ? resolvedRe.test(r[cs] || '') : true });
+      });
+      if (!tickets.length) { $('results').classList.remove('show'); $('err').textContent = 'No rows had both a valid account and a valid date with the current mapping.'; return; }
+      $('err').textContent = '';
+      const byAcc = {};
+      tickets.forEach(t => (byAcc[t.acc] = byAcc[t.acc] || []).push(t));
+      Object.values(byAcc).forEach(list => list.sort((a, b) => a.d - b.d));
+      tickets.forEach(t => {
+        const list = byAcc[t.acc];
+        t.recontacted = list.some(o => o.d > t.d && o.d - t.d <= winMs);
+      });
+      const base = cs ? tickets.filter(t => t.resolved) : tickets;
+      const baseN = base.length;
+      const reN = base.filter(t => t.recontacted).length;
+      const rate = baseN ? Math.round((reN / baseN) * 100) : 0;
+      const accounts = Object.keys(byAcc).length;
+
+      $('cards').innerHTML = [
+        ['v', tickets.length, 'tickets analyzed'],
+        ['v', accounts, 'accounts'],
+        ['v hot', rate + '%', (cs ? 'of resolved tickets' : 'of tickets') + ' came back within ' + W + ' days'],
+        ['v', reN, 'repeat contacts hidden by the headline number']
+      ].map(c => `<div class="stat"><div class="${c[0]}">${c[1]}</div><div class="l">${c[2]}</div></div>`).join('');
+
+      $('verdict').innerHTML = `Of the ${baseN.toLocaleString()} tickets ${cs ? 'you marked resolved' : 'in this export'}, <strong>${rate}% saw the same account come back within ${W} days</strong>. That repeat volume is the resolution your containment number is not showing you.`;
+
+      if (cc) {
+        const cats = {};
+        base.forEach(t => { const k = t.cat; (cats[k] = cats[k] || { n: 0, re: 0 }).n++; if (t.recontacted) cats[k].re++; });
+        const rowsC = Object.entries(cats).filter(([, v]) => v.n >= 2).map(([k, v]) => ({ k, n: v.n, p: Math.round((v.re / v.n) * 100) })).sort((a, b) => b.p - a.p);
+        $('bk').innerHTML = '<h3>Where the resolutions do not stick</h3>' + rowsC.map(c =>
+          `<div class="bar-row"><div class="bar-top"><span class="cat">${c.k}</span><span class="pct">${c.p}% came back · ${c.n} tickets</span></div><div class="bar"><div class="bar-fill" style="width:${c.p}%"></div></div></div>`).join('');
+      } else {
+        $('bk').innerHTML = '<p class="note">Map a category column to see which kinds of issues come back most.</p>';
+      }
+
+      $('windowNote').innerHTML = `Different issues fail on different clocks. A password reset comes back in hours; a data feed can take a month. Slide the window above and watch the slow-failing categories climb. ${skipped ? `<br>(${skipped} rows skipped: missing account or unreadable date.)` : ''}`;
+      $('results').classList.add('show');
+    }
+
+    $('file').addEventListener('change', e => {
+      const f = e.target.files[0]; if (!f) return;
+      const rd = new FileReader();
+      rd.onload = () => loadParsed(rd.result, f.name);
+      rd.readAsText(f);
+    });
+    $('sampleBtn').addEventListener('click', () => loadParsed(SAMPLE, 'sample-tickets.csv'));
+    ['m-account', 'm-date', 'm-category', 'm-status'].forEach(id => $(id).addEventListener('change', analyze));
+    $('win').addEventListener('input', () => { $('winVal').textContent = $('win').value + ' days'; analyze(); });
+
+    const drop = $('drop');
+    ['dragover', 'dragenter'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+    ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+    drop.addEventListener('drop', e => {
+      const f = e.dataTransfer.files[0]; if (!f) return;
+      const rd = new FileReader();
+      rd.onload = () => loadParsed(rd.result, f.name);
+      rd.readAsText(f);
+    });
+  </script>
+</body>
+</html>

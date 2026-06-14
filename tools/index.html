@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF62P8L1W2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VF62P8L1W2');
+  </script>
+
+  <title>Tools — Project Promethean</title>
+  <meta name="description" content="Free, browser-based tools for support and CX leaders, each one the working version of an idea I write about.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="canonical" href="https://projectpromethean.com/tools/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://projectpromethean.com/tools/">
+  <meta property="og:title" content="Tools — Project Promethean">
+  <meta property="og:description" content="Free, browser-based tools for support and CX leaders, each the working version of an idea I write about.">
+  <meta property="og:image" content="https://projectpromethean.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tools — Project Promethean">
+  <meta name="twitter:description" content="Free, browser-based tools for support and CX leaders.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+  <style>
+    .tools-head { padding: 9rem 2rem 3rem; text-align: center; }
+    .tools-head .section-label { display: block; }
+    .tools-head h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 600; letter-spacing: -0.025em; color: var(--heading); margin-bottom: 1rem; }
+    .tools-head p { font-size: 1.1rem; color: var(--text-muted); max-width: 560px; margin: 0 auto; line-height: 1.6; }
+    .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; max-width: 900px; margin: 0 auto; padding: 1rem 2rem 6rem; }
+    .tcard { display: flex; flex-direction: column; gap: 0.85rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.9rem; text-decoration: none; color: inherit; transition: border-color var(--ease), transform var(--ease), box-shadow var(--ease); }
+    .tcard:hover { border-color: var(--border-hover); box-shadow: 0 12px 32px rgba(29,29,31,0.07); transform: translateY(-4px); }
+    .tcard .tag { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .tcard h2 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; color: var(--heading); line-height: 1.3; }
+    .tcard p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; flex: 1; }
+    .tcard .go { font-size: 0.9rem; font-weight: 500; color: var(--accent); display: flex; align-items: center; gap: 0.35rem; transition: gap var(--ease); }
+    .tcard:hover .go { gap: 0.6rem; }
+    @media (max-width: 768px) { .tools-head { padding: 7rem 1.25rem 2.5rem; } .tools-grid { grid-template-columns: 1fr; padding: 1rem 1.25rem 4rem; } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">🔥Project Promethean</a>
+      <ul class="nav-links" id="nav-menu">
+        <li><a href="../#about">About</a></li>
+        <li><a href="../#how-it-works">The Process</a></li>
+        <li><a href="../#services">Engagements</a></li>
+        <li><a href="../lab.html">The Lab</a></li>
+        <li><a href="../blog/">Blog</a></li>
+        <li><a href="../tools/">Tools</a></li>
+        <li><a href="../#contact" class="nav-cta">Let's Talk</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="tools-head">
+    <p class="section-label">Tools</p>
+    <h1>Free tools for support and CX teams</h1>
+    <p>Each one is the working version of something I write about. They run entirely in your browser; nothing is uploaded.</p>
+  </div>
+
+  <div class="tools-grid">
+    <a class="tcard reveal" href="honest-resolution-analyzer.html">
+      <span class="tag">Support AI</span>
+      <h2>Honest-Resolution Analyzer</h2>
+      <p>Upload a ticket export and see how much of your "resolved" volume actually came back, the recontact your resolution rate hides, broken out by category.</p>
+      <span class="go">Open the analyzer →</span>
+    </a>
+    <a class="tcard reveal" href="support-ai-scorecard.html">
+      <span class="tag">Support AI</span>
+      <h2>Support-AI Vendor Scorecard</h2>
+      <p>Score a vendor on the seven questions that separate a real system from a good demo, and see exactly where to push before you sign.</p>
+      <span class="go">Open the scorecard →</span>
+    </a>
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">🔥Project Promethean</span>
+      <span class="footer-copy">© 2026 Project Promethean</span>
+    </div>
+  </footer>
+
+  <script src="../script.js" defer></script>
+</body>
+</html>
