@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF62P8L1W2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VF62P8L1W2');
+  </script>
+
+  <title>I Built an Internal Support Agent From Scratch. Here's What It Took — Project Promethean</title>
+  <meta name="description" content="Not how to buy a support AI. How to build one. A grounded internal support agent that reads your help center, drafts a cited answer, and refuses to guess, with the code and the failure modes.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="canonical" href="https://projectpromethean.com/blog/how-i-built-an-internal-support-agent.html">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://projectpromethean.com/blog/how-i-built-an-internal-support-agent.html">
+  <meta property="og:title" content="I Built an Internal Support Agent From Scratch. Here's What It Took">
+  <meta property="og:description" content="A grounded internal support agent that reads your help center, drafts a cited answer, and refuses to guess. The build, the code, and the parts that break.">
+  <meta property="og:image" content="https://projectpromethean.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="I Built an Internal Support Agent From Scratch">
+  <meta name="twitter:description" content="A grounded internal support agent that reads your help center, drafts a cited answer, and refuses to guess. The build and the failure modes.">
+  <meta name="twitter:image" content="https://projectpromethean.com/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="blog.css">
+  <style>
+    .article-body pre { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.15rem; overflow-x: auto; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.84rem; line-height: 1.6; color: var(--heading); margin: 1.4rem 0; }
+    .article-body pre.transcript { white-space: pre-wrap; }
+    .article-body code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.86em; background: var(--surface); padding: 0.1rem 0.35rem; border-radius: 5px; }
+    .article-body pre code { background: none; padding: 0; font-size: 1em; }
+  </style>
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">Project Promethean</a>
+      <ul class="nav-links" id="nav-menu">
+        <li><a href="../#about">About</a></li>
+        <li><a href="index.html" style="color: var(--text)">Writing</a></li>
+        <li><a href="../lab.html">The Lab</a></li>
+        <li><a href="../tools/">Tools</a></li>
+        <li><a href="https://www.linkedin.com/in/johnkhabushani/" class="nav-cta" target="_blank" rel="noopener">Connect</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="article-hero">
+    <a href="index.html" class="article-back">← Back to Writing</a>
+    <span class="article-tag">AI in Support</span>
+    <h1>I Built an Internal Support Agent From Scratch. Here's What It Took</h1>
+    <div class="article-meta">
+      <span>Jun 14, 2026</span>
+      <span>·</span>
+      <span>7 min read</span>
+    </div>
+  </div>
+
+  <div class="article-body">
+
+    <div class="article-callout">
+      <p>The most useful AI I ever built in support was not customer-facing. It was for me: load a decade of answers in once, and stop typing the same reply for the hundredth time. This is that idea, rebuilt from scratch in the open, so you can see exactly how it works and exactly where it breaks.</p>
+    </div>
+
+    <p>At my day job I built an internal assistant that took the answers I had given a thousand times and generated them for me, grounded in our own documentation, with me reviewing before anything went out. It quietly absorbed a lot of growth on a small team. I cannot show you that one; it lives inside a company. So I rebuilt the idea from nothing, as a small program anyone can read, and I am going to walk through how it actually works, what I chose and why, and the two ways it can hurt you if you are not careful.</p>
+
+    <p>One thing up front. This is not a guide to buying a support AI. I have no special authority on procurement, and neither does most of the market. What I can do is build the thing and show you the parts that do not demo well. So that is what this is.</p>
+
+    <h2>The whole thing is one loop</h2>
+
+    <p>Strip away the noise and an internal support agent is four steps. A question comes in. You pull the few pieces of your own knowledge that are actually relevant. You ask a model to draft an answer using only those pieces, with citations. A human reads it before it reaches a customer. And when your knowledge does not cover the question, the agent says so instead of guessing.</p>
+
+    <p>That last step is the whole game, and it is the one most demos skip. I will come back to it.</p>
+
+    <h2>Step one: get the knowledge</h2>
+
+    <p>The agent grounds on your help center. If you run on Zendesk, every published article is already available through a public read-only endpoint, so the program just reads them all in once, strips the HTML, and keeps the title, the text, and the link. No scraping, no export, no copy-paste.</p>
+
+    <p>There is a catch here that matters more than any model choice: the agent is only as good as the docs behind it. If half your articles are two years stale and three of them contradict each other, a confident answer built on the wrong one is worse than no answer. Before I pointed an agent at a real help center, I ran it through a separate check for exactly that rot. That is not a detour, it is step zero. I wrote about why the operation has to be clean first <a href="fix-the-operation-before-you-add-the-ai.html">here</a>, and the tool I use to find the rot is <a href="../tools/kb-auditor.html">here</a>.</p>
+
+    <h2>Step two: find the relevant pieces</h2>
+
+    <p>When a question arrives, you do not hand the model your entire help center. You hand it the handful of articles that actually bear on the question. Picking that handful is called retrieval, and it is where people overcomplicate things.</p>
+
+    <p>The fashionable answer is embeddings: turn every article and the question into vectors and match by meaning. It is good, and for a large or messy knowledge base it is worth it. But it adds a second paid service and a moving part, and for a few hundred articles you often do not need it. I used plain keyword ranking instead, the same math search engines have used for decades. It has no dependencies, it runs in milliseconds, and on a focused help center it is honestly hard to beat. I weighted article titles double, because in support the title usually is the question. If I were grounding on tens of thousands of articles or a lot of near-synonyms, I would reach for embeddings. Knowing when you do not need the heavier tool is most of the job.</p>
+
+    <p>I tested the retrieval against a real help center of about a hundred and ten articles. Ask it how to connect a new retailer to a data feed and the top results are the three articles a senior agent would have opened. That is the bar: not clever, just right.</p>
+
+    <h2>Step three: draft the answer, grounded</h2>
+
+    <p>Now the model. And the part that does the real work is not the model, it is the instructions you give it. Here is the actual prompt the agent runs, word for word:</p>
+
+    <pre><code>Use ONLY the facts in the numbered sources below.
+Do not use outside knowledge.
+
+Cite the source number(s) you used, inline, like [2].
+
+If the sources do not contain the answer, say so plainly and
+recommend escalating to a human. Do not guess, and do not
+stitch together a plausible-sounding answer that the sources
+do not support.
+
+Never invent URLs, prices, steps, settings, or policies that
+are not in the sources.
+
+Be concise and write in a calm, helpful support tone.</code></pre>
+
+    <p>Every rule there exists because of a way these things go wrong. "Only the sources" is what keeps it from answering out of the model's general memory, which sounds fine and is sometimes quietly false about your product. "Cite the sources" means a human can check the answer in seconds instead of trusting it. And the rule about not knowing is the one that earns the whole thing its keep.</p>
+
+    <h2>The two failure modes that actually matter</h2>
+
+    <p>The first is making things up. A model with no grounding will answer almost anything, confidently, including questions about your product it has no way to know. The fix is not a better model, it is the leash above: give it your sources, tell it to use only those, and tell it that "I don't know" is a correct answer. Here is what that looks like on a question the help center does not cover. I asked the sample agent whether the product integrates with Salesforce, which it has no article about:</p>
+
+    <pre class="transcript"><code>Question: Does Hatch have a Salesforce integration?
+
+Retrieved (BM25):
+  [1] 2.03  Resetting your password
+  [2] 0.39  Getting started
+  [3] 0.34  Connecting your calendar
+
+--- DRAFT (for human review) ---
+
+I'm not able to confirm this from our help center, and I
+don't want to guess. Our published articles don't cover a
+Salesforce integration, so I'd rather get you a definitive
+answer than a wrong one. Passing this to a teammate now.</code></pre>
+
+    <p>Look at the retrieval scores. Nothing relevant came back, and a naive agent would have grabbed the closest article and improvised. This one looked at weak matches, recognized it had nothing to stand on, and escalated. That single behavior is the difference between a tool your team trusts and one they quietly stop using after it burns them once.</p>
+
+    <p>For contrast, here is a question the docs do cover:</p>
+
+    <pre class="transcript"><code>Question: How do I connect my Google Calendar?
+
+Retrieved (BM25):
+  [1] 4.39  Connecting your calendar
+  [2] 2.19  Fixing calendar sync problems
+
+--- DRAFT (for human review) ---
+
+You can connect Google Calendar from your settings. Open
+Settings, choose Calendars, and click Connect calendar, then
+pick Google and sign in. Be sure to allow both read and write
+access so it can check your availability and add events for
+you. Changes sync both ways, usually within a minute. [1]
+
+If syncing ever stops later, it's usually a lost permission
+after a password change; the Reconnect button under Settings
+> Calendars fixes it. [2]</code></pre>
+
+    <p>Grounded, cited, and it stops where the sources stop. The second failure mode is subtler: trusting the draft. The output is labeled a draft on purpose. A person reads it, edits if needed, and sends. Resolution is not the bot replying, it is the customer getting what they came for, and a person in the loop is how you protect that while the system earns trust. I went deeper on measuring that gap <a href="how-to-tell-if-support-ai-is-working.html">here</a>.</p>
+
+    <h2>What it costs, and what would break in production</h2>
+
+    <p>The running cost is small. Each answer is one model call over a few short articles, fractions of a cent. The costs that actually bite are the ones nobody puts in the deck, and I have <a href="what-support-ai-actually-costs.html">paid for some of them</a>. The key never goes in a browser; I learned that the expensive way when a different tool of mine got its key drained, and everything I build now assumes that person exists. In production this agent would run behind a small server that holds the key, with a hard monthly spending cap, a per-user rate limit, and a kill switch I can pull myself without shipping a release. That is not paranoia, it is the cost of operating a thing instead of demoing it.</p>
+
+    <h2>The honest limits</h2>
+
+    <p>This is a starting point, not a finished product. Keyword retrieval will miss a question phrased in words that appear nowhere in the docs; that is the case for embeddings. It has no memory of the specific customer or their account. And it inherits every flaw in your help center, which is the whole reason step zero is auditing the docs, not adding the AI. None of that makes it useless. It makes it honest about what it is: a sharp internal assistant that drafts grounded answers and knows when to get out of the way.</p>
+
+    <h2>The point</h2>
+
+    <p>You do not have to buy this to understand it. The working version is about a hundred and fifty lines, and the parts that matter are the eight lines of instructions above and the decision to make "I don't know" a first-class answer. The leverage in support AI is not the model. It is the judgment about what to ground it on, what to let it say, and where to keep a person. That judgment is the thing I actually have, and this is what it looks like built.</p>
+
+    <p>The run is one line: point it at a help center, ask a question, read the draft.</p>
+
+    <pre><code>node agent.mjs sample "How do I connect my Google Calendar?"</code></pre>
+
+    <p>Want the full script, or want this run against your own help center? <a href="../#contact">Get in touch</a>.</p>
+
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">Project Promethean</span>
+      <span class="footer-copy">© 2026 Johnny Khabushani</span>
+    </div>
+  </footer>
+
+  <script src="../script.js" defer></script>
+</body>
+</html>

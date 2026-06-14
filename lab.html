@@ -89,6 +89,7 @@
   <!-- STICKY RAIL -->
   <aside class="lab-rail" aria-label="On this page">
     <a href="#assistant">Assistant</a>
+    <a href="#support-agent">Support Agent</a>
     <a href="#wts">Work the Steps</a>
     <a href="#vtc">Virtual TC</a>
     <a href="#offerletter">OfferLetter</a>
@@ -131,6 +132,26 @@
           </div>
           <p class="lab-decisions">Built and run inside a two-person team that absorbed 44% year-over-year ticket growth at a 72% single-reply resolution rate. It normalized response patterns, compressed new-hire ramp time, and reduced internal escalations, and it follows the rule I write about: ground every answer in real documentation, measure the customer's outcome instead of the deflection, and keep a person between the draft and the send.</p>
           <a href="blog/how-to-tell-if-support-ai-is-working.html" class="automation-link">The thinking behind it →</a>
+        </div>
+
+        <div class="automation-card reveal" id="support-agent">
+          <div class="automation-meta">
+            <span class="automation-tag tag-service">Customer Support</span>
+          </div>
+          <h4>Internal Support Agent, built in the open</h4>
+          <p class="card-specs">Claude · BM25 retrieval · Node · grounded + cited</p>
+          <p>The assistant above, rebuilt from scratch as a small, readable program: it reads a Zendesk help center, retrieves the articles that bear on a question, and drafts a cited answer a human reviews, refusing to guess when the docs do not cover it. About 150 lines; the eight that matter are the grounding rules.</p>
+          <div class="flow">
+            <div class="flow-step">Read help center</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Rank articles</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Grounded draft</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Review or escalate</div>
+          </div>
+          <p class="lab-decisions">Built around the rule that "I don't know" is a correct answer. Keys stay server-side behind a relay with a hard spend cap and a kill switch; retrieval uses plain keyword ranking, because a focused help center does not need embeddings; and it grounds only on docs that pass an audit first.</p>
+          <a href="blog/how-i-built-an-internal-support-agent.html" class="automation-link">Read the build →</a>
         </div>
 
         <div class="automation-card reveal card-split" id="wts">
