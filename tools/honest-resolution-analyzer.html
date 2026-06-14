@@ -249,6 +249,7 @@ Stark Industries,2026-05-18,Reporting,Solved,New export issue`;
       const W = +$('win').value, winMs = W * 86400000;
       const anyMode = $('anyToggle').checked || !cc;
       const resolvedRe = /resolv|closed|solved|done|complete/i;
+      const srcN = cs ? 'resolved ticket' : 'ticket', srcNp = cs ? 'resolved tickets' : 'tickets';
       let skipped = 0, skAcc = 0, skDate = 0;
       const tickets = [];
       DATA.forEach(r => {
@@ -268,13 +269,18 @@ Stark Industries,2026-05-18,Reporting,Solved,New export issue`;
       const sourceAll = tickets.filter(t => cs ? t.resolved : true);
       const source = sourceAll.filter(t => t.t <= censor);
       const tooRecent = sourceAll.length - source.length;
+      if (!source.length) {
+        $('results').classList.remove('show');
+        $('err').textContent = `Every ${srcN} falls within the last ${W} days of your data, so none has had a full window to come back. Shorten the recontact window, or use an export that spans a longer date range.`;
+        return;
+      }
       source.forEach(t => { t.re = recon(t, !anyMode); });
       const n = source.length, reN = source.filter(t => t.re).length;
       const rate = n ? Math.round((reN / n) * 100) : 0;
       const accounts = Object.keys(byAcc).length;
 
       $('heroPct').textContent = rate + '%';
-      $('heroCap').innerHTML = `of ${n.toLocaleString()} resolved tickets were followed by ${anyMode ? 'another ticket' : 'a <strong>same-category</strong> ticket'} from the same account within ${W} days.`;
+      $('heroCap').innerHTML = `of ${n.toLocaleString()} ${srcNp} were followed by ${anyMode ? 'another ticket' : 'a <strong>same-category</strong> ticket'} from the same account within ${W} days.`;
 
       const cards = [
         ['v', n.toLocaleString(), (cs ? 'resolved' : 'total') + ' tickets evaluated'],
@@ -286,9 +292,9 @@ Stark Industries,2026-05-18,Reporting,Solved,New export issue`;
       $('cards').innerHTML = cards.map(c => `<div class="stat"><div class="${c[0]}">${c[1]}</div><div class="l">${c[2]}</div></div>`).join('');
 
       const defn = cc ? (anyMode
-        ? `a resolved ticket followed by <strong>any</strong> new ticket from the same account within ${W} days`
-        : `a resolved ticket followed by a new <strong>same-category</strong> ticket from the same account within ${W} days`)
-        : `a resolved ticket followed by another ticket from the same account within ${W} days`;
+        ? `a ${srcN} followed by <strong>any</strong> new ticket from the same account within ${W} days`
+        : `a ${srcN} followed by a new <strong>same-category</strong> ticket from the same account within ${W} days`)
+        : `a ${srcN} followed by another ticket from the same account within ${W} days`;
       let methodHtml = `<strong>Recontact</strong> here means ${defn}. ` +
         `Tickets created in the last ${W} days of your data are set aside because they have not had a full window to come back. ` +
         `Data spans ${fmtD(minT)} to ${fmtD(maxT)}.` +
@@ -297,6 +303,7 @@ Stark Industries,2026-05-18,Reporting,Solved,New export issue`;
         const anyN = source.filter(t => recon(t, false)).length;
         methodHtml += ` Counting <em>any</em> later category instead would read ${n ? Math.round(anyN / n * 100) : 0}%; the gap is busy accounts, not failed resolutions.`;
       }
+      if (n < 30) methodHtml += ` Only ${n} ${n === 1 ? srcN : srcNp} cleared the full window, so treat this as directional, not precise.`;
       $('method').innerHTML = methodHtml;
 
       if (cc) {
@@ -314,7 +321,7 @@ Stark Industries,2026-05-18,Reporting,Solved,New export issue`;
         off.map(o => `<tr><td>${o.k}</td><td class="num">${o.re}</td><td class="num">${o.n}</td><td class="num">${o.p}%</td></tr>`).join('') + '</table>' : '';
 
       window.__summary = () => {
-        let s = `Recontact analysis\nWindow: ${W} days · Mode: ${anyMode ? 'any later ticket' : 'same category'}\nData: ${fmtD(minT)} to ${fmtD(maxT)}\n\nHeadline: ${rate}% of ${n} resolved tickets recontacted within ${W} days.\nEvaluated ${n} · recontacted ${reN} · set aside (too recent) ${tooRecent} · skipped ${skipped}.\n`;
+        let s = `Recontact analysis\nWindow: ${W} days · Mode: ${anyMode ? 'any later ticket' : 'same category'}\nData: ${fmtD(minT)} to ${fmtD(maxT)}\n\nHeadline: ${rate}% of ${n} ${srcNp} recontacted within ${W} days.\nEvaluated ${n} · recontacted ${reN} · set aside (too recent) ${tooRecent} · skipped ${skipped}.\n`;
         if (cc) { const cats = {}; source.forEach(t => { const k = t.cat; (cats[k] = cats[k] || { n: 0, re: 0 }).n++; if (t.re) cats[k].re++; }); s += `\nBy category:\n` + Object.entries(cats).map(([k, v]) => `  ${k}: ${Math.round(v.re / v.n * 100)}% (${v.re}/${v.n})`).join('\n'); }
         return s;
       };
