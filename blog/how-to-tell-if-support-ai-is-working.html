@@ -59,7 +59,7 @@
     <div class="article-meta">
       <span>May 26, 2026</span>
       <span>·</span>
-      <span>9 min read</span>
+      <span>5 min read</span>
     </div>
   </div>
 
@@ -69,64 +69,45 @@
       <p>A resolved ticket means you took an action. It does not mean the customer got what they came for. That gap is where most support AI quietly fails, and it is measurable.</p>
     </div>
 
-    <p>Most support AI is judged on the wrong moment. A ticket comes in, the system or the agent takes an action, the ticket closes, and a number goes up: resolved, contained, deflected. The number is real. What it measures is whether you acted, not whether the customer got what they came for. The distance between those two things is where support quality lives.</p>
+    <p>Most support AI gets judged on the wrong moment. A ticket comes in, someone or something takes an action, the ticket closes, and a number goes up: resolved, contained, deflected. The number is real. What it measures is whether you acted, not whether the customer got what they came for.</p>
 
-    <p>I have spent a decade in enterprise support, and I build production AI systems. I built an internal assistant on our full product docs plus years of accumulated nuance, so an agent could paste a question and get a grounded draft instead of stopping to research it. Separately, a two-person team I ran absorbed 44 percent year-over-year ticket growth at a 72 percent single-reply resolution rate, on the back of macros, automated workflows, and a client-facing knowledge base. I am not skeptical of AI in support. Used well it is the strongest lever the function has. It is also easy to deploy in a way that improves your dashboard and not your customer's experience, and the numbers will not warn you. Here is how I tell the difference.</p>
+    <p>I have spent a decade in enterprise support and I build with AI tools. I am not skeptical of it. Used well, it is the strongest lever the support function has. It is also easy to roll out in a way that lifts your dashboard and not your customer's day, and the numbers will not warn you. Here is how I tell the difference.</p>
 
     <h2>The number that lies</h2>
 
-    <p>Start with resolution. It usually marks the moment an action was completed, and that moment can arrive long before the outcome does. Two common cases show how far apart they can be.</p>
+    <p>Resolution marks the moment you finished an action. The outcome can show up much later. Two cases show how far apart they sit.</p>
 
-    <p>The first is the customer who gave up. The AI made it hard enough to reach a person that the customer stopped trying. No new ticket, no escalation, so the interaction reads as contained. The dashboard sees success. The customer stopped trying and the system booked it as a win. Abandonment and containment are indistinguishable from the top, and that is the whole problem.</p>
+    <p>The first is the customer who gave up. The AI made it hard enough to reach a person that they stopped trying. No new ticket, no escalation, so the interaction reads as contained. The dashboard sees success. Abandonment and containment look identical from the top, and that is the whole problem.</p>
 
-    <p>The second is the action that did not land. Take a routine request: connect our new product to the data feed. You connect it, the ticket closes, resolved. Whether data actually flows for that product does not become clear for a month, and there is usually no built-in way to circle back, so nobody does. A month later the customer files a new ticket: still not connected. The first ticket was marked resolved because the necessary action was taken. The second ticket is the real verdict on the first, and it proves the action never accounted for the friction that decided the outcome. Resolution is a leading number being read as a lagging one. Read alone, on the day of action, it means almost nothing. It only becomes meaningful against the recontact denominator over the window the issue actually takes to fail.</p>
+    <p>The second is the action that did not land. Take a routine request: connect our new product to the data feed. You connect it, close the ticket, resolved. Whether data actually flows does not become clear for a month, and there is no built-in way to circle back, so nobody does. A month later the customer files a new ticket: still not connected. The first ticket got marked resolved because the action was taken. The second ticket is the real verdict on the first.</p>
 
-    <h2>Why the number lies</h2>
+    <h2>Why leadership never sees it</h2>
 
-    <p>The reason is structural. Resolution books the win at the moment of action, and nothing in the default reporting joins a later ticket back to the one that caused it. I architected the routing and escalation logic in an Intercom-to-Zendesk migration and a Salesforce transition. The platforms can relate a follow-up to its parent and flag a reopen, but that linkage is almost never configured, so it never reaches the number leadership reads. The reopened ticket arrives as a fresh event and gets counted as fresh work. Nobody hides the failure. It is simply never linked.</p>
-
-    <p>The obvious fix breaks in the field. Match a later ticket to an earlier one by same customer plus same subject, and you fail in both directions: you over-count when a genuinely new issue on the same product looks like a recurrence, and you under-count when the recontact comes from a different person, channel, or wording at the same account. The unit that survives all of that is the account, not the ticket. So the instrument I would build measures recontact at the account level over a window keyed to the issue type, not ticket-to-ticket string matching.</p>
+    <p>Nothing in the default reporting links that second ticket back to the first. The platform can relate a follow-up to its parent and flag a reopen, but that linkage almost never gets set up, so it never reaches the number leadership reads. The reopened ticket shows up as fresh work and gets counted as fresh work. Nobody hides the failure. It just never gets connected, so the headline number stays clean.</p>
 
     <h2>What to measure instead</h2>
 
-    <p>If resolution at the moment of action is the lie, the honest version measures the outcome over the window in which the outcome actually appears. A few things I would put on the scorecard:</p>
+    <p>If resolution on the day of action is the lie, the honest version measures the outcome over the time the outcome takes to appear. A few things I would put on the scorecard.</p>
 
     <ul>
-      <li><strong>Account-level recontact, on a window keyed to the issue.</strong> Tie a return contact back to the account, not the ticket, and bucket the window by issue type. A failed password reset recontacts in hours. A billing dispute takes a full cycle. The data-feed connection above takes a month. A single flat window, reopen within seven days, declares the slow-failing categories successful and credits the fast ones falsely. The headline resolution number stays provisional for weeks.</li>
-      <li><strong>Recontact rate on contained interactions.</strong> Of the conversations the AI closed without a human, how many came back. High containment paired with high recontact is not containment, it is delay.</li>
-      <li><strong>Satisfaction on contained conversations, with the blind spot named.</strong> Separate it from your blended number, then accept that it runs optimistic exactly where the failure lives: the customer who quietly gave up is the least likely to answer a survey. Pair it with a behavioral proxy and watch the response rate itself, because a falling response rate on contained conversations is its own tell.</li>
-      <li><strong>How your experienced people use the tool, not just whether.</strong> Senior non-adoption is noisy: the tool may add clicks, comp may be keyed to handle time, or they only reach for it on hard cases. Make it diagnostic. On a tool that drafts, the signal is accept, edit, or discard: did the agent send the draft as is, lightly edit it, or throw it out and rewrite. High discard among your most experienced people is the tell, and a one-tap reason code separates the output is wrong from the workflow is worse.</li>
+      <li><strong>Measure repeat contact by account, not by ticket.</strong> Tie a return contact back to the account. Matching ticket to ticket by same customer and same subject fails both ways: a genuinely new issue looks like a repeat, and a real repeat from a different person or channel at the same account gets missed. The account is the unit that survives all of that.</li>
+      <li><strong>Give each kind of issue its own window.</strong> A failed password reset comes back in hours. A data feed comes back in a month. One flat window, like a reopen within seven days, calls the slow-failing issues a success and the fast ones a failure. Bucket the window by issue type.</li>
+      <li><strong>Watch how your best people use the tool.</strong> On a tool that drafts replies, the signal is simple: did the agent send the draft as is, tweak it, or throw it out and rewrite. Lots of throwing-out by your most experienced people is the real tell. They are the ones who can spot a wrong answer, and if they will not send it, you have your verdict.</li>
     </ul>
 
-    <p>None of these are exotic. The damning part is that almost no vendor reports them and most teams cannot produce them on demand, because their ticket schema has no field that joins a reopened ticket to the one that caused it. The metrics are simple. Producing them is the work.</p>
+    <p>The metrics are simple. Producing them is the work, because most ticket setups have no field that joins a reopened ticket to the one that caused it.</p>
 
-    <h2>What working actually looks like</h2>
+    <h2>The AI is only as good as the docs behind it</h2>
 
-    <p>The bar is higher than ticket deflection. The old model put the friction on the customer. They had to name their own problem, find the right topic, then find the specific article that matched their situation. The best teams added some mapping so the right article surfaced on the right page. The customer still did the diagnosis.</p>
+    <p>An AI answer is only as good as your knowledge base. A confident answer built on a stale doc is worse than no answer, because a person skims a stale article and moves on, while the AI reads it straight and ships it as fact. So AI raises the upkeep on your knowledge base. It does not lower it.</p>
 
-    <p>Working AI removes that tax. It anticipates the friction, guides the person through it, fixes the thing where it can, and puts the customer where the outcome is instead of where the documentation is. The highest form of this is not a faster answer to the inbound question. It is closing the loop the old process could not: the month later check runs automatically, the customer is told one way or the other, and the second ticket never needs to be filed.</p>
+    <p>The other half is who is holding the tool. The same draft produces opposite outcomes depending on who reads it. An experienced person catches when the AI is confident and wrong and rewrites it. A junior assumes the AI knows more than they do, trusts a confident wrong answer, and ships it to the customer. That puts the risk on your most junior people, who are exactly who the tool gets bought to help. Keep a person between the draft and the send.</p>
 
-    <p>That idea has a precondition people skip. An automatic check only works when there is a machine-readable success signal the system can query. For the data-feed example, that means telemetry confirming data is actually flowing for that product. Without it, closing the loop degrades into an outbound ping, which is itself a recontact with its own cost, a touch that confirms a non-failure. I have shipped enough proactive caps and automated alerts to say the seam plainly: name what fires the check, the signal it fires against, and who owns the false positives. Otherwise the best idea in support AI becomes spam with good intentions. The best support AI lowers volume by preventing the next question, not by deterring the first.</p>
-
-    <h2>Why it is worth doing</h2>
-
-    <p>The value is real, and it is worth naming plainly. Internally, AI is a powerful lever for elevating the people doing the work. A technical question about an API, an analytics setup, or a third party service a rep has never seen used to mean stopping to go research it. Now the broad knowledge and the company's specific domain context answer together, and the gain is largest for exactly the questions that used to stall them. On the customer side, that same fusion can reduce friction to a level the old model could not reach. The phrase that carries all the weight is <em>if done properly</em>.</p>
-
-    <h2>What done properly requires</h2>
-
-    <p>Done properly has a hard requirement, and most rollouts get it wrong. The value of the AI is gated by the judgment of the person holding it. The same tool produces opposite outcomes depending on who is using it. An experienced person treats it as a consultant: they catch when it is missing context, they adjust the message, they know when it is confident and wrong. A new person assumes the AI knows more than they do and defers, so the gaps ship straight to the customer. That puts the risk where leaders least expect it, on the most junior tier, the people a tool like this is most often bought to help.</p>
-
-    <p>The model is confidently wrong and gives no calibrated signal that it is, so human refereeing is really a patch for a missing instrument. The patch is measurable. The same accept, edit, or discard signal from the scorecard splits the failure by tenure. High send-as-is among juniors next to high heavy-edit-or-discard among seniors is the exact danger signature: the people who would catch the error are rewriting around it, and the people who would not are shipping it. That is how you detect junior over-trust before it reaches a customer, which turns who is refereeing the AI into an actual control loop rather than a slogan.</p>
-
-    <p>Two conditions decide whether a deployment is the good kind. First, the knowledge has to be sourced and attributable, the discipline KCS has preached for years, and the agent has to see it at the level of the answer, not the corpus. In a real retrieval system the agent does not see the inputs, they see the chunks pulled for this query, so the credible control is answer-level grounding: this draft cites these articles, here is the passage. The failure worse than a black box is a cited source that is real but stale, which manufactures false confidence. That carries a consequence buyers get backwards. Adding AI raises the knowledge-base maintenance burden, it does not lower it, because the KB is now the model's grounding corpus with a second, far less forgiving reader. A stale article a human skims and ignores becomes a confident wrong answer the AI ships. Second, you need people who can use AI as a partner rather than an oracle, with enough domain understanding to referee it.</p>
+    <p>One plain rule for the tempting next step: if you let the AI close tickets with no human in the loop, only let it close the kinds of issues where a wrong answer is cheap and easy to catch, and sample what it sends.</p>
 
     <h2>The short version</h2>
 
-    <p>If you are a support or CX leader being pitched AI right now, the test is two questions. How would you know the customer got what they came for, measured over the time it actually takes to find out. And who is refereeing the AI before its answers reach a customer. A tool that improves those two things is doing the job. A dashboard that climbs while they go unmeasured is telling you a story about your activity, not your customers.</p>
-
-    <p>The second question assumes a human reviews before send, and the fastest-growing pattern breaks that assumption. Fully autonomous customer-facing resolution means nobody referees the individual answer by design, and the test still has to survive that. When no one referees each answer, the controls move to the edges: confidence-gated escalation, topic allowlisting so the AI only closes categories where a failure is cheap and verifiable, post-hoc QA sampling on the contained set, and a kill switch you can pull yourself. These are the same instincts I shipped into my own AI products: a model whitelist, per-IP rate limits, hard caps with alerts, an over-the-air kill switch, and on a fully autonomous one, escalation hard-wired to bypass every paywall when the stakes are high. For the autonomous model boards are actually being sold, who is refereeing becomes what gates the autonomy and what samples it after.</p>
-
-    <p>One more thing, because the metric you optimize sets the unit economics. Optimize for containment and you buy a cheaper desk that quietly exports cost to the customer as the abandonment and the month-later refile. A contained interaction that was actually wrong costs more than the escalation you avoided: it generates a recontact, an angry second touch, and sometimes churn. Optimize for outcome and prevention and true volume falls, because the next question never gets asked, so the honest scorecard is also the cheaper operation over a long enough window. The deflection number books a deferred, amplified cost as a saving.</p>
+    <p>If you are a support leader being pitched AI right now, the test is two questions. How would you know the customer got what they came for, measured over the time it actually takes to find out. And who checks the AI before its answer reaches a customer. A tool that improves those two things is doing the job. A dashboard that climbs while those go unmeasured is telling you a story about your activity, not your customers. The best support AI lowers volume by preventing the next question, not by deterring the first.</p>
 
   </div>
 

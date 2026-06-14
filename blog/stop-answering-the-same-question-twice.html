@@ -66,52 +66,46 @@
   <div class="article-body">
 
     <div class="article-callout">
-      <p>The loud part of support AI is deflecting customers. The highest-return, lowest-risk place to start is internal: capturing what your most experienced people already know.</p>
+      <p>Everyone pitching support AI wants to put a bot on your website. The best place to start is internal: getting what your most experienced people know out of their heads.</p>
     </div>
 
-    <p>The most useful AI system I have built for a support team was not for customers. It was for me.</p>
+    <p>The most useful AI I ever built for a support team was not for customers. It was for me.</p>
 
-    <p>For years I was one of the people who held the institutional knowledge at an enterprise software company. I knew the product's edges, the workarounds, the history behind why a thing worked the way it did, and the right way to answer the questions that came up again and again. I was also the person who onboarded every new hire. That made me useful. It also made me a bottleneck, and a risk. Everything routed through one head, and the day that head walks out the door, the knowledge goes with it.</p>
+    <p>For years I held the knowledge at an enterprise software company. The product's edges, the workarounds, the right answer to the questions that came up over and over. I also onboarded every new hire. That made me useful. It also made me a bottleneck. Everything ran through one head, and the day that head leaves, the knowledge goes with it.</p>
 
-    <p>So I built one, on the Claude API, once the tools allowed it. Loading the docs was the easy half: that is just retrieval, and docs alone produce confident, wrong answers on everything the docs never wrote down. The hard half was the judgment layer, which did not exist in any document by definition. I authored it one answer at a time as questions came in: the edge cases, the known workarounds, the why behind a config that looks wrong until you know the history. An agent pastes a question and gets a grounded draft. Instead of answering the same one for the fortieth time, I answered it once into the system, and it drafted from then on.</p>
+    <p>So I built a tool on the Claude API to fix that. Loading the docs was the easy part. The real work was writing down the judgment that only lived in my head, one answer at a time: the edge cases, the workarounds, the reason a setting looks wrong until you know the story behind it. Instead of answering the same one for the fortieth time, I answered it once into the tool, and it drafted from then on.</p>
 
-    <p>One line I want to be clear about, because it is where a lot of these projects go wrong. The known repeat questions, the true FAQ, belong to macros and retrieval. A deterministic answer is safer and cheaper than a generated one when you already know the answer. The assistant earns its place on the long tail: the novel question, and the synthesis of nuance and history spread across documents that no single macro covers. I am not an AI maximalist about this. The bulk of repeat volume should never reach the model at all.</p>
+    <p>One thing I want to be clear about, because it is where these projects go sideways. The everyday repeat questions, the real FAQ, should be plain macros. A canned answer is safer and cheaper when you already know the answer. The AI earns its place on the messy long-tail questions: the new ones, and the ones that pull from five different docs no macro covers.</p>
 
-    <h2>What it actually changed</h2>
+    <h2>What it changed</h2>
 
-    <p>Two things, and neither was a customer-facing chatbot.</p>
+    <p>The work did not vanish, it changed shape. Answering the same question for the fortieth time turned into writing it down once and keeping it current, which is a fraction of the load. And keeping it current matters. Captured answers go stale. The product ships a release, a workaround gets fixed, and an answer that was right last quarter is now wrong. Someone has to own keeping it true. Going internal first makes that visible: when an agent flags a draft as off, you just found a stale answer.</p>
 
-    <p>First, I stopped repeating myself. The questions that used to land in my lap, the ones only I seemed able to answer, now had a grounded answer any agent could pull on their own. I answered each one a single time. That did not make the work disappear, it converted it. Answering the same question live for the fortieth time became authoring it once, plus keeping it true as the product changes, which is a fraction of the load and a different kind of work.</p>
+    <p>I did not expect the next part. It became the onboarding tool. The new hire at 2am who would normally sit on a question until morning gets the senior answer right then, without waiting for me. The knowledge stopped depending on whether I was at my desk.</p>
 
-    <p>That maintenance cost is not a footnote, it is the second-order win. Captured knowledge decays. The product ships a release, a workaround gets fixed, an integration changes, and an answer captured once is now confidently wrong, which is worse than no answer because the agent trusts it. Going internal first is what makes the decay visible. When an agent flags a draft as off, you have just located a stale entry you did not know was stale. The assistant is not only a knowledge dispenser, it is a knowledge-QA loop a static KB never gives you, because the agent who used to silently work around bad info now reports it for free.</p>
+    <h2>Why start internal</h2>
 
-    <p>Second, and this is the part I did not expect to matter as much as it did, it became the onboarding tool. As the person responsible for ramping new hires, I suddenly had an evergreen, on-demand source of my own institutional knowledge. A new agent at 2am with a question they would normally have to hold until morning could get the senior answer right then. Ramp time compressed. Internal escalations dropped. The knowledge stopped depending on whether I was at my desk.</p>
+    <p>Every support leader getting pitched AI is getting pitched the customer-facing version: a bot on the website. That is the wrong place to begin. Start internal, for three reasons.</p>
 
-    <h2>Why this is the right place to start</h2>
+    <p><strong>A wrong answer gets caught in-house.</strong> An internal tool drafts for an agent who reads it before it goes anywhere. The error gets caught by your own people instead of by a customer. That is the cheap place to find mistakes.</p>
 
-    <p>Every support leader being pitched AI is being pitched the customer-facing version: deflection, containment, a bot on the website. That is the high-stakes, high-visibility deployment, and it is the wrong place to begin. Start internal instead, for three reasons.</p>
+    <p><strong>Your own people tell you fast when it is off.</strong> Agents flag a bad answer immediately, in a way customers never will. Every flag is a stale answer found for free, a running signal instead of a once-a-year audit.</p>
 
-    <p><strong>The risk is contained.</strong> An internal assistant drafts for an agent who reads it before it goes anywhere, so the error gets caught in-house instead of by a customer. The honest caveat: that net only holds where tenure is high. The new hire at 2am does not know better and will pass a thin answer straight through, which is the design problem I get to below. The point of internal first is that this is the cheap place to find that out, because the cost of being wrong is an in-house correction, not a lost account.</p>
+    <p><strong>It captures the knowledge anyway.</strong> A customer-facing bot needs your knowledge written down and structured, and most teams find out halfway through a vendor rollout that it never was. It lived in a few heads. Building the internal tool is how you finally get it down. Capture finally pays off for the person holding it. He stops getting pinged.</p>
 
-    <p><strong>The feedback loop is faster.</strong> Your own agents tell you immediately when an answer is off, in a way customers never will. That is the maintenance engine I described above working for you: every flag is a stale or thin entry located for free, so you learn where your knowledge is thin and where it contradicts itself as a running signal, not a once-a-year audit.</p>
+    <h2>The one rule</h2>
 
-    <p><strong>It forces the prerequisite.</strong> A customer-facing support AI needs your knowledge captured and structured, and most teams discover halfway through a vendor rollout that it never was. It lived in a few people's heads. The reasonable objection is that this just makes internal first sound like KB cleanup with extra steps. It is not. Building the assistant surfaces where your knowledge contradicts itself in a way a static KB audit never does, because the model will cheerfully merge two conflicting answers into one confident draft, and an agent will flag it. Feeding the assistant produces structured knowledge as a byproduct of normal work. That is why this breaks the twenty-year pattern of KB-article quotas getting ignored: capture finally has a selfish payoff for the person who holds the knowledge. He stops getting pinged. That is what I built mine for.</p>
+    <p>Ground it in your docs, show which doc each answer came from, and keep a person between the draft and the send. Build it so the tool says it does not know instead of guessing when it has nothing. The new hire at 2am is the highest-value user and the one least able to catch a wrong answer, so the tool has to show its source and route the hard ones up.</p>
 
-    <h2>The discipline that makes it work</h2>
+    <p>Done right, your most experienced person stops being a bottleneck and becomes a multiplier. The knowledge is there for everyone, all the time, and it does not leave when they do.</p>
 
-    <p>Ground it in your docs and keep a person between draft and send. That much is table stakes by now, and it is necessary but not sufficient, because your docs are wrong in places you do not know about yet, and a human in the loop only contains risk when the human knows better. That is the real tension. The danger is concentrated exactly where the value is. The new hire at 2am is both the highest-value user and the one least able to catch a confident wrong answer.</p>
+    <h2>The cheap win nobody demos</h2>
 
-    <p>So the design requirement is that senior judgment has to be legible, not just embedded. The tool has to cite its source so a junior can verify in one click rather than trust, and it has to signal when it is unsure or route the question up rather than improvise when it does not know. State that as the principle, because it is the principle even where an internal assistant has not shipped every piece of it yet. The closest pattern I have actually built to this is in my own products: a hard rule that when the stakes are high the model escalates instead of answering, no matter how confident it sounds. Internal first is the cheap place to tune all of this, because the misses surface in-house.</p>
+    <p>The flashy projects get the demos and the budget. The quiet one, getting the knowledge out of your best people's heads, is cheaper, safer, and pays off faster. A two-person team I ran absorbed 44% year-over-year ticket growth at a 72% single-reply resolution rate by systematizing knowledge: macros, automated workflows, a knowledge base. The internal tool is that same move, pointed at the questions the macros never covered.</p>
 
-    <p>Done that way, your most experienced person stops being a bottleneck and becomes a multiplier. The knowledge is available to everyone, all the time, and it does not leave when they do.</p>
+    <p>Cheaper is not free. You pay a real bill to run it, and someone has to keep the answers current. That does not kill the case. It just means you cost it out like an operation, not a demo.</p>
 
-    <h2>The cheapest win nobody demos</h2>
-
-    <p>The flashy support-AI projects get the demos and the budget. The quiet one, getting the knowledge out of your best people's heads and into a system the whole team can use, is cheaper, safer, and pays off faster. It is the same muscle that matters most. A two-person team I ran absorbed 44% year-over-year ticket growth at a 72% single-reply resolution rate by systematizing knowledge: macros, automated response workflows, a client-facing knowledge base. That systematization carried the load, not a chatbot. The internal assistant is that same discipline pointed at the questions the macros and the KB never covered. Answer once, reuse forever, is how a tiny team absorbs a load like that.</p>
-
-    <p>Cheaper is not free, and I want to be honest about that before someone reads internal first as free and safe. Even internal carries a real recurring inference bill, a maintenance owner to keep the knowledge true, and a governance edge the day an agent pastes customer data into a prompt. None of that kills the case. It just means you cost it out like an operation, not a demo.</p>
-
-    <p>Build that first. Then, once it is running, the harder question is whether it is actually working, which is a separate problem. I wrote about how to tell <a href="how-to-tell-if-support-ai-is-working.html">here</a>.</p>
+    <p>Build that first. The harder question is whether it is actually working. I wrote about how to tell <a href="how-to-tell-if-support-ai-is-working.html">here</a>.</p>
 
   </div>
 
