@@ -13,18 +13,18 @@
     gtag('config', 'G-VF62P8L1W2');
   </script>
 
-  <title>I Built an Internal Support Agent From Scratch. Here's What It Took — Project Promethean</title>
-  <meta name="description" content="Not how to buy a support AI. How to build one. A grounded internal support agent that reads your help center, drafts a cited answer, and refuses to guess, with the code and the failure modes.">
+  <title>I Built a Support Agent That Reads Your Help Center and Learns — Project Promethean</title>
+  <meta name="description" content="Not how to buy support AI, how to build it. A grounded agent that reads your help center, drafts a cited answer, refuses to guess, and learns from your team. With real, live output you can check.">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="canonical" href="https://projectpromethean.com/blog/how-i-built-an-internal-support-agent.html">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://projectpromethean.com/blog/how-i-built-an-internal-support-agent.html">
-  <meta property="og:title" content="I Built an Internal Support Agent From Scratch. Here's What It Took">
-  <meta property="og:description" content="A grounded internal support agent that reads your help center, drafts a cited answer, and refuses to guess. The build, the code, and the parts that break.">
+  <meta property="og:title" content="I Built a Support Agent That Reads Your Help Center and Learns">
+  <meta property="og:description" content="A grounded support agent that answers from your help center with citations, refuses to guess, and learns from your team. Built, not bought, with real output.">
   <meta property="og:image" content="https://projectpromethean.com/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="I Built an Internal Support Agent From Scratch">
-  <meta name="twitter:description" content="A grounded internal support agent that reads your help center, drafts a cited answer, and refuses to guess. The build and the failure modes.">
+  <meta name="twitter:title" content="I Built a Support Agent That Reads Your Help Center and Learns">
+  <meta name="twitter:description" content="Answers from your help center with citations, refuses to guess, and learns from your team. Built, not bought, with real output.">
   <meta name="twitter:image" content="https://projectpromethean.com/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,6 +34,7 @@
   <style>
     .article-body pre { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.15rem; overflow-x: auto; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.84rem; line-height: 1.6; color: var(--heading); margin: 1.4rem 0; }
     .article-body pre.transcript { white-space: pre-wrap; }
+    .article-body .tlabel { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin: 1.6rem 0 -0.6rem; }
     .article-body code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.86em; background: var(--surface); padding: 0.1rem 0.35rem; border-radius: 5px; }
     .article-body pre code { background: none; padding: 0; font-size: 1em; }
   </style>
@@ -60,124 +61,130 @@
   <div class="article-hero">
     <a href="index.html" class="article-back">← Back to Writing</a>
     <span class="article-tag">AI in Support</span>
-    <h1>I Built an Internal Support Agent From Scratch. Here's What It Took</h1>
+    <h1>I Built a Support Agent That Reads Your Help Center and Learns</h1>
     <div class="article-meta">
       <span>Jun 14, 2026</span>
       <span>·</span>
-      <span>7 min read</span>
+      <span>8 min read</span>
     </div>
   </div>
 
   <div class="article-body">
 
     <div class="article-callout">
-      <p>The most useful AI I ever built in support was not customer-facing. It was for me: load a decade of answers in once, and stop typing the same reply for the hundredth time. This is that idea, rebuilt from scratch in the open, so you can see exactly how it works and exactly where it breaks.</p>
+      <p>You load your help center into it once. It answers customer questions from those docs, with citations, and it refuses to guess when the docs come up short. Every time a person approves an answer, it remembers, so the same question is never hard twice. I built it, it runs on a laptop, and below it is answering real questions on a real help center you can go check yourself.</p>
     </div>
 
-    <p>At my day job I built an internal assistant that took the answers I had given a thousand times and generated them for me, grounded in our own documentation, with me reviewing before anything went out. It quietly absorbed a lot of growth on a small team. I cannot show you that one; it lives inside a company. So I rebuilt the idea from nothing, as a small program anyone can read, and I am going to walk through how it actually works, what I chose and why, and the two ways it can hurt you if you are not careful.</p>
+    <p>For most of ten years in support, I was a lookup table with a pulse. The same dozen questions, over and over, plus the handful that only I knew the answer to because the answer lived in my head and nowhere else. New hires waited on me. Customers waited on the queue. And the most valuable thing in the building, what the senior people actually knew, was the least accessible thing in the building.</p>
 
-    <p>One thing up front. This is not a guide to buying a support AI. I have no special authority on procurement, and neither does most of the market. What I can do is build the thing and show you the parts that do not demo well. So that is what this is.</p>
+    <p>The fix I eventually built at work was not a customer-facing chatbot. It was an assistant for the team: load the knowledge in once, and stop being the bottleneck. It quietly let a tiny team absorb a lot of growth. I cannot show you that one, so I rebuilt the idea from scratch, in the open. This is what it does, shown working, and how it helps.</p>
 
-    <h2>The whole thing is one loop</h2>
+    <p>One thing first: this is not advice on which support AI to buy. I build the thing and show you the parts that do not demo well. That is the only kind of authority worth having here.</p>
 
-    <p>Strip away the noise and an internal support agent is four steps. A question comes in. You pull the few pieces of your own knowledge that are actually relevant. You ask a model to draft an answer using only those pieces, with citations. A human reads it before it reaches a customer. And when your knowledge does not cover the question, the agent says so instead of guessing.</p>
+    <h2>What it does, in one breath</h2>
 
-    <p>That last step is the whole game, and it is the one most demos skip. I will come back to it.</p>
+    <p>Load your help center once. Ask it a customer's question. It drafts an answer using only your own articles, shows you which ones it used, and hands it to a person to review and send. If your docs do not cover the question, it says so and routes to a human instead of inventing something. And when a person approves an answer, it saves it, so next time it already knows.</p>
 
-    <h2>Step one: get the knowledge</h2>
+    <h2>Watch it work, on a real help center</h2>
 
-    <p>The agent grounds on your help center. If you run on Zendesk, every published article is already available through a public read-only endpoint, so the program just reads them all in once, strips the HTML, and keeps the title, the text, and the link. No scraping, no export, no copy-paste.</p>
+    <p>To make this checkable, I pointed it at Medium's public help center, about two hundred articles, and asked it real questions. This is the actual output. Citations are shown as the article names it pulled from, for readability.</p>
 
-    <p>There is a catch here that matters more than any model choice: the agent is only as good as the docs behind it. If half your articles are two years stale and three of them contradict each other, a confident answer built on the wrong one is worse than no answer. Before I pointed an agent at a real help center, I ran it through a separate check for exactly that rot. That is not a detour, it is step zero. I wrote about why the operation has to be clean first <a href="fix-the-operation-before-you-add-the-ai.html">here</a>, and the tool I use to find the rot is <a href="../tools/kb-auditor.html">here</a>.</p>
+    <p class="tlabel">A question the docs cover</p>
+    <pre class="transcript"><code>Q: How do I get paid for my writing on Medium?
 
-    <h2>Step two: find the relevant pieces</h2>
+Answered from the help center. Sources used:
+  Medium Partner Program overview · Partner Program payouts ·
+  Make a story eligible to earn · Application and enrollment ·
+  Partner Program eligibility
 
-    <p>When a question arrives, you do not hand the model your entire help center. You hand it the handful of articles that actually bear on the question. Picking that handful is called retrieval, and it is where people overcomplicate things.</p>
+Draft:
+To earn money from your writing, you'll need to join the Medium
+Partner Program, which lets you earn based on member engagement
+with your paywalled stories. The general process:
 
-    <p>The fashionable answer is embeddings: turn every article and the question into vectors and match by meaning. It is good, and for a large or messy knowledge base it is worth it. But it adds a second paid service and a moving part, and for a few hundred articles you often do not need it. I used plain keyword ranking instead, the same math search engines have used for decades. It has no dependencies, it runs in milliseconds, and on a focused help center it is honestly hard to beat. I weighted article titles double, because in support the title usually is the question. If I were grounding on tens of thousands of articles or a lot of near-synonyms, I would reach for embeddings. Knowing when you do not need the heavier tool is most of the job.</p>
+1. Check eligibility — a complete profile, at least 6 published
+   stories, 3 months of activity, a bank account and tax filing
+   in a supported country, and you must be at least 18.
+2. Apply at medium.com/partner-program.
+3. Complete enrollment — connect a Stripe account (Medium's payout
+   processor) and submit your taxpayer information.
+4. Make stories eligible by placing them behind the paywall.
 
-    <p>I tested the retrieval against a real help center of about a hundred and ten articles. Ask it how to connect a new retailer to a data feed and the top results are the three articles a senior agent would have opened. That is the bar: not clever, just right.</p>
+On payouts: earnings must reach a $10 minimum before a payout is
+sent; below that it rolls to the next month. Payouts go to your
+Stripe account, processed monthly.</code></pre>
 
-    <h2>Step three: draft the answer, grounded</h2>
+    <p>That is correct, specific, and every fact in it traces to a named article a reviewer can open. It did not pull the $10 minimum or the Stripe detail out of thin air; it pulled them out of Medium's own docs.</p>
 
-    <p>Now the model. And the part that does the real work is not the model, it is the instructions you give it. Here is the actual prompt the agent runs, word for word:</p>
+    <p class="tlabel">A question the docs do not cover</p>
+    <pre class="transcript"><code>Q: Can I connect Medium to my company's Salesforce CRM?
 
-    <pre><code>Use ONLY the facts in the numbered sources below.
-Do not use outside knowledge.
+Not covered — needs a human. Sources used: none
 
-Cite the source number(s) you used, inline, like [2].
+Draft:
+I'm sorry, but the help center and approved answers don't cover
+connecting Medium to Salesforce or any CRM, so I can't advise on
+that. I'd recommend having a human teammate follow up on this one.</code></pre>
 
-If the sources do not contain the answer, say so plainly and
-recommend escalating to a human. Do not guess, and do not
-stitch together a plausible-sounding answer that the sources
-do not support.
+    <p>This is the part most demos skip, and it is the whole game. An ungrounded bot answers this confidently and wrongly. This one looked, found nothing to stand on, and got out of the way. A tool that does this is one your team trusts. A tool that bluffs is one they quietly stop using after it burns them once.</p>
 
-Never invent URLs, prices, steps, settings, or policies that
-are not in the sources.
+    <h2>The part that makes it matter: it learns</h2>
 
-Be concise and write in a calm, helpful support tone.</code></pre>
+    <p>That Salesforce question is a gap. So a human answers it once, and approves that answer. Watch what happens the next time someone asks the same thing:</p>
 
-    <p>Every rule there exists because of a way these things go wrong. "Only the sources" is what keeps it from answering out of the model's general memory, which sounds fine and is sometimes quietly false about your product. "Cite the sources" means a human can check the answer in seconds instead of trusting it. And the rule about not knowing is the one that earns the whole thing its keep.</p>
+    <pre class="transcript"><code>Q: Can I connect Medium to my company's Salesforce CRM?
 
-    <h2>The two failure modes that actually matter</h2>
+Answered from a team-approved answer.
 
-    <p>The first is making things up. A model with no grounding will answer almost anything, confidently, including questions about your product it has no way to know. The fix is not a better model, it is the leash above: give it your sources, tell it to use only those, and tell it that "I don't know" is a correct answer. Here is what that looks like on a question the help center does not cover. I asked the sample agent whether the product integrates with Salesforce, which it has no article about:</p>
+Draft:
+Medium does not offer a built-in Salesforce or CRM integration.
+If you need Medium data in a CRM, you can export your stats from
+the Stats page and import them, or use a third-party automation
+tool to move the data over.</code></pre>
 
-    <pre class="transcript"><code>Question: Does Hatch have a Salesforce integration?
+    <p>It went from "I don't know, escalate" to a clean, instant answer, because a person taught it once. That is the engine. Every escalation today becomes self-service tomorrow. The knowledge that used to live in one senior head gets captured the first time it is needed and is on tap from then on. This is the <a href="stop-answering-the-same-question-twice.html">stop answering the same question twice</a> idea, made real.</p>
 
-Retrieved (BM25):
-  [1] 2.03  Resetting your password
-  [2] 0.39  Getting started
-  [3] 0.34  Connecting your calendar
+    <h2>How it actually works</h2>
 
---- DRAFT (for human review) ---
+    <p>Three moving parts, and the clever part is which one does the work.</p>
 
-I'm not able to confirm this from our help center, and I
-don't want to guess. Our published articles don't cover a
-Salesforce integration, so I'd rather get you a definitive
-answer than a wrong one. Passing this to a teammate now.</code></pre>
+    <p><strong>It loads your whole help center once and keeps it.</strong> You point it at your help center, it reads every published article in one pass and holds onto them. After that you just ask. There is no re-importing, no spoon-feeding it articles per question.</p>
 
-    <p>Look at the retrieval scores. Nothing relevant came back, and a naive agent would have grabbed the closest article and improvised. This one looked at weak matches, recognized it had nothing to stand on, and escalated. That single behavior is the difference between a tool your team trusts and one they quietly stop using after it burns them once.</p>
+    <p><strong>The real work is the instructions, not the model.</strong> When a question comes in, the model gets your articles, your team's approved answers, and a short set of rules. Those rules are the product:</p>
 
-    <p>For contrast, here is a question the docs do cover:</p>
+    <pre><code>Answer using ONLY the approved answers and help-center articles
+provided. Do not use outside knowledge.
 
-    <pre class="transcript"><code>Question: How do I connect my Google Calendar?
+If a team-approved answer covers it, prefer it.
+Otherwise cite the help-center article(s) you used.
 
-Retrieved (BM25):
-  [1] 4.39  Connecting your calendar
-  [2] 2.19  Fixing calendar sync problems
+If neither covers the question, say so plainly and recommend a
+human take it. Do not guess, and do not stitch together a
+plausible answer the sources don't support.
 
---- DRAFT (for human review) ---
+Never invent steps, prices, URLs, or policies.</code></pre>
 
-You can connect Google Calendar from your settings. Open
-Settings, choose Calendars, and click Connect calendar, then
-pick Google and sign in. Be sure to allow both read and write
-access so it can check your availability and add events for
-you. Changes sync both ways, usually within a minute. [1]
+    <p>"Use only the sources" is what stops it answering from the model's general memory, which sounds fine and is sometimes quietly wrong about your product. "Cite what you used" means a human verifies in seconds. And making "I don't know" a correct answer is what earns the whole thing its trust.</p>
 
-If syncing ever stops later, it's usually a lost permission
-after a password change; the Reconnect button under Settings
-> Calendars fixes it. [2]</code></pre>
+    <p><strong>A person stays between the draft and the customer.</strong> The output is a draft. Someone reads it, edits if needed, and sends. Resolution is not the bot replying, it is the customer getting what they came for, and a human in the loop protects that while the system earns its keep. I went deeper on measuring that gap <a href="how-to-tell-if-support-ai-is-working.html">here</a>.</p>
 
-    <p>Grounded, cited, and it stops where the sources stop. The second failure mode is subtler: trusting the draft. The output is labeled a draft on purpose. A person reads it, edits if needed, and sends. Resolution is not the bot replying, it is the customer getting what they came for, and a person in the loop is how you protect that while the system earns trust. I went deeper on measuring that gap <a href="how-to-tell-if-support-ai-is-working.html">here</a>.</p>
+    <h2>How it helps, concretely</h2>
 
-    <h2>What it costs, and what would break in production</h2>
+    <p>The new hire on a Tuesday night gets the senior answer without waiting for the senior person. The expert answers each new thing once instead of fifty times. The questions nobody wrote down get written down the moment they are asked. And because every answer shows its sources and passes a human, trust builds instead of eroding. On a small team that is the difference between drowning as volume grows and absorbing it.</p>
 
-    <p>The running cost is small. Each answer is one model call over a few short articles, fractions of a cent. The costs that actually bite are the ones nobody puts in the deck, and I have <a href="what-support-ai-actually-costs.html">paid for some of them</a>. The key never goes in a browser; I learned that the expensive way when a different tool of mine got its key drained, and everything I build now assumes that person exists. In production this agent would run behind a small server that holds the key, with a hard monthly spending cap, a per-user rate limit, and a kill switch I can pull myself without shipping a release. That is not paranoia, it is the cost of operating a thing instead of demoing it.</p>
+    <h2>Using it day to day</h2>
+
+    <p>It runs as an app on your own computer. Load your help center once. Type a question, read the draft, check the sources, edit if needed, send. Click approve to teach it. That is the loop. Your knowledge and your API key stay on your machine; nothing is uploaded.</p>
 
     <h2>The honest limits</h2>
 
-    <p>This is a starting point, not a finished product. Keyword retrieval will miss a question phrased in words that appear nowhere in the docs; that is the case for embeddings. It has no memory of the specific customer or their account. And it inherits every flaw in your help center, which is the whole reason step zero is auditing the docs, not adding the AI. None of that makes it useless. It makes it honest about what it is: a sharp internal assistant that drafts grounded answers and knows when to get out of the way.</p>
+    <p>It is only as good as the docs behind it. A confident answer built on a stale article is worse than no answer, which is why step zero is auditing the help center, not adding the AI. I wrote about that <a href="fix-the-operation-before-you-add-the-ai.html">here</a>, and the tool I use to find the rot is <a href="../tools/kb-auditor.html">here</a>. It also has no memory of the specific customer, and the per-answer cost is small but real, so in front of a team you would put a hard spending cap and a kill switch on it, lessons I <a href="what-support-ai-actually-costs.html">paid for</a> elsewhere.</p>
 
     <h2>The point</h2>
 
-    <p>You do not have to buy this to understand it. The working version is about a hundred and fifty lines, and the parts that matter are the eight lines of instructions above and the decision to make "I don't know" a first-class answer. The leverage in support AI is not the model. It is the judgment about what to ground it on, what to let it say, and where to keep a person. That judgment is the thing I actually have, and this is what it looks like built.</p>
+    <p>The whole thing is about a hundred and fifty lines and runs on a laptop with no setup beyond a key. The leverage was never the model. It is the judgment about what to ground it on, what to let it say, where to keep a person, and how to make it learn from the people who already know the answers. That judgment is the thing I actually have, and this is what it looks like built.</p>
 
-    <p>The run is one line: point it at a help center, ask a question, read the draft.</p>
-
-    <pre><code>node agent.mjs sample "How do I connect my Google Calendar?"</code></pre>
-
-    <p>Want the full script, or want this run against your own help center? <a href="../#contact">Get in touch</a>.</p>
+    <p>Want to see it run on your own help center, or talk about putting something like it in front of a team? <a href="../#contact">Get in touch</a>.</p>
 
   </div>
 
