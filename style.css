@@ -596,6 +596,19 @@ a { color: inherit; text-decoration: none; }
 }
 .automation-link:hover { gap: 0.5rem; color: var(--accent-hover); }
 
+/* === WRITING LIST === */
+.writing-list { display: flex; flex-direction: column; border-top: 1px solid var(--border); margin-top: 0.5rem; }
+.writing-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 1.1rem 0.25rem; border-bottom: 1px solid var(--border);
+  transition: padding-left var(--ease);
+}
+.writing-row:hover { padding-left: 0.6rem; }
+.writing-title { font-size: 1.02rem; font-weight: 500; color: var(--heading); transition: color var(--ease); }
+.writing-row:hover .writing-title { color: var(--accent); }
+.writing-arrow { color: var(--accent); flex-shrink: 0; transition: transform var(--ease); }
+.writing-row:hover .writing-arrow { transform: translateX(4px); }
+
 /* === FAQ === */
 .faq { display: flex; flex-direction: column; gap: 0; }
 .faq-item { border-bottom: 1px solid var(--border); }
