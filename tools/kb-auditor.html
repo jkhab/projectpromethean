@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF62P8L1W2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VF62P8L1W2');
+  </script>
+
+  <title>Knowledge Base Auditor — Project Promethean</title>
+  <meta name="description" content="Point it at a Zendesk help center and it flags what is quietly rotting: articles years out of date, duplicates, and pages too thin to answer the question. Runs in your browser.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="canonical" href="https://projectpromethean.com/tools/kb-auditor.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Knowledge Base Auditor">
+  <meta property="og:description" content="Point it at a Zendesk help center and see what is quietly rotting before you ground an AI on it.">
+  <meta property="og:image" content="https://projectpromethean.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+  <style>
+    .tool-head { padding: 9rem 2rem 1.5rem; max-width: 880px; margin: 0 auto; }
+    .tool-head .section-label { display: block; }
+    .tool-head h1 { font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 2.9rem); font-weight: 600; letter-spacing: -0.025em; color: var(--heading); line-height: 1.12; margin-bottom: 1rem; }
+    .tool-head p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.6; max-width: 720px; }
+    .tool-wrap { max-width: 880px; margin: 0 auto; padding: 1rem 2rem 3rem; }
+    .urlbar { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .urlbar input { flex: 1; min-width: 220px; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-family: var(--font-body); font-size: 0.98rem; color: var(--heading); outline: none; }
+    .urlbar input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .row-actions { display: flex; gap: 0.75rem; align-items: center; margin-top: 0.9rem; flex-wrap: wrap; }
+    .muted { font-size: 0.85rem; color: var(--text-muted); }
+    .err { color: #b91c1c; font-size: 0.9rem; margin-top: 0.85rem; }
+    .status { font-size: 0.95rem; color: var(--text-muted); margin-top: 1rem; }
+    .results { display: none; margin-top: 1.75rem; }
+    .results.show { display: block; }
+    .hero { background: var(--accent-soft); border: 1px solid var(--border-hover); border-radius: var(--radius); padding: 1.6rem 1.75rem; margin-bottom: 1.25rem; }
+    .hero .big { font-family: var(--font-display); font-size: 3rem; font-weight: 600; letter-spacing: -0.03em; color: var(--accent-hover); line-height: 1; }
+    .hero .cap { font-size: 1rem; color: var(--heading); margin-top: 0.5rem; line-height: 1.5; max-width: 640px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.85rem; margin-bottom: 1.5rem; }
+    .stat { background: var(--surface); border-radius: var(--radius); padding: 1rem 1.15rem; }
+    .stat .v { font-family: var(--font-display); font-size: 1.7rem; font-weight: 600; letter-spacing: -0.02em; color: var(--heading); line-height: 1; }
+    .stat .l { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.35; }
+    .sec h3 { font-size: 0.95rem; font-weight: 600; color: var(--heading); margin: 0 0 0.85rem; }
+    .sec { margin-bottom: 1.75rem; }
+    .lst { list-style: none; margin: 0; padding: 0; }
+    .lst li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--heading); }
+    .lst li .meta { color: var(--text-muted); white-space: nowrap; font-size: 0.85rem; }
+    .lst li a { color: var(--heading); text-decoration: none; }
+    .lst li a:hover { color: var(--accent); }
+    .pair { padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--heading); }
+    .pair .pct { color: var(--accent-hover); font-weight: 600; margin-right: 0.5rem; }
+    .pair .vs { color: var(--text-muted); }
+    .secbars .bar-row { margin-bottom: 0.6rem; }
+    .secbars .bt { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.25rem; }
+    .secbars .bt .c { color: var(--heading); } .secbars .bt .n { color: var(--text-muted); }
+    .secbars .bar { height: 7px; background: var(--surface); border-radius: 100px; overflow: hidden; }
+    .secbars .bf { height: 100%; background: var(--accent); border-radius: 100px; }
+    .export-row { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-top: 0.5rem; }
+    .copied { font-size: 0.82rem; color: #1b7a43; font-weight: 500; }
+    .tool-foot-note { max-width: 880px; margin: 0 auto; padding: 0 2rem 4rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+    .tool-foot-note a { color: var(--accent); }
+    @media (max-width: 768px) {
+      .tool-head { padding: 7rem 1.25rem 1.25rem; }
+      .tool-wrap { padding: 1rem 1.25rem 3rem; }
+      .tool-foot-note { padding: 0 1.25rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">🔥Project Promethean</a>
+      <ul class="nav-links" id="nav-menu">
+        <li><a href="../#about">About</a></li>
+        <li><a href="../#how-it-works">The Process</a></li>
+        <li><a href="../#services">Engagements</a></li>
+        <li><a href="../lab.html">The Lab</a></li>
+        <li><a href="../blog/">Blog</a></li>
+        <li><a href="../#contact" class="nav-cta">Let's Talk</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="tool-head">
+    <p class="section-label">Tool</p>
+    <h1>Knowledge Base Auditor</h1>
+    <p>Before you ground an AI on your help center, you need to know what state it is in, because a confident answer built on a stale article is worse than no answer. Paste a Zendesk help-center URL and this reads every published article and flags what is quietly rotting: pages years out of date, near-duplicates, and articles too thin to actually answer the question. It reads the public help-center API directly from your browser.</p>
+  </div>
+
+  <div class="tool-wrap">
+    <div class="urlbar">
+      <input type="text" id="url" placeholder="support.yourcompany.com" autocomplete="off" spellcheck="false">
+      <button class="btn btn-primary" id="goBtn" type="button">Audit</button>
+    </div>
+    <div class="row-actions">
+      <button class="btn btn-ghost" id="sampleBtn" type="button">See it on sample data</button>
+      <span class="muted">Works on any public Zendesk help center.</span>
+    </div>
+    <div class="err" id="err"></div>
+    <div class="status" id="status"></div>
+
+    <div class="results" id="results">
+      <div class="hero"><div class="big" id="heroPct">0%</div><div class="cap" id="heroCap"></div></div>
+      <div class="cards" id="cards"></div>
+      <div class="sec"><h3>Stalest articles</h3><ul class="lst" id="stale"></ul></div>
+      <div class="sec"><h3>Possible duplicates and overlaps</h3><div id="dups"></div></div>
+      <div class="sec"><h3>Too thin to answer the question</h3><ul class="lst" id="thin"></ul></div>
+      <div class="sec secbars"><h3>Coverage by section</h3><div id="cov"></div></div>
+      <div class="export-row">
+        <button class="btn btn-ghost" id="copyBtn" type="button">Copy summary</button>
+        <a class="btn btn-ghost" href="../blog/fix-the-operation-before-you-add-the-ai.html">The thinking</a>
+        <span class="copied" id="copied" style="display:none">Copied</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="tool-foot-note">Built by Johnny Khabushani. Built around an idea from <a href="../blog/fix-the-operation-before-you-add-the-ai.html">this piece</a>: AI is only as good as the docs behind it. Want this run across a bigger knowledge base, or wired into a refresh workflow? <a href="../#contact">Get in touch</a>.</p>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">🔥Project Promethean</span>
+      <span class="footer-copy">© 2026 Project Promethean</span>
+    </div>
+  </footer>
+
+  <script src="../script.js" defer></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const strip = h => (h || '').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ').trim();
+    const wc = t => t ? t.split(/\s+/).filter(Boolean).length : 0;
+    const STOP = new Set('the a an and or for to of in on with your you is are it how can do i my we this that from get use using new'.split(' '));
+    const stem = w => w.replace(/(ing|ed|es|s)$/, '');
+    const toks = t => [...new Set(t.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w.length > 2 && !STOP.has(w)).map(stem))];
+    const jac = (a, b) => { const A = new Set(a), B = new Set(b); let i = 0; for (const x of A) if (B.has(x)) i++; return i / (A.size + B.size - i || 1); };
+    const monthsAgo = d => Math.round((Date.now() - d) / 2629800000);
+
+    const SAMPLE = [
+      ['Getting Started Guide', '2019-04-10', 'Overview', 140],
+      ['Adding Products', '2019-08-01', 'Products', 110],
+      ['Adding a Product', '2021-02-15', 'Products', 95],
+      ['Connecting Your Data Feed', '2019-09-01', 'Data Feed', 130],
+      ['Data Feed Setup', '2020-03-01', 'Data Feed', 120],
+      ['Exporting Reports', '2022-06-01', 'Reporting', 100],
+      ['Export Reports', '2019-11-01', 'Reporting', 105],
+      ['Store Mapping', '2019-07-01', 'Stores', 115],
+      ['Single Sign-On (SSO)', '2020-10-01', 'Integration', 125],
+      ['Billing FAQ', '2023-09-01', 'Billing', 160],
+      ['Reset Your Password', '2024-01-20', 'Account', 38],
+      ["Can't Log In", '2023-05-02', 'Account', 44],
+      ['Profile Settings', '2025-02-01', 'Account', 31],
+      ['Release Notes 2.3.0', '2021-01-01', 'Release Notes', 22]
+    ].map(a => ({ title: a[0], date: new Date(a[1]), section: a[2], words: a[3], url: null }));
+
+    async function getAll(base, path) {
+      const locales = ['/api/v2/help_center/en-us/', '/api/v2/help_center/'];
+      for (let li = 0; li < locales.length; li++) {
+        let url = base + locales[li] + path + '.json?per_page=100', out = [], ok = true;
+        try {
+          while (url) {
+            const r = await fetch(url, { headers: { Accept: 'application/json' } });
+            if (!r.ok) { ok = false; break; }
+            const j = await r.json();
+            out = out.concat(j[path] || []);
+            url = j.next_page;
+          }
+        } catch (e) { ok = false; }
+        if (ok && out.length) return out;
+        if (ok && !out.length && li === 0) continue;
+      }
+      throw new Error('reachfail');
+    }
+
+    async function runLive(input) {
+      $('err').textContent = ''; $('results').classList.remove('show');
+      let base;
+      try { base = new URL(/^https?:\/\//.test(input) ? input : 'https://' + input).origin; }
+      catch { $('err').textContent = 'That does not look like a URL. Try something like support.yourcompany.com'; return; }
+      $('status').textContent = 'Reading ' + base + ' …';
+      try {
+        const [articles, sections] = await Promise.all([getAll(base, 'articles'), getAll(base, 'sections').catch(() => [])]);
+        const secName = Object.fromEntries(sections.map(s => [s.id, s.name]));
+        const list = articles.map(a => ({
+          title: a.title || '(untitled)',
+          date: new Date(a.edited_at || a.updated_at || a.created_at),
+          section: secName[a.section_id] || 'Uncategorized',
+          words: wc(strip(a.body)),
+          url: a.html_url || null
+        })).filter(a => !isNaN(+a.date));
+        $('status').textContent = '';
+        if (!list.length) { $('err').textContent = 'No published articles found at that help center.'; return; }
+        audit(list, base.replace(/^https?:\/\//, ''));
+      } catch (e) {
+        $('status').textContent = '';
+        $('err').textContent = 'Could not read a Zendesk help center there. Check the URL, or it may not be a public Zendesk help center.';
+      }
+    }
+
+    function audit(list, label) {
+      const n = list.length;
+      const stale12 = list.filter(a => monthsAgo(a.date) >= 12).length;
+      const stale24 = list.filter(a => monthsAgo(a.date) >= 24).length;
+      const thin = list.filter(a => a.words > 0 && a.words < 80).sort((a, b) => a.words - b.words);
+      const empty = list.filter(a => a.words === 0).length;
+      const ratePct = Math.round(stale12 / n * 100);
+
+      $('heroPct').textContent = ratePct + '%';
+      $('heroCap').innerHTML = `of ${n.toLocaleString()} articles${label ? ' in ' + label : ''} have not been updated in over a year. ${stale24} have not been touched in over two.`;
+
+      $('cards').innerHTML = [
+        ['v', n.toLocaleString(), 'published articles'],
+        ['v', new Set(list.map(a => a.section)).size, 'sections'],
+        ['v', stale24.toLocaleString(), 'stale 2+ years'],
+        ['v', thin.length.toLocaleString(), 'thin (under 80 words)' + (empty ? ', ' + empty + ' empty' : '')]
+      ].map(c => `<div class="stat"><div class="${c[0]}">${c[1]}</div><div class="l">${c[2]}</div></div>`).join('');
+
+      const stalest = list.slice().sort((a, b) => a.date - b.date).slice(0, 8);
+      $('stale').innerHTML = stalest.map(a => {
+        const t = a.url ? `<a href="${a.url}" target="_blank" rel="noopener">${a.title}</a>` : a.title;
+        return `<li><span>${t}</span><span class="meta">${a.date.toISOString().slice(0, 7)} · ${monthsAgo(a.date)} mo</span></li>`;
+      }).join('');
+
+      const pairs = [];
+      const tk = list.map(a => ({ t: a.title, k: toks(a.title) }));
+      for (let i = 0; i < tk.length; i++) for (let j = i + 1; j < tk.length; j++) { const s = jac(tk[i].k, tk[j].k); if (s >= 0.5) pairs.push([s, tk[i].t, tk[j].t]); }
+      pairs.sort((a, b) => b[0] - a[0]);
+      $('dups').innerHTML = pairs.length
+        ? pairs.slice(0, 8).map(p => `<div class="pair"><span class="pct">${Math.round(p[0] * 100)}%</span>"${p[1]}" <span class="vs">vs</span> "${p[2]}"</div>`).join('')
+        : '<p class="muted">No strongly overlapping titles found.</p>';
+
+      $('thin').innerHTML = thin.length
+        ? thin.slice(0, 8).map(a => `<li><span>${a.title}</span><span class="meta">${a.words} words</span></li>`).join('')
+        : '<p class="muted">No unusually thin articles found.</p>';
+
+      const bySec = {};
+      list.forEach(a => bySec[a.section] = (bySec[a.section] || 0) + 1);
+      const cov = Object.entries(bySec).sort((a, b) => b[1] - a[1]).slice(0, 12);
+      const max = Math.max(...cov.map(c => c[1]), 1);
+      $('cov').innerHTML = cov.map(c => `<div class="bar-row"><div class="bt"><span class="c">${c[0]}</span><span class="n">${c[1]}</span></div><div class="bar"><div class="bf" style="width:${Math.round(c[1] / max * 100)}%"></div></div></div>`).join('');
+
+      window.__summary = () => `KB audit${label ? ' — ' + label : ''}\n${n} articles, ${new Set(list.map(a => a.section)).size} sections.\n${ratePct}% not updated in 12+ months; ${stale24} stale 2+ years.\n${thin.length} thin articles (<80 words).\n${pairs.length} overlapping title pairs.`;
+      $('results').classList.add('show');
+    }
+
+    $('goBtn').addEventListener('click', () => { const u = $('url').value.trim(); if (u) runLive(u); });
+    $('url').addEventListener('keydown', e => { if (e.key === 'Enter') $('goBtn').click(); });
+    $('sampleBtn').addEventListener('click', () => { $('err').textContent = ''; $('status').textContent = ''; audit(SAMPLE, 'sample help center'); });
+    $('copyBtn').addEventListener('click', () => { if (!window.__summary) return; navigator.clipboard.writeText(window.__summary()).then(() => { const c = $('copied'); c.style.display = 'inline'; setTimeout(() => c.style.display = 'none', 2000); }); });
+  </script>
+</body>
+</html>
