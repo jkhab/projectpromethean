@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF62P8L1W2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VF62P8L1W2');
+  </script>
+
+  <title>What Support AI Actually Costs, and How It Breaks — Project Promethean</title>
+  <meta name="description" content="The vendor quotes a seat price. The real cost is per interaction, it scales with how much your customers talk, and the failure modes are the part nobody puts in the deck.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="canonical" href="https://projectpromethean.com/blog/what-support-ai-actually-costs.html">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://projectpromethean.com/blog/what-support-ai-actually-costs.html">
+  <meta property="og:title" content="What Support AI Actually Costs, and How It Breaks">
+  <meta property="og:description" content="The vendor quotes a seat price. The real cost is per interaction, it scales with how much your customers talk, and the failure modes are the part nobody puts in the deck.">
+  <meta property="og:image" content="https://projectpromethean.com/img/lab-wts-threads.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="What Support AI Actually Costs, and How It Breaks">
+  <meta name="twitter:description" content="The vendor quotes a seat price. The real cost is per interaction, it scales with how much your customers talk, and the failure modes are the part nobody puts in the deck.">
+  <meta name="twitter:image" content="https://projectpromethean.com/img/lab-wts-threads.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="blog.css">
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">🔥Project Promethean</a>
+      <ul class="nav-links" id="nav-menu">
+        <li><a href="../#about">About</a></li>
+        <li><a href="../#how-it-works">The Process</a></li>
+        <li><a href="../#services">Engagements</a></li>
+        <li><a href="../lab.html">The Lab</a></li>
+        <li><a href="index.html" style="color: var(--text)">Blog</a></li>
+        <li><a href="../#contact" class="nav-cta">Let's Talk</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="article-hero">
+    <a href="index.html" class="article-back">← Back to Blog</a>
+    <span class="article-tag">AI in Support</span>
+    <h1>What Support AI Actually Costs, and How It Breaks</h1>
+    <div class="article-meta">
+      <span>Jun 13, 2026</span>
+      <span>·</span>
+      <span>5 min read</span>
+    </div>
+  </div>
+
+  <div class="article-body">
+
+    <div class="article-callout">
+      <p>The vendor quotes you a seat price. The real cost is per interaction, it scales with how much your customers talk, and the failure modes are the part nobody puts in the deck.</p>
+    </div>
+
+    <p>Every support-AI pitch leads with a price that sounds simple: a seat, a tier, a per-agent number. That is not what it costs to run. The real cost is per interaction, it grows with usage and conversation length, and the ways it can break are exactly what the demo skips. I have run these economics on my own products, including a paid AI app where the margin had to survive contact with real users, so here is the honest version.</p>
+
+    <h2>The price you are quoted is not the cost you will pay</h2>
+
+    <p>A seat price is predictable. Token cost is not. Every message into and out of the model costs money, and a support conversation is many messages, growing as the customer and the AI go back and forth. The more your customers actually use the thing, the more it costs, which means the cost scales with exactly the success you were hoping for. A containment win that doubles your AI conversations doubles that part of the bill.</p>
+
+    <h2>The dominant cost is the long tail</h2>
+
+    <p>On my own AI app, the single biggest cost driver was long conversations, because every turn re-reads the whole history. The fix that made the math work was prompt caching: re-reading that history at a fraction of full price, which cut a long session's input cost roughly in half. If a vendor cannot tell you how they handle the long-conversation tail, they cannot tell you what they will cost you at scale.</p>
+
+    <h2>The controls that keep it sane</h2>
+
+    <p>The economics only work with limits built in before launch, not bolted on after the bill arrives. On my app that meant fair-use caps, a soft one where the experience gently changes and a hard one with a warm pause, plus a hard monthly spend ceiling at the API account that I raised deliberately and never automatically. The equivalent questions for a support deployment are simple: what is the cap per conversation, what is the ceiling per month, and who gets alerted before it is hit.</p>
+
+    <h2>How it breaks</h2>
+
+    <p>The other cost is the kind that arrives all at once. I once shipped a voice tool with an API key reachable from the browser. Someone found it, drained it, and I shut the thing down. Everything I run now assumes that person exists: keys live server-side behind a relay, per-IP rate limits cap abuse, a model whitelist stops a borrowed endpoint from being pointed at a bigger and costlier model, hard caps fire alerts before the ceiling, and a kill switch can turn a feature off without shipping a release. When you evaluate a support AI, ask where the keys live and what stops a runaway. If the answer is vague, the risk is yours.</p>
+
+    <h2>What to model before you commit</h2>
+
+    <p>Three numbers, before the contract. Cost per resolved interaction at your real volume. What that cost does when conversations get long. And the hard ceiling that keeps a bad month from becoming a bad quarter. A vendor who has run this at scale will have those answers ready. One who only has a seat price is quoting you the part that is easy to predict and leaving you the part that is not.</p>
+
+    <p>Cost is one of the questions worth asking before you sign. I put the rest of them <a href="how-to-pressure-test-a-support-ai-vendor.html">here</a>.</p>
+
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">🔥Project Promethean</span>
+      <span class="footer-copy">© 2026 Project Promethean</span>
+    </div>
+  </footer>
+
+  <script src="../script.js" defer></script>
+</body>
+</html>
