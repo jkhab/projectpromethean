@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF62P8L1W2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VF62P8L1W2');
+  </script>
+
+  <title>Support Answer Assistant (Preview) — Project Promethean</title>
+  <meta name="description" content="A no-key preview of the internal support agent: it answers customer questions from a help center with citations, refuses to guess, and learns from approved answers. Click through a real example.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="canonical" href="https://projectpromethean.com/tools/support-agent.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://projectpromethean.com/tools/support-agent.html">
+  <meta property="og:title" content="Support Answer Assistant (Preview)">
+  <meta property="og:description" content="Answers from your help center with citations, refuses to guess, and learns from approved answers. Click through a real example, no key needed.">
+  <meta property="og:image" content="https://projectpromethean.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Support Answer Assistant (Preview)">
+  <meta name="twitter:description" content="Answers from your help center with citations, refuses to guess, and learns. Click through a real example, no key needed.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+  <style>
+    .sa-head { padding: 9rem 2rem 1.25rem; max-width: 860px; margin: 0 auto; }
+    .sa-head .section-label { display: block; }
+    .sa-head h1 { font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 2.9rem); font-weight: 600; letter-spacing: -0.025em; color: var(--heading); line-height: 1.12; margin-bottom: 1rem; }
+    .sa-head p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.6; max-width: 720px; }
+    .sa-wrap { max-width: 860px; margin: 0 auto; padding: 0.5rem 2rem 4rem; }
+    .sa-banner { background: var(--accent-soft); border: 1px solid var(--border-hover); border-radius: 12px; padding: 0.85rem 1.1rem; font-size: 0.9rem; color: var(--heading); line-height: 1.55; margin-bottom: 1.25rem; }
+    .sa-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.1rem; }
+    .sa-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.55rem 0.9rem; display: flex; align-items: center; gap: 0.4rem; }
+    .sa-bar i { width: 10px; height: 10px; border-radius: 50%; background: #d7d7de; display: inline-block; }
+    .sa-bar span { margin-left: 0.5rem; font-size: 0.72rem; color: var(--text-muted); font-family: ui-monospace, Menlo, Consolas, monospace; }
+    .sa-body { padding: 1.2rem 1.35rem; }
+    .sa-kb { font-size: 0.9rem; color: var(--text-muted); }
+    .sa-kb b { color: var(--heading); font-weight: 600; }
+    .sa-label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); margin: 0 0 0.55rem; }
+    .sa-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .sa-chip { border: 1px solid var(--border); background: var(--bg); color: var(--heading); font-family: inherit; font-size: 0.88rem; padding: 0.5rem 0.85rem; border-radius: 100px; cursor: pointer; transition: border-color var(--ease), background var(--ease); text-align: left; }
+    .sa-chip:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .sa-ask { display: flex; gap: 0.6rem; margin-top: 0.9rem; flex-wrap: wrap; }
+    .sa-ask input { flex: 1; min-width: 200px; border: 1px solid var(--border); border-radius: 10px; padding: 0.65rem 0.85rem; font-family: inherit; font-size: 0.95rem; color: var(--heading); outline: none; background: var(--bg); }
+    .sa-ask input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .btn-sa { border: 1px solid var(--accent); background: var(--accent); color: #fff; font-family: inherit; font-size: 0.9rem; font-weight: 500; padding: 0.5rem 1.05rem; border-radius: 10px; cursor: pointer; }
+    .btn-sa:hover { background: var(--accent-hover); }
+    .sa-answer { margin-top: 1.1rem; display: none; }
+    .sa-answer.show { display: block; }
+    .sa-badge { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 100px; margin-bottom: 0.6rem; }
+    .sa-badge.docs { background: #eef0ff; color: #4338ca; }
+    .sa-badge.memory { background: #eafaf0; color: #1b7a43; }
+    .sa-badge.escalate { background: #fff7e6; color: #9a6700; }
+    .sa-q { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .sa-q b { color: var(--heading); font-weight: 600; }
+    .sa-ans { font-size: 0.95rem; color: var(--heading); line-height: 1.65; }
+    .sa-src { margin-top: 0.85rem; border-top: 1px solid var(--border); padding-top: 0.6rem; font-size: 0.82rem; color: var(--text-muted); }
+    .sa-teach { margin-top: 0.9rem; }
+    .sa-note { font-size: 0.84rem; color: var(--text-muted); margin-top: 0.7rem; font-style: italic; }
+    .sa-learned { font-size: 0.88rem; color: var(--text-muted); }
+    .sa-learned .item { border-top: 1px solid var(--border); padding: 0.6rem 0; }
+    .sa-learned .item .q { color: var(--heading); font-weight: 500; }
+    .sa-cta { background: var(--surface); border-radius: 14px; padding: 1.4rem 1.5rem; margin-top: 1.5rem; }
+    .sa-cta h3 { font-size: 1.1rem; font-weight: 600; color: var(--heading); margin-bottom: 0.4rem; }
+    .sa-cta p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.9rem; }
+    @media (max-width: 768px) { .sa-head { padding: 7rem 1.25rem 1rem; } .sa-wrap { padding: 0.5rem 1.25rem 3rem; } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">Project Promethean</a>
+      <ul class="nav-links" id="nav-menu">
+        <li><a href="../#about">About</a></li>
+        <li><a href="../blog/">Writing</a></li>
+        <li><a href="../lab.html">The Lab</a></li>
+        <li><a href="index.html" style="color: var(--text)">Tools</a></li>
+        <li><a href="https://www.linkedin.com/in/johnkhabushani/" class="nav-cta" target="_blank" rel="noopener">Connect</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="sa-head">
+    <p class="section-label">Tool · Preview</p>
+    <h1>Support Answer Assistant</h1>
+    <p>An internal support agent that answers customer questions from your help center, with citations, refuses to guess when the docs come up short, and learns from the answers your team approves. Click the examples below to see it work.</p>
+  </div>
+
+  <div class="sa-wrap">
+    <div class="sa-banner">This is a no-key preview. The answers below are from a real run on Medium's public help center, saved so this page works with no API key and no cost. The full tool runs on your own machine and answers any question from your own help center. <a href="../blog/how-i-built-an-internal-support-agent.html" style="color:var(--accent)">Read the build</a>.</div>
+
+    <div class="sa-card">
+      <div class="sa-bar"><i></i><i></i><i></i><span>Support Answer Assistant</span></div>
+      <div class="sa-body">
+        <div class="sa-kb"><b>Loaded:</b> Medium Help Center · 205 articles · <span id="learnedCount">0</span> learned</div>
+
+        <p class="sa-label" style="margin-top:1.1rem">Try one of these</p>
+        <div class="sa-chips">
+          <button class="sa-chip" type="button" data-ex="paid">How do I get paid for my writing on Medium?</button>
+          <button class="sa-chip" type="button" data-ex="code">How do I add a code block to my story?</button>
+          <button class="sa-chip" type="button" data-ex="sf">Can I connect Medium to my company's Salesforce CRM?</button>
+        </div>
+
+        <div class="sa-ask">
+          <input type="text" id="freeQ" placeholder="…or type your own question" autocomplete="off">
+          <button class="btn-sa" id="askBtn" type="button">Get a draft answer</button>
+        </div>
+
+        <div class="sa-answer" id="answer">
+          <div class="sa-q"><b>Question:</b> <span id="aq"></span></div>
+          <span class="sa-badge" id="badge"></span>
+          <div class="sa-ans" id="ans"></div>
+          <div class="sa-src" id="src" style="display:none"></div>
+          <div class="sa-teach" id="teachRow" style="display:none">
+            <button class="btn-sa" id="teachBtn" type="button" style="background:#fff;color:var(--heading);border-color:var(--border)">A teammate answers it → Approve &amp; teach it</button>
+          </div>
+          <div class="sa-note" id="note" style="display:none"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sa-card">
+      <div class="sa-bar"><i></i><i></i><i></i><span>What it has learned</span></div>
+      <div class="sa-body">
+        <div class="sa-learned" id="learned">Nothing yet. When a teammate approves an answer to a question the docs don't cover, it shows here and gets reused next time.</div>
+      </div>
+    </div>
+
+    <div class="sa-cta">
+      <h3>Run it on your own help center</h3>
+      <p>This preview uses saved answers so it needs no key. The real tool is a small app you run on your own machine: load your help center once, ask anything, review the cited draft, and approve answers so it learns. Your key and your data stay with you.</p>
+      <a href="../blog/how-i-built-an-internal-support-agent.html" class="btn btn-primary">See how it's built</a>
+      <a href="../#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">Project Promethean</span>
+      <span class="footer-copy">© 2026 Johnny Khabushani</span>
+    </div>
+  </footer>
+
+  <script src="../script.js" defer></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    let taught = false;
+
+    const EX = {
+      paid: {
+        q: "How do I get paid for my writing on Medium?",
+        mode: "docs", badgeText: "Answered from your help center",
+        ans: "To earn money from your writing, join the Medium Partner Program, which lets you earn based on member engagement with your paywalled stories. The process: check eligibility (a complete profile, at least 6 published stories, 3 months of activity, a bank account in a supported country, and you must be 18+), apply at medium.com/partner-program, connect a Stripe account, and place your stories behind the paywall. Payouts go to your Stripe account monthly, with a $10 minimum before one is sent.",
+        src: "Sources used: Medium Partner Program overview · Partner Program payouts · Make a story eligible to earn · Application and enrollment"
+      },
+      code: {
+        q: "How do I add a code block to my story?",
+        mode: "docs", badgeText: "Answered from your help center",
+        ans: "You can add a code block two ways. On the web: on a new line, open the + menu and click the { } button, or just type three backticks. In the app: tap the { } button while editing. One note from the docs: code blocks aren't supported in responses.",
+        src: "Sources used: Using code blocks and inline code"
+      }
+    };
+
+    const LEARNED_ANSWER = "Medium does not offer a built-in Salesforce or CRM integration. If you need Medium data in a CRM, you can export your stats from the Stats page and import them, or use a third-party automation tool to move the data over.";
+    const SF_Q = "Can I connect Medium to my company's Salesforce CRM?";
+
+    function render({ q, mode, badgeText, ans, src, teach, note }) {
+      $('aq').textContent = q;
+      const b = $('badge'); b.className = 'sa-badge ' + mode; b.textContent = badgeText;
+      $('ans').textContent = ans;
+      if (src) { $('src').textContent = src; $('src').style.display = 'block'; } else $('src').style.display = 'none';
+      $('teachRow').style.display = teach ? 'block' : 'none';
+      if (note) { $('note').textContent = note; $('note').style.display = 'block'; } else $('note').style.display = 'none';
+      $('answer').classList.add('show');
+      $('answer').scrollIntoView({ block: 'nearest' });
+    }
+
+    function showExample(key) {
+      if (key === 'paid' || key === 'code') return render(EX[key]);
+      if (key === 'sf') {
+        if (taught) return render({ q: SF_Q + '  (asked again)', mode: 'memory', badgeText: 'Answered from a learned answer', ans: LEARNED_ANSWER });
+        return render({
+          q: SF_Q, mode: 'escalate', badgeText: 'Not covered — needs a human',
+          ans: "I'm sorry, but the help center and approved answers don't cover connecting Medium to Salesforce or any CRM, so I can't advise on that. I'd recommend having a human teammate follow up on this one.",
+          teach: true,
+          note: "No sources to stand on, so it gets out of the way instead of bluffing."
+        });
+      }
+    }
+
+    document.querySelectorAll('.sa-chip').forEach(c => c.addEventListener('click', () => showExample(c.dataset.ex)));
+
+    $('teachBtn').addEventListener('click', () => {
+      taught = true;
+      $('learnedCount').textContent = '1';
+      $('learned').innerHTML = '<div class="item"><div class="q">' + SF_Q + '</div><div>' + LEARNED_ANSWER + '</div></div>';
+      render({ q: SF_Q, mode: 'memory', badgeText: 'Saved — answered from a learned answer', ans: LEARNED_ANSWER,
+        note: "Taught once. Now it answers this instantly, forever. That is every escalation becoming tomorrow's self-service." });
+    });
+
+    $('askBtn').addEventListener('click', () => {
+      const q = $('freeQ').value.trim();
+      if (!q) return;
+      render({ q, mode: 'escalate', badgeText: 'Preview', ans: "This preview only has saved answers for the example questions above. The full tool, running on your own machine, answers any question grounded in your own help center.", note: "Want to see it on your help center? Use the links below." });
+    });
+    $('freeQ').addEventListener('keydown', e => { if (e.key === 'Enter') $('askBtn').click(); });
+  </script>
+</body>
+</html>
