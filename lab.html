@@ -35,62 +35,31 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    .lab-head { padding-top: 150px; }
-    .lab-head h1 { font-family: var(--font-display); color: var(--heading); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 600; line-height: 1.15; margin-bottom: 20px; }
-    .lab-intro { color: var(--text); max-width: 720px; margin-bottom: 14px; }
-    .lab-stack { display: grid; gap: 26px; max-width: 880px; margin: 0 auto; }
+    .lab-head { padding-top: 140px; }
+    .lab-head h1 { font-family: var(--font-display); color: var(--heading); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.12; margin-bottom: 20px; }
+    .lab-intro { color: var(--text); font-size: 1.1rem; line-height: 1.7; max-width: 720px; margin-bottom: 14px; }
+    .lab-stack { display: grid; gap: 22px; max-width: 880px; margin: 0 auto; }
     .lab-stack .automation-card { width: 100%; }
-    .lab-note { color: var(--text-muted); font-size: 0.92rem; max-width: 880px; margin: 26px auto 0; border-left: 2px solid var(--border-hover); padding-left: 14px; }
+    .lab-note { color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; max-width: 880px; margin: 26px auto 0; border-left: 2px solid var(--accent); padding-left: 14px; }
     .lab-status { color: var(--text-muted); font-size: 0.9rem; margin-top: 10px; }
-    .lab-decisions { margin-top: 12px; }
-    .lab-shot { display: block; width: 100%; height: auto; margin: 18px 0 4px; border-radius: 10px; border: 1px solid var(--border); }
+    .lab-decisions { margin-top: 12px; color: var(--text-muted); line-height: 1.65; }
+    .lab-shot { display: block; width: 100%; height: auto; margin: 18px 0 4px; border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 8px 28px rgba(29, 29, 31, 0.08); }
     .lab-shot--tall { max-width: 320px; margin-left: auto; margin-right: auto; }
     .receipt-list { list-style: none; margin: 14px 0 0; padding: 0; }
-    .receipt-list li { padding: 9px 0; border-bottom: 1px solid var(--border); }
+    .receipt-list li { padding: 9px 0; border-bottom: 1px solid var(--border); color: var(--text); }
     .receipt-list li:last-child { border-bottom: none; }
     .receipt-list strong { color: var(--heading); }
+    .card-specs { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.7rem; letter-spacing: 0.02em; color: var(--text-muted); margin: 2px 0 12px; }
 
-    /* Warm-paper reading theme: dimmer and warmer than the blog's white; nav and footer stay dark */
-    body { background: #f1efe9; color: #3f3d37; }
-    body::after { opacity: 0.015; }
-    .automation-card li { color: #3f3d37; }
-    .automation-tag { filter: brightness(0.74) saturate(1.2); }
-    .nav { background: rgba(8, 8, 16, 0.92); backdrop-filter: blur(10px); }
-    .footer { background: #080810; }
-    .lab-head h1, .section-heading, .automation-card h4 { color: #1a1916; }
-    .lab-intro, .automation-card p, .contact-sub { color: #3f3d37; }
-    .automation-pain { color: #6f6c63; }
-    .lab-status, .lab-note, .flow-arrow { color: #6f6c63; }
-    .automation-card { background: #faf9f5; border-color: #e3dfd4; box-shadow: 0 2px 18px rgba(60, 50, 30, 0.06); }
-    .flow-step { position: relative; background: transparent; border: 1px solid #cfc9ba; border-radius: 7px; color: #55524a; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.72rem; padding: 6px 11px; }
-    .flow-arrow { display: none; }
-    .flow { gap: 26px; row-gap: 12px; }
-    .flow-step:not(:first-child)::before { content: "→"; position: absolute; left: -20px; top: 50%; transform: translateY(-50%); color: #b3ad9e; font-size: 0.8rem; }
-    .card-split .flow-step { font-size: 0.66rem; padding: 5px 9px; }
-    .card-split .flow { gap: 22px; }
-    .card-split .flow-step:not(:first-child)::before { left: -17px; }
-    .card-specs { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.7rem; letter-spacing: 0.02em; color: #8a857a; margin: 2px 0 12px; }
-    .receipt-list li { border-bottom-color: #e3dfd4; }
-    .receipt-list strong { color: #1a1916; }
-    .lab-shot { border-color: #ddd8cc; box-shadow: 0 4px 24px rgba(60, 50, 30, 0.08); }
-    .lab-note { border-left-color: rgba(184, 124, 28, 0.55); }
-    .section-alt { background: #e9e6de; }
-    .section-label { color: #b87c1c; }
-    .automation-link { color: #a06a14; }
-    .btn-ghost { color: #1a1916; border-color: rgba(26, 25, 22, 0.3); }
-    .btn-ghost:hover { background: rgba(26, 25, 22, 0.05); border-color: rgba(26, 25, 22, 0.45); }
-
-    /* Sticky rail: desktop only, lights up as you scroll */
     .lab-rail { position: fixed; left: 26px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 4px; z-index: 60; }
-    .lab-rail a { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8a857a; text-decoration: none; padding: 5px 0 5px 14px; border-left: 2px solid transparent; max-width: 150px; line-height: 1.4; transition: color 0.2s ease, border-color 0.2s ease; }
-    .lab-rail a:hover { color: #1a1916; }
-    .lab-rail a.active { color: #1a1916; border-left-color: #b87c1c; }
+    .lab-rail a { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); text-decoration: none; padding: 5px 0 5px 14px; border-left: 2px solid transparent; max-width: 150px; line-height: 1.4; transition: color 0.2s ease, border-color 0.2s ease; }
+    .lab-rail a:hover { color: var(--heading); }
+    .lab-rail a.active { color: var(--heading); border-left-color: var(--accent); }
     @media (max-width: 1249px) { .lab-rail { display: none; } }
 
-    /* Split card: text left, tall screenshot right, desktop only */
     @media (min-width: 900px) {
       .card-split { display: grid; grid-template-columns: 1.1fr 0.9fr; column-gap: 30px; }
       .card-split > * { grid-column: 1; }
