@@ -14,67 +14,75 @@
     gtag('config', 'G-VF62P8L1W2');
   </script>
 
-  <title>Honest-Resolution Analyzer — Project Promethean</title>
-  <meta name="description" content="Upload a ticket export and see how much of your resolved volume actually came back. Account-level recontact, broken out by category. Nothing leaves your browser.">
+  <title>Recontact Analyzer — Project Promethean</title>
+  <meta name="description" content="Upload a ticket export and measure how often a resolved issue comes back: same-account, same-category recontact within a window you set. Runs entirely in your browser.">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="canonical" href="https://projectpromethean.com/tools/honest-resolution-analyzer.html">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://projectpromethean.com/tools/honest-resolution-analyzer.html">
-  <meta property="og:title" content="Honest-Resolution Analyzer">
-  <meta property="og:description" content="Upload a ticket export and see how much of your resolved volume actually came back, the recontact your containment number hides.">
+  <meta property="og:title" content="Recontact Analyzer">
+  <meta property="og:description" content="Measure how often a resolved issue actually comes back. Same-account, same-category recontact, computed in your browser.">
   <meta property="og:image" content="https://projectpromethean.com/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Honest-Resolution Analyzer">
-  <meta name="twitter:description" content="Upload a ticket export and see how much of your resolved volume actually came back.">
-  <meta name="twitter:image" content="https://projectpromethean.com/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
   <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
   <style>
-    .tool-head { padding: 9rem 2rem 1.5rem; max-width: 860px; margin: 0 auto; }
+    .tool-head { padding: 9rem 2rem 1.5rem; max-width: 880px; margin: 0 auto; }
     .tool-head .section-label { display: block; }
     .tool-head h1 { font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 2.9rem); font-weight: 600; letter-spacing: -0.025em; color: var(--heading); line-height: 1.12; margin-bottom: 1rem; }
-    .tool-head p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.6; max-width: 700px; }
-    .tool-wrap { max-width: 860px; margin: 0 auto; padding: 1rem 2rem 3rem; }
-    .drop { border: 1.5px dashed var(--border-hover); border-radius: var(--radius); background: var(--card); padding: 2.5rem 1.5rem; text-align: center; transition: border-color var(--ease), background var(--ease); cursor: pointer; display: block; }
+    .tool-head p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.6; max-width: 720px; }
+    .tool-wrap { max-width: 880px; margin: 0 auto; padding: 1rem 2rem 3rem; }
+    .drop { border: 1.5px dashed var(--border-hover); border-radius: var(--radius); background: var(--card); padding: 2.25rem 1.5rem; text-align: center; transition: border-color var(--ease), background var(--ease); cursor: pointer; display: block; }
     .drop:hover, .drop.over { border-color: var(--accent); background: var(--accent-soft); }
     .drop .di { font-size: 1.05rem; color: var(--heading); font-weight: 500; margin-bottom: 0.35rem; }
     .drop .ds { font-size: 0.9rem; color: var(--text-muted); }
     .drop input { display: none; }
     .row-actions { display: flex; gap: 0.75rem; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
+    .muted { font-size: 0.85rem; color: var(--text-muted); }
     .map { display: none; margin-top: 1.5rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 1.25rem 1.5rem; }
     .map.show { display: block; }
     .map h3 { font-size: 0.95rem; font-weight: 600; color: var(--heading); margin-bottom: 0.25rem; }
     .map .sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
-    .map-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem; }
+    .map-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.85rem; }
     .map-field label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.3rem; }
     .map-field select { width: 100%; padding: 0.6rem 0.7rem; border: 1px solid var(--border); border-radius: 9px; background: var(--bg); font-family: var(--font-body); font-size: 0.9rem; color: var(--heading); outline: none; }
     .map-field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-    .window { display: flex; align-items: center; gap: 1rem; margin-top: 1.25rem; padding-top: 1.1rem; border-top: 1px solid var(--border); }
-    .window label { font-size: 0.85rem; font-weight: 500; color: var(--heading); white-space: nowrap; }
-    .window input[type=range] { flex: 1; }
-    .window .val { font-size: 0.9rem; font-weight: 600; color: var(--accent); min-width: 64px; text-align: right; }
+    .controls { display: flex; align-items: center; gap: 1rem; margin-top: 1.25rem; padding-top: 1.1rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .controls label { font-size: 0.85rem; font-weight: 500; color: var(--heading); white-space: nowrap; }
+    .controls input[type=range] { flex: 1; min-width: 160px; }
+    .controls .val { font-size: 0.9rem; font-weight: 600; color: var(--accent); min-width: 70px; text-align: right; }
+    .toggle { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; user-select: none; }
 
     .results { display: none; margin-top: 1.75rem; }
     .results.show { display: block; }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.85rem; margin-bottom: 1.5rem; }
-    .stat { background: var(--surface); border-radius: var(--radius); padding: 1.1rem 1.25rem; }
-    .stat .v { font-family: var(--font-display); font-size: 2rem; font-weight: 600; letter-spacing: -0.02em; color: var(--heading); line-height: 1; }
-    .stat .v.hot { color: var(--accent); }
-    .stat .l { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.35; }
-    .verdict { border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 10px 10px 0; padding: 1.1rem 1.35rem; font-size: 1.02rem; color: var(--heading); line-height: 1.55; margin-bottom: 1.75rem; }
-    .bk h3 { font-size: 0.95rem; font-weight: 600; color: var(--heading); margin-bottom: 0.9rem; }
-    .bar-row { margin-bottom: 0.85rem; }
+    .hero { background: var(--accent-soft); border: 1px solid var(--border-hover); border-radius: var(--radius); padding: 1.6rem 1.75rem; margin-bottom: 1.25rem; }
+    .hero .big { font-family: var(--font-display); font-size: 3rem; font-weight: 600; letter-spacing: -0.03em; color: var(--accent-hover); line-height: 1; }
+    .hero .cap { font-size: 1rem; color: var(--heading); margin-top: 0.5rem; line-height: 1.5; max-width: 620px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem; }
+    .stat { background: var(--surface); border-radius: var(--radius); padding: 1rem 1.15rem; }
+    .stat .v { font-family: var(--font-display); font-size: 1.7rem; font-weight: 600; letter-spacing: -0.02em; color: var(--heading); line-height: 1; }
+    .stat .l { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.35; }
+    .method { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; background: var(--surface); border-radius: var(--radius); padding: 0.9rem 1.15rem; margin-bottom: 1.5rem; }
+    .method strong { color: var(--heading); font-weight: 600; }
+    .bk { margin-bottom: 1.75rem; }
+    .bk h3, .off h3 { font-size: 0.95rem; font-weight: 600; color: var(--heading); margin-bottom: 0.9rem; }
+    .bar-row { margin-bottom: 0.8rem; }
     .bar-top { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 0.3rem; }
     .bar-top .cat { color: var(--heading); font-weight: 500; }
     .bar-top .pct { color: var(--text-muted); }
     .bar { height: 8px; background: var(--surface); border-radius: 100px; overflow: hidden; }
     .bar-fill { height: 100%; background: var(--accent); border-radius: 100px; }
-    .note { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; margin-top: 1.5rem; }
+    table.off-t { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    table.off-t th { text-align: left; font-weight: 500; color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0 0 0.5rem; border-bottom: 1px solid var(--border); }
+    table.off-t th.num, table.off-t td.num { text-align: right; }
+    table.off-t td { padding: 0.55rem 0; border-bottom: 1px solid var(--border); color: var(--heading); }
+    .off { margin-bottom: 1.75rem; }
+    .export-row { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+    .copied { font-size: 0.82rem; color: #1b7a43; font-weight: 500; }
     .err { color: #b91c1c; font-size: 0.9rem; margin-top: 0.75rem; }
-    .tool-foot-note { max-width: 860px; margin: 0 auto; padding: 0 2rem 4rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+    .tool-foot-note { max-width: 880px; margin: 0 auto; padding: 0 2rem 4rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
     .tool-foot-note a { color: var(--accent); }
     @media (max-width: 768px) {
       .tool-head { padding: 7rem 1.25rem 1.25rem; }
@@ -104,47 +112,54 @@
 
   <div class="tool-head">
     <p class="section-label">Tool</p>
-    <h1>Honest-Resolution Analyzer</h1>
-    <p>Your containment or resolution rate counts the moment you closed the ticket. This counts what happened next. Upload a ticket export and it shows how often the same account came back inside a window you set, the repeat volume your dashboard hides. Everything runs in your browser; nothing is uploaded.</p>
+    <h1>Recontact Analyzer</h1>
+    <p>Resolution rate is measured the moment you close a ticket. This measures what happens after. Upload a ticket export and it counts how often a resolved issue is followed by the same account opening a new ticket in the same category, inside a window you set. It runs entirely in your browser; nothing is uploaded.</p>
   </div>
 
   <div class="tool-wrap">
     <label class="drop" id="drop">
       <div class="di">Drop a ticket export here, or click to choose a CSV</div>
-      <div class="ds">Needs an account or company column and a created-date column. A category and a status column make it sharper.</div>
+      <div class="ds">Needs an account column and a created-date column. A category column gives the honest same-issue number; a status column limits the base to resolved tickets.</div>
       <input type="file" id="file" accept=".csv,text/csv">
     </label>
     <div class="row-actions">
       <button class="btn btn-ghost" id="sampleBtn" type="button">Load sample data</button>
-      <span class="ds" id="fileName"></span>
+      <span class="muted" id="fileName"></span>
     </div>
     <div class="err" id="err"></div>
 
     <div class="map" id="map">
       <h3>Map your columns</h3>
-      <div class="sub">I guessed from the headers. Fix any that are wrong.</div>
+      <div class="sub">Guessed from the headers. Fix anything wrong.</div>
       <div class="map-grid">
         <div class="map-field"><label>Account / company</label><select id="m-account"></select></div>
         <div class="map-field"><label>Created date</label><select id="m-date"></select></div>
-        <div class="map-field"><label>Category (optional)</label><select id="m-category"></select></div>
-        <div class="map-field"><label>Status (optional)</label><select id="m-status"></select></div>
+        <div class="map-field"><label>Category</label><select id="m-category"></select></div>
+        <div class="map-field"><label>Status</label><select id="m-status"></select></div>
       </div>
-      <div class="window">
+      <div class="controls">
         <label>Recontact window</label>
-        <input type="range" id="win" min="1" max="90" step="1" value="30">
+        <input type="range" id="win" min="1" max="180" step="1" value="30">
         <span class="val" id="winVal">30 days</span>
+        <label class="toggle"><input type="checkbox" id="anyToggle"> count any category, not just the same one</label>
       </div>
     </div>
 
     <div class="results" id="results">
+      <div class="hero"><div class="big" id="heroPct">0%</div><div class="cap" id="heroCap"></div></div>
       <div class="cards" id="cards"></div>
-      <div class="verdict" id="verdict"></div>
+      <div class="method" id="method"></div>
       <div class="bk" id="bk"></div>
-      <p class="note" id="windowNote"></p>
+      <div class="off" id="off"></div>
+      <div class="export-row">
+        <button class="btn btn-ghost" id="copyBtn" type="button">Copy summary</button>
+        <a class="btn btn-ghost" href="../blog/how-to-tell-if-support-ai-is-working.html">The thinking</a>
+        <span class="copied" id="copied" style="display:none">Copied</span>
+      </div>
     </div>
   </div>
 
-  <p class="tool-foot-note">Built by Johnny Khabushani. The idea comes from <a href="../blog/how-to-tell-if-support-ai-is-working.html">this piece</a> on why resolution rate lies. Want help instrumenting this for real? <a href="../#contact">Get in touch</a>.</p>
+  <p class="tool-foot-note">Built by Johnny Khabushani. Built around an idea from <a href="../blog/how-to-tell-if-support-ai-is-working.html">this piece</a>: a resolution rate measures the action, not whether the issue stayed solved. Questions, or want this wired into a live help desk? <a href="../#contact">Get in touch</a>.</p>
 
   <footer class="footer">
     <div class="container footer-inner">
@@ -156,147 +171,168 @@
   <script src="../script.js" defer></script>
   <script>
     const SAMPLE = `account,created_at,category,status,subject
-Acme Foods,2026-04-02,Data Feed,Solved,New product not in feed
-Acme Foods,2026-04-19,Data Feed,Solved,Still not seeing the SKU
-Acme Foods,2026-05-14,Billing,Solved,Invoice question
-Globex,2026-04-05,Integration,Solved,API key setup
-Globex,2026-04-12,Integration,Open,Integration dropped overnight
-Initech,2026-04-08,Login,Solved,Cannot log in
-Umbrella,2026-04-10,Data Feed,Solved,Connect retailer feed
-Umbrella,2026-05-01,Data Feed,Solved,Feed connected but empty
-Stark Industries,2026-04-11,Reporting,Solved,Export not downloading
-Wayne Enterprises,2026-04-12,Integration,Solved,Webhook not firing
-Wayne Enterprises,2026-04-29,Integration,Open,Webhook stopped again
-Wonka,2026-04-15,Billing,Solved,Update card on file
-Hooli,2026-04-16,Data Feed,Solved,Map new stores
-Hooli,2026-04-24,Data Feed,Solved,Stores still missing
-Soylent,2026-04-18,Login,Solved,Password reset
-Cyberdyne,2026-04-20,Integration,Solved,SSO configuration
-Cyberdyne,2026-05-09,Integration,Open,SSO broke after release
-Tyrell,2026-04-22,Reporting,Solved,Add a custom report
-Pied Piper,2026-04-24,Login,Solved,Two-factor help
-Vandelay,2026-04-25,Billing,Solved,Refund request
-Massive Dynamic,2026-04-27,Data Feed,Solved,Feed mapping wrong
-Massive Dynamic,2026-05-12,Data Feed,Open,Mapping wrong again
-Gekko Co,2026-04-28,Reporting,Solved,Schedule a report
-Oscorp,2026-04-30,Integration,Solved,Connect CRM
-Oscorp,2026-05-15,Integration,Open,CRM sync failing
-Nakatomi,2026-05-02,Login,Solved,Locked out
-Bluth Company,2026-05-04,Billing,Solved,Seat count
-Prestige Worldwide,2026-05-06,Data Feed,Solved,Onboard feed`;
+Acme Foods,2026-01-10,Data Feed,Solved,New product not in feed
+Acme Foods,2026-01-18,Billing,Solved,Invoice question
+Acme Foods,2026-01-25,Data Feed,Solved,Still not seeing the SKU
+Acme Foods,2026-02-22,Data Feed,Solved,New retailer feed
+Acme Foods,2026-03-08,Data Feed,Solved,Feed gap again
+Umbrella,2026-02-05,Data Feed,Solved,Connect retailer feed
+Umbrella,2026-02-20,Data Feed,Solved,Feed connected but empty
+Hooli,2026-03-03,Data Feed,Solved,Map new stores
+Hooli,2026-03-18,Data Feed,Solved,Stores still missing
+Massive Dynamic,2026-03-20,Data Feed,Solved,Feed mapping wrong
+Massive Dynamic,2026-04-10,Data Feed,Solved,Mapping wrong again
+Prestige Worldwide,2026-04-02,Data Feed,Solved,Onboard feed
+Globex,2026-01-15,Integration,Solved,API key setup
+Globex,2026-01-19,Reporting,Solved,Export not downloading
+Globex,2026-01-22,Integration,Solved,Integration dropped overnight
+Wayne Enterprises,2026-02-10,Integration,Solved,Webhook not firing
+Wayne Enterprises,2026-02-26,Integration,Solved,Webhook stopped again
+Cyberdyne,2026-03-12,Integration,Solved,SSO configuration
+Cyberdyne,2026-04-01,Integration,Solved,SSO broke after release
+Oscorp,2026-04-05,Integration,Solved,Connect CRM
+Initech,2026-01-08,Login,Solved,Cannot log in
+Soylent,2026-02-12,Login,Solved,Password reset
+Pied Piper,2026-03-05,Login,Solved,Two-factor help
+Wonka,2026-01-20,Billing,Solved,Update card on file
+Vandelay,2026-02-18,Billing,Solved,Refund request
+Bluth Company,2026-03-22,Billing,Solved,Seat count
+Stark Industries,2026-02-02,Reporting,Solved,Custom report
+Tyrell,2026-03-15,Reporting,Solved,Schedule a report
+Gekko Co,2026-04-12,Reporting,Solved,Add a metric
+Nakatomi,2026-04-08,Login,Solved,Locked out
+Nakatomi,2026-05-10,Login,Solved,Locked out again
+Vandelay,2026-05-15,Billing,Solved,Another refund
+Stark Industries,2026-05-18,Reporting,Solved,New export issue`;
 
     function parseCSV(text) {
       const rows = []; let row = [], f = '', q = false;
       for (let i = 0; i < text.length; i++) {
         const c = text[i];
-        if (q) {
-          if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; }
-          else f += c;
-        } else {
-          if (c === '"') q = true;
-          else if (c === ',') { row.push(f); f = ''; }
-          else if (c === '\n') { row.push(f); rows.push(row); row = []; f = ''; }
-          else if (c !== '\r') f += c;
-        }
+        if (q) { if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+        else { if (c === '"') q = true; else if (c === ',') { row.push(f); f = ''; } else if (c === '\n') { row.push(f); rows.push(row); row = []; f = ''; } else if (c !== '\r') f += c; }
       }
       if (f.length || row.length) { row.push(f); rows.push(row); }
       return rows.filter(r => r.some(x => x.trim() !== ''));
     }
-
-    let HEADERS = [], DATA = [];
+    function parseDate(s) {
+      s = (s || '').trim(); if (!s) return null;
+      if (/^\d{10,13}$/.test(s)) { const n = +s; const d = new Date(n > 1e12 ? n : n * 1000); return isNaN(+d) ? null : d; }
+      let d = new Date(s); if (!isNaN(+d)) return d;
+      const m = s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})/);
+      if (m) { let y = +m[3]; if (y < 100) y += 2000; d = new Date(y, +m[1] - 1, +m[2]); return isNaN(+d) ? null : d; }
+      return null;
+    }
+    const fmtD = ms => new Date(ms).toISOString().slice(0, 10);
     const $ = id => document.getElementById(id);
-    const guess = (re) => HEADERS.findIndex(h => re.test(h.toLowerCase()));
+    let HEADERS = [], DATA = [], debounce;
 
     function loadParsed(text, name) {
       $('err').textContent = '';
       const rows = parseCSV(text);
-      if (rows.length < 2) { $('err').textContent = 'That file did not have a header row and at least one data row.'; return; }
+      if (rows.length < 2) { $('err').textContent = 'That file needs a header row and at least one data row.'; return; }
       HEADERS = rows[0].map(h => h.trim());
       DATA = rows.slice(1).map(r => { const o = {}; HEADERS.forEach((h, i) => o[h] = (r[i] || '').trim()); return o; });
-      $('fileName').textContent = name + ' · ' + DATA.length + ' rows';
-      const fill = (sel, gi, optional) => {
-        const s = $(sel);
-        s.innerHTML = (optional ? '<option value="">(none)</option>' : '') + HEADERS.map(h => `<option>${h}</option>`).join('');
-        if (gi >= 0) s.value = HEADERS[gi];
-      };
-      fill('m-account', guess(/account|org|company|customer|client/), false);
-      fill('m-date', guess(/created|date|opened|^time/), false);
-      fill('m-category', guess(/categor|type|topic|reason|tag|group|about|subject/), true);
-      fill('m-status', guess(/status|state|resolv|closed|solved/), true);
+      $('fileName').textContent = name + ' · ' + DATA.length.toLocaleString() + ' rows';
+      const g = re => HEADERS.findIndex(h => re.test(h.toLowerCase()));
+      const fill = (sel, gi, opt) => { const s = $(sel); s.innerHTML = (opt ? '<option value="">(none)</option>' : '') + HEADERS.map(h => `<option>${h}</option>`).join(''); if (gi >= 0) s.value = HEADERS[gi]; };
+      fill('m-account', g(/account|org|company|customer|client/), false);
+      fill('m-date', g(/created|date|opened|^time/), false);
+      fill('m-category', g(/categor|type|topic|reason|tag|group|about|subject/), true);
+      fill('m-status', g(/status|state|resolv|closed|solved/), true);
       $('map').classList.add('show');
       analyze();
     }
 
     function analyze() {
       const ca = $('m-account').value, cd = $('m-date').value, cc = $('m-category').value, cs = $('m-status').value;
-      const W = +$('win').value;
-      const winMs = W * 86400000;
+      const W = +$('win').value, winMs = W * 86400000;
+      const anyMode = $('anyToggle').checked || !cc;
       const resolvedRe = /resolv|closed|solved|done|complete/i;
-      let skipped = 0;
+      let skipped = 0, skAcc = 0, skDate = 0;
       const tickets = [];
       DATA.forEach(r => {
-        const acc = (r[ca] || '').trim();
-        const d = new Date((r[cd] || '').trim());
-        if (!acc || isNaN(d)) { skipped++; return; }
-        tickets.push({ acc, d: d.getTime(), cat: cc ? (r[cc] || 'Uncategorized').trim() || 'Uncategorized' : null, resolved: cs ? resolvedRe.test(r[cs] || '') : true });
+        const acc = (r[ca] || '').trim(); const d = parseDate(r[cd]);
+        if (!acc) { skipped++; skAcc++; return; }
+        if (!d) { skipped++; skDate++; return; }
+        tickets.push({ acc, t: +d, cat: cc ? ((r[cc] || 'Uncategorized').trim() || 'Uncategorized') : null, resolved: cs ? resolvedRe.test(r[cs] || '') : true });
       });
-      if (!tickets.length) { $('results').classList.remove('show'); $('err').textContent = 'No rows had both a valid account and a valid date with the current mapping.'; return; }
+      if (!tickets.length) { $('results').classList.remove('show'); $('err').textContent = 'No rows had both an account and a readable date with this mapping.'; return; }
       $('err').textContent = '';
-      const byAcc = {};
-      tickets.forEach(t => (byAcc[t.acc] = byAcc[t.acc] || []).push(t));
-      Object.values(byAcc).forEach(list => list.sort((a, b) => a.d - b.d));
-      tickets.forEach(t => {
-        const list = byAcc[t.acc];
-        t.recontacted = list.some(o => o.d > t.d && o.d - t.d <= winMs);
-      });
-      const base = cs ? tickets.filter(t => t.resolved) : tickets;
-      const baseN = base.length;
-      const reN = base.filter(t => t.recontacted).length;
-      const rate = baseN ? Math.round((reN / baseN) * 100) : 0;
+      const maxT = Math.max(...tickets.map(x => x.t)), minT = Math.min(...tickets.map(x => x.t));
+      const censor = maxT - winMs;
+      const byAcc = {}; tickets.forEach(t => (byAcc[t.acc] = byAcc[t.acc] || []).push(t));
+      Object.values(byAcc).forEach(l => l.sort((a, b) => a.t - b.t));
+      const recon = (t, sameCat) => byAcc[t.acc].some(o => o.t > t.t && o.t - t.t <= winMs && (!sameCat || !t.cat || o.cat === t.cat));
+
+      const sourceAll = tickets.filter(t => cs ? t.resolved : true);
+      const source = sourceAll.filter(t => t.t <= censor);
+      const tooRecent = sourceAll.length - source.length;
+      source.forEach(t => { t.re = recon(t, !anyMode); });
+      const n = source.length, reN = source.filter(t => t.re).length;
+      const rate = n ? Math.round((reN / n) * 100) : 0;
       const accounts = Object.keys(byAcc).length;
 
-      $('cards').innerHTML = [
-        ['v', tickets.length, 'tickets analyzed'],
-        ['v', accounts, 'accounts'],
-        ['v hot', rate + '%', (cs ? 'of resolved tickets' : 'of tickets') + ' came back within ' + W + ' days'],
-        ['v', reN, 'repeat contacts hidden by the headline number']
-      ].map(c => `<div class="stat"><div class="${c[0]}">${c[1]}</div><div class="l">${c[2]}</div></div>`).join('');
+      $('heroPct').textContent = rate + '%';
+      $('heroCap').innerHTML = `of ${n.toLocaleString()} resolved tickets were followed by ${anyMode ? 'another ticket' : 'a <strong>same-category</strong> ticket'} from the same account within ${W} days.`;
 
-      $('verdict').innerHTML = `Of the ${baseN.toLocaleString()} tickets ${cs ? 'you marked resolved' : 'in this export'}, <strong>${rate}% saw the same account come back within ${W} days</strong>. That repeat volume is the resolution your containment number is not showing you.`;
+      const cards = [
+        ['v', n.toLocaleString(), (cs ? 'resolved' : 'total') + ' tickets evaluated'],
+        ['v', reN.toLocaleString(), 'recontacted'],
+        ['v', accounts.toLocaleString(), 'accounts'],
+        ['v', tooRecent.toLocaleString(), 'too recent to judge, set aside'],
+        ['v', skipped.toLocaleString(), 'rows skipped']
+      ];
+      $('cards').innerHTML = cards.map(c => `<div class="stat"><div class="${c[0]}">${c[1]}</div><div class="l">${c[2]}</div></div>`).join('');
+
+      const defn = cc ? (anyMode
+        ? `a resolved ticket followed by <strong>any</strong> new ticket from the same account within ${W} days`
+        : `a resolved ticket followed by a new <strong>same-category</strong> ticket from the same account within ${W} days`)
+        : `a resolved ticket followed by another ticket from the same account within ${W} days`;
+      let methodHtml = `<strong>Recontact</strong> here means ${defn}. ` +
+        `Tickets created in the last ${W} days of your data are set aside because they have not had a full window to come back. ` +
+        `Data spans ${fmtD(minT)} to ${fmtD(maxT)}.` +
+        (skipped ? ` ${skipped} rows skipped (${skAcc} missing account, ${skDate} unreadable date).` : '');
+      if (cc && !anyMode) {
+        const anyN = source.filter(t => recon(t, false)).length;
+        methodHtml += ` Counting <em>any</em> later category instead would read ${n ? Math.round(anyN / n * 100) : 0}%; the gap is busy accounts, not failed resolutions.`;
+      }
+      $('method').innerHTML = methodHtml;
 
       if (cc) {
         const cats = {};
-        base.forEach(t => { const k = t.cat; (cats[k] = cats[k] || { n: 0, re: 0 }).n++; if (t.recontacted) cats[k].re++; });
-        const rowsC = Object.entries(cats).filter(([, v]) => v.n >= 2).map(([k, v]) => ({ k, n: v.n, p: Math.round((v.re / v.n) * 100) })).sort((a, b) => b.p - a.p);
-        $('bk').innerHTML = '<h3>Where the resolutions do not stick</h3>' + rowsC.map(c =>
-          `<div class="bar-row"><div class="bar-top"><span class="cat">${c.k}</span><span class="pct">${c.p}% came back · ${c.n} tickets</span></div><div class="bar"><div class="bar-fill" style="width:${c.p}%"></div></div></div>`).join('');
-      } else {
-        $('bk').innerHTML = '<p class="note">Map a category column to see which kinds of issues come back most.</p>';
-      }
+        source.forEach(t => { const k = t.cat; (cats[k] = cats[k] || { n: 0, re: 0 }).n++; if (t.re) cats[k].re++; });
+        const rowsC = Object.entries(cats).map(([k, v]) => ({ k, n: v.n, p: Math.round((v.re / v.n) * 100) })).sort((a, b) => b.p - a.p || b.n - a.n);
+        $('bk').innerHTML = '<h3>Recontact by category</h3>' + rowsC.map(c =>
+          `<div class="bar-row"><div class="bar-top"><span class="cat">${c.k}</span><span class="pct">${c.p}% · ${c.n} resolved</span></div><div class="bar"><div class="bar-fill" style="width:${c.p}%"></div></div></div>`).join('');
+      } else { $('bk').innerHTML = '<p class="muted">Map a category column to break this down by issue type.</p>'; }
 
-      $('windowNote').innerHTML = `Different issues fail on different clocks. A password reset comes back in hours; a data feed can take a month. Slide the window above and watch the slow-failing categories climb. ${skipped ? `<br>(${skipped} rows skipped: missing account or unreadable date.)` : ''}`;
+      const accs = {};
+      source.forEach(t => { (accs[t.acc] = accs[t.acc] || { n: 0, re: 0 }).n++; if (t.re) accs[t.acc].re++; });
+      const off = Object.entries(accs).filter(([, v]) => v.re > 0).map(([k, v]) => ({ k, n: v.n, re: v.re, p: Math.round(v.re / v.n * 100) })).sort((a, b) => b.re - a.re || b.p - a.p).slice(0, 8);
+      $('off').innerHTML = off.length ? '<h3>Accounts whose issues come back most</h3><table class="off-t"><tr><th>Account</th><th class="num">Recontacted</th><th class="num">Resolved</th><th class="num">Rate</th></tr>' +
+        off.map(o => `<tr><td>${o.k}</td><td class="num">${o.re}</td><td class="num">${o.n}</td><td class="num">${o.p}%</td></tr>`).join('') + '</table>' : '';
+
+      window.__summary = () => {
+        let s = `Recontact analysis\nWindow: ${W} days · Mode: ${anyMode ? 'any later ticket' : 'same category'}\nData: ${fmtD(minT)} to ${fmtD(maxT)}\n\nHeadline: ${rate}% of ${n} resolved tickets recontacted within ${W} days.\nEvaluated ${n} · recontacted ${reN} · set aside (too recent) ${tooRecent} · skipped ${skipped}.\n`;
+        if (cc) { const cats = {}; source.forEach(t => { const k = t.cat; (cats[k] = cats[k] || { n: 0, re: 0 }).n++; if (t.re) cats[k].re++; }); s += `\nBy category:\n` + Object.entries(cats).map(([k, v]) => `  ${k}: ${Math.round(v.re / v.n * 100)}% (${v.re}/${v.n})`).join('\n'); }
+        return s;
+      };
       $('results').classList.add('show');
     }
+    const rerun = () => { clearTimeout(debounce); debounce = setTimeout(analyze, 150); };
 
-    $('file').addEventListener('change', e => {
-      const f = e.target.files[0]; if (!f) return;
-      const rd = new FileReader();
-      rd.onload = () => loadParsed(rd.result, f.name);
-      rd.readAsText(f);
-    });
+    $('file').addEventListener('change', e => { const f = e.target.files[0]; if (!f) return; const rd = new FileReader(); rd.onload = () => loadParsed(rd.result, f.name); rd.readAsText(f); });
     $('sampleBtn').addEventListener('click', () => loadParsed(SAMPLE, 'sample-tickets.csv'));
     ['m-account', 'm-date', 'm-category', 'm-status'].forEach(id => $(id).addEventListener('change', analyze));
-    $('win').addEventListener('input', () => { $('winVal').textContent = $('win').value + ' days'; analyze(); });
+    $('anyToggle').addEventListener('change', analyze);
+    $('win').addEventListener('input', () => { $('winVal').textContent = $('win').value + ' days'; rerun(); });
+    $('copyBtn').addEventListener('click', () => { if (!window.__summary) return; navigator.clipboard.writeText(window.__summary()).then(() => { const c = $('copied'); c.style.display = 'inline'; setTimeout(() => c.style.display = 'none', 2000); }); });
 
     const drop = $('drop');
     ['dragover', 'dragenter'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
     ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
-    drop.addEventListener('drop', e => {
-      const f = e.dataTransfer.files[0]; if (!f) return;
-      const rd = new FileReader();
-      rd.onload = () => loadParsed(rd.result, f.name);
-      rd.readAsText(f);
-    });
+    drop.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (!f) return; const rd = new FileReader(); rd.onload = () => loadParsed(rd.result, f.name); rd.readAsText(f); });
   </script>
 </body>
 </html>
