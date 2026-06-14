@@ -57,45 +57,56 @@
     <span class="article-tag">AI in Support</span>
     <h1>Fix the Operation Before You Add the AI</h1>
     <div class="article-meta">
-      <span>Jun 13, 2026</span>
+      <span>Jun 5, 2026</span>
       <span>·</span>
-      <span>4 min read</span>
+      <span>5 min read</span>
     </div>
   </div>
 
   <div class="article-body">
 
     <div class="article-callout">
-      <p>AI amplifies whatever it is dropped onto. Put it on a clean support operation and it scales the good. Put it on a messy one and it scales the mess, faster and more confidently.</p>
+      <p>AI amplifies whatever it is dropped onto, and it does not amplify evenly. It scales the codified parts of your operation and flattens the tacit judgment your best agents run on. On a clean operation that is a win. On a messy one the wrong answers concentrate where your docs are thinnest.</p>
     </div>
 
-    <p>Most teams treat AI as a way to skip the boring work of fixing their support operation. It is the opposite. AI does not repair a broken process. It runs the broken process faster, at scale, and with more confidence than the humans ever did.</p>
+    <p>Most teams treat AI as a way to skip the boring work of fixing their support operation. It does not repair a broken process, it runs the broken process with more confidence than the humans ever did. And it does not amplify evenly. It amplifies the parts of your operation that are codified, the macros, the KB answers, the routing rules, and it flattens the parts that live in your best agents' tacit judgment, which is the exact place they earn their keep.</p>
 
-    <p>I learned this the slow way. Over a decade running support inside enterprise software, I rebuilt the same function more than once: an Intercom-to-Zendesk migration, then a move onto Salesforce, each one architected from scratch. Automation rules, routing logic, escalation paths, a knowledge base. The systems that made AI useful later were the ones I had already gotten right by hand.</p>
+    <p>I learned this the slow way. Over a decade running support inside enterprise software, I rebuilt the same function more than once: an Intercom-to-Zendesk migration, then a move onto Salesforce, each one architected from scratch. Automation rules, routing logic, escalation paths, a knowledge base. What that by-hand work bought me was a system where the category field was right often enough that agents stopped routing by gut to compensate for it. The systems that made AI useful later were the ones I had already gotten right that way.</p>
 
     <h2>What amplify actually means</h2>
 
-    <p>A multiplier works in both directions. Point a good model at a support operation with clean categories, current documentation, and clear escalation paths, and it makes a good operation faster. Point the same model at one where tickets are miscategorized, the knowledge base is two years stale, and nobody agrees on what resolved means, and it produces wrong answers at machine speed, confidently, to more customers than a person ever could. The mess does not get hidden. It gets distributed.</p>
+    <p>A multiplier works in both directions. Point a good model at an operation with clean categories, current documentation, and clear escalation paths, and it makes a good operation faster. Point the same model at one where tickets are miscategorized, the knowledge base is two years stale, and nobody agrees on what resolved means, and it produces wrong answers at machine speed, confidently, to more customers than a person ever could. The mess does not get hidden, and it does not spread evenly. It concentrates. The model is surest where your docs are thinnest, so the wrong answers cluster on your newest features and your edge cases, which are also your highest-stakes, lowest-tolerance tickets.</p>
+
+    <p>This is why teams are blindsided when AI "makes things worse." A broken operation looks healthier than it is, because people patch it invisibly. Agents route around a bad taxonomy by instinct, fill documentation gaps from memory, and renegotiate what resolved means with the customer in the moment. None of that lives in the system, it lives in the people. AI removes the human patch layer and the latent defects surface all at once. It did not add the defects. It stopped masking them.</p>
 
     <h2>What to fix first</h2>
 
-    <p>Before any AI, three things have to be real.</p>
+    <p>Before any AI, four things have to be real.</p>
 
     <ul>
       <li><strong>The taxonomy and routing.</strong> If a person cannot reliably say what a ticket is about and where it should go, the model cannot either. It will guess, and it will guess wrong consistently.</li>
-      <li><strong>The knowledge.</strong> AI grounded in stale or missing documentation inherits every gap. Writing down what currently lives in people's heads is the prerequisite, not an afterthought.</li>
-      <li><strong>The definition of done.</strong> If the team cannot agree on what a resolved ticket actually means, no AI metric built on top of it will mean anything either.</li>
+      <li><strong>The knowledge.</strong> Stale documentation is more dangerous than missing documentation. Missing returns nothing, and the model can stay silent. Stale returns a confident citation to the wrong, old version, and near-duplicate or conflicting articles split the retrieval signal so the model picks plausibly and wrong. So "write it down" is not enough. The real prerequisite is capturing the tacit judgment your senior agents use to rescue edge cases, because that is the layer AI silently flattens when it takes the front line.</li>
+      <li><strong>The definition of done.</strong> When resolved is ambiguous, your deflection rate can climb as customers give up and stop replying, and you report that to your board as a win. The metric improves precisely as the operation degrades. Deflection and resolution are the two most gameable numbers you have, so pin down what a resolved ticket actually means before AI is anywhere near it. (I get into the measurement trap on its own <a href="how-to-tell-if-support-ai-is-working.html">here</a>.)</li>
+      <li><strong>How it fails safe.</strong> An amplifier with no off switch amplifies incidents too. Fail-safe is part of fixing the operation, not a later AI concern. The boring readiness list has to include caps, a kill switch, escalation that bypasses the automation, and a human fallback. Reporting to a board, you care about blast radius and rollback as much as about answer quality.</li>
     </ul>
 
     <h2>The order that works</h2>
 
-    <p>The sequence that worked for me was always the same: systematize, then automate, then add AI. First make the process clean and explicit by hand: macros, documented escalation procedures, a knowledge base that genuinely deflects repeat issues. Then automate the mechanical parts: routing, acknowledgments, data entry. Only then add the AI layer that reads, drafts, and decides. By the time the AI arrives, it is sitting on top of a process that already works, so it amplifies something worth amplifying.</p>
+    <p>The sequence that worked for me was always the same: systematize, then automate, then add AI. First make the process clean and explicit by hand: macros, documented escalation procedures, a knowledge base that actually resolves repeat issues without a second contact. Then automate the mechanical parts: routing, acknowledgments, data entry. Only then add the AI layer. And readiness is not one gate. Drafting for a human to send needs a decent KB and not much else. Letting the AI decide, auto-resolve, auto-close, skip the human, needs confidence thresholds, a hard human-in-the-loop boundary, and a kill switch. The bar scales with how much autonomy you grant. By the time the AI arrives, it is sitting on top of a process that already works, so it amplifies something worth amplifying.</p>
 
-    <p>Done in that order, a small team can absorb a lot. A two-person team I ran took on 44% year-over-year ticket growth at a 72% single-reply resolution rate, and the AI was the last piece we added, not the first.</p>
+    <p>Done in that order, a small team can absorb a lot. A two-person team I ran took on 44% year-over-year ticket growth at a 72% single-reply resolution rate. The systematization carried that number: macros, automated workflows, a knowledge base that resolved the repeat questions. The AI was the last piece we added. That is the point a sharp reader presses on: if the systematization got us to 72%, was the AI optional? No, but it earned its place by solving a different problem than the bulk number. The AI was for the long-tail questions that do not deserve a macro, for faster onboarding of new hires, and for draft quality. You earn the right to add AI by knowing exactly which residual problem it solves, not by hoping it lifts a number the macros already lifted.</p>
 
-    <h2>The tell</h2>
+    <h2>The exception that breaks the ladder</h2>
 
-    <p>If a vendor or an internal champion is promising that AI will fix your support operation, that is the signal to slow down. AI is worth adding. It is not a substitute for the work underneath it. The teams that get value from it are the ones that did the boring part first. The teams that get burned bought the multiplier before they had something worth multiplying.</p>
+    <p>The strict systematize-then-automate-then-AI ladder undersells one move that works, and it comes before the operation is fully clean. The smartest first use of AI is usually internal and agent-facing, not customer-facing. I built an assistant on our own corpus: full product documentation plus years of accumulated product nuance, the kind that normally takes years of exposure to absorb. An agent pastes a question and gets back a grounded draft. It captured head-knowledge instead of leaving it locked in one person. It doubled as a 24/7 onboarding source for new hires, who could ask it instead of shoulder-tapping a senior. And critically, it let me watch the model's failure modes in a low-stakes setting, where a thin or wrong draft is caught by an agent before a single customer ever sees it.</p>
+
+    <p>That last part flips the whole frame. AI is also the fastest audit of your operation you will ever run. Pointing a model at your tickets and docs forces every implicit decision to become explicit, and it fails loudest exactly where your process is vaguest. The places its drafts went thin or wrong drew a map of where our real knowledge lived only in people's heads and had never been written down. So this is not only "do not add AI yet." Used internally first, AI will show you where your operation actually breaks, which is leverage, not a brake.</p>
+
+    <h2>A test you can run Monday</h2>
+
+    <p>You do not need a vendor's permission to find out if you are ready. Pull about fifty recently resolved tickets, have two people independently categorize them and mark each one resolved or not, and look at how often they disagree. If your own humans cannot agree on what a ticket is about and whether it was solved, the model has nothing stable to learn from. The same test in one line: if your knowledge base cannot onboard a new hire without constant shoulder-tapping, it cannot ground a model either.</p>
+
+    <p>Most teams already know the cleanup matters. They skip it because it is unglamorous, it is hard to get headcount for, and it does not demo in a meeting the way AI does. Use that. The pressure to add AI is the best lever you will ever get to finally fund the cleanup, because AI makes the cost of the skipped work visible and expensive instead of hidden. So sequence the cleanup as phase one of the AI project, not as a prerequisite you will never get budget for. The teams that get value did the boring part first. The teams that get burned bought the multiplier before they had something worth multiplying.</p>
 
     <p>The first piece of that boring part is usually capturing the knowledge that lives in your best people's heads. I wrote about that <a href="stop-answering-the-same-question-twice.html">here</a>, and about how to tell whether the AI is working once it is running <a href="how-to-tell-if-support-ai-is-working.html">here</a>.</p>
 
