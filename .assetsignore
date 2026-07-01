@@ -4,3 +4,17 @@
 node_modules
 wrangler.toml
 .assetsignore
+
+# Retired 2026-06-14: vendor-evaluation posture Johnny has no procurement standing for.
+# Files preserved in the repo; pulled from the live deploy. Revive or reframe later.
+blog/how-to-pressure-test-a-support-ai-vendor.html
+tools/support-ai-scorecard.html
+
+# Retired 2026-07-01: legacy generalist-automation lane, orphaned (no inbound links,
+# not in sitemap or blog index). Off the support/CX authority thesis; pulled from
+# deploy so stale search results stop landing on them. Preserved in repo.
+blog/5-workflows-to-automate.html
+blog/what-is-workflow-automation.html
+blog/real-estate-ai-automation.html
+blog/demo-tc-flow.html
+blog/demo-voice-offer-form.html
