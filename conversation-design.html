@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF62P8L1W2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VF62P8L1W2');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversation Design — How a Production AI Behaves | Project Promethean</title>
+  <meta name="description" content="A working look at prompt design and rule configuration in a live, paid conversational AI: a layered per-turn system, deterministic safety triggers, tiered escalation, and voice control. Designed and directed solo, and portable to any high-stakes conversational AI.">
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://projectpromethean.com/conversation-design.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://projectpromethean.com/conversation-design.html">
+  <meta property="og:title" content="Conversation Design — How a Production AI Behaves">
+  <meta property="og:description" content="Prompt design and rule configuration in a live conversational AI: a layered per-turn system, deterministic safety, tiered escalation, voice control. Shown, not claimed.">
+  <meta property="og:image" content="https://projectpromethean.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Conversation Design — How a Production AI Behaves">
+  <meta name="twitter:description" content="Prompt design and rule configuration in a live conversational AI, portable to any high-stakes setting.">
+  <meta name="twitter:image" content="https://projectpromethean.com/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cd-head { padding-top: 140px; }
+    .cd-head h1 { font-family: var(--font-display); color: var(--heading); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.12; margin-bottom: 20px; }
+    .cd-intro { color: var(--text); font-size: 1.12rem; line-height: 1.75; max-width: 720px; margin-bottom: 16px; }
+    .cd-bridge { color: var(--text-muted); font-size: 1rem; line-height: 1.7; max-width: 720px; border-left: 2px solid var(--accent); padding-left: 16px; }
+    .cd-bridge strong { color: var(--heading); font-weight: 600; }
+
+    /* layered architecture stack */
+    .cd-stack { display: grid; gap: 10px; max-width: 760px; margin-top: 8px; }
+    .cd-layer { display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: baseline; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; }
+    .cd-layer-name { font-weight: 600; color: var(--heading); font-size: 0.92rem; }
+    .cd-layer-desc { color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; }
+    .cd-layer code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.82em; color: var(--accent-hover); background: var(--accent-soft); padding: 1px 6px; border-radius: 5px; }
+    .cd-plus { text-align: center; color: var(--accent); opacity: 0.55; font-size: 0.9rem; line-height: 0.5; }
+
+    /* scenario player */
+    .cd-player { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-top: 8px; }
+    .cd-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .cd-tab { padding: 0.5rem 1rem; border-radius: 100px; border: 1px solid var(--border); background: var(--bg); color: var(--text-muted); font-family: var(--font-body); font-size: 0.85rem; font-weight: 500; cursor: pointer; white-space: nowrap; transition: border-color var(--ease), color var(--ease), background var(--ease); }
+    .cd-tab:hover { border-color: var(--border-hover); color: var(--heading); }
+    .cd-tab.active { border-color: var(--accent); color: var(--accent-hover); background: var(--accent-soft); }
+
+    .cd-loaded { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .cd-loaded-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-right: 4px; }
+    .cd-chip { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.72rem; color: var(--accent-hover); background: var(--accent-soft); border: 1px solid var(--border-hover); padding: 2px 8px; border-radius: 6px; }
+    .cd-chip.cd-chip-safety { color: #b42318; background: #fee4e2; border-color: #fda29b; }
+
+    .cd-stage { display: grid; grid-template-columns: 1fr 0.92fr; gap: 22px; }
+    .cd-thread { display: flex; flex-direction: column; gap: 12px; min-height: 280px; }
+    .cd-turn { opacity: 0.18; transition: opacity 0.4s ease; cursor: pointer; }
+    .cd-turn.shown { opacity: 1; }
+    .cd-turn.focused .cd-bubble { box-shadow: 0 0 0 2px var(--accent); }
+    .cd-bubble { border-radius: 12px; padding: 11px 15px; font-size: 0.92rem; line-height: 1.55; max-width: 88%; }
+    .cd-turn-user { align-items: flex-end; }
+    .cd-turn-user .cd-bubble { background: var(--accent); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; }
+    .cd-turn-guide .cd-bubble { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+    .cd-turn-sys { cursor: default; }
+    .cd-turn-sys .cd-bubble { background: transparent; border: 1px dashed var(--border-hover); color: var(--text-muted); font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.78rem; max-width: 100%; }
+    .cd-speaker { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+
+    .cd-panel { position: sticky; top: 84px; align-self: start; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+    .cd-panel-kicker { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .cd-panel-rule { font-size: 1.02rem; font-weight: 600; color: var(--heading); line-height: 1.35; margin-bottom: 10px; }
+    .cd-panel-why { font-size: 0.9rem; color: var(--text); line-height: 1.6; margin-bottom: 14px; }
+    .cd-panel-cresta { font-size: 0.86rem; color: var(--text-muted); line-height: 1.6; border-top: 1px solid var(--border); padding-top: 12px; }
+    .cd-panel-cresta strong { color: var(--heading); font-weight: 600; display: block; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
+
+    .cd-controls { display: flex; gap: 8px; margin-top: 18px; }
+    .cd-btn { padding: 0.5rem 1.1rem; border-radius: 9px; font-family: var(--font-body); font-size: 0.85rem; font-weight: 500; cursor: pointer; border: 1px solid var(--border-hover); background: var(--bg); color: var(--heading); transition: border-color var(--ease), color var(--ease), background var(--ease); }
+    .cd-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .cd-btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .cd-btn-primary:hover:not(:disabled) { background: var(--accent-hover); color: #fff; }
+    .cd-btn:disabled { opacity: 0.4; cursor: default; }
+    .cd-hint { font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; }
+
+    /* tiered escalation table */
+    .cd-tiers { display: grid; gap: 10px; max-width: 880px; margin-top: 8px; }
+    .cd-tier { display: grid; grid-template-columns: 170px 1fr 1fr; gap: 18px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; align-items: baseline; }
+    .cd-tier-trigger { font-weight: 600; color: var(--heading); font-size: 0.9rem; }
+    .cd-tier-action { color: var(--text); font-size: 0.88rem; line-height: 1.55; }
+    .cd-tier-analogue { color: var(--text-muted); font-size: 0.84rem; line-height: 1.55; }
+    .cd-tier-head { background: transparent; border: none; padding: 0 18px; }
+    .cd-tier-head span { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+
+    /* voice list */
+    .cd-voice { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 880px; margin-top: 8px; }
+    .cd-banned { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.8rem; color: var(--text); line-height: 1.9; }
+    .cd-banned span { background: var(--surface); border: 1px solid var(--border); border-radius: 5px; padding: 1px 7px; margin: 0 2px; white-space: nowrap; display: inline-block; }
+
+    /* translation table */
+    .cd-xlate { display: grid; gap: 0; max-width: 920px; margin-top: 8px; border-top: 1px solid var(--border); }
+    .cd-xrow { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 16px 4px; border-bottom: 1px solid var(--border); align-items: baseline; }
+    .cd-xrow-head { padding: 8px 4px; }
+    .cd-xrow-head span { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+    .cd-xwts { color: var(--heading); font-weight: 500; font-size: 0.92rem; line-height: 1.5; }
+    .cd-xcresta { color: var(--text-muted); font-size: 0.9rem; line-height: 1.55; }
+
+    @media (max-width: 820px) {
+      .cd-stage { grid-template-columns: 1fr; }
+      .cd-panel { position: static; }
+      .cd-layer { grid-template-columns: 1fr; gap: 4px; }
+      .cd-tier { grid-template-columns: 1fr; gap: 6px; }
+      .cd-tier-head { display: none; }
+      .cd-voice { grid-template-columns: 1fr; }
+      .cd-xrow { grid-template-columns: 1fr; gap: 6px; }
+      .cd-xrow-head { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Project Promethean</a>
+      <ul class="nav-links" id="nav-menu">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="blog/">Writing</a></li>
+        <li><a href="lab.html">The Lab</a></li>
+        <li><a href="tools/">Tools</a></li>
+        <li><a href="https://www.linkedin.com/in/johnkhabushani/" class="nav-cta" target="_blank" rel="noopener">Connect</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <section class="section cd-head">
+    <div class="container container-narrow">
+      <div class="reveal">
+        <p class="section-label">Conversation Design</p>
+        <h1>Designing how an AI behaves under real stakes.</h1>
+        <p class="cd-intro">A demo only has to prove the AI can talk. Production has to hold up when a real person, real money, and real risk land on the same message. That work is prompt design, rule configuration, and escalation logic, and it's what I spend my time on. Everything below is the live behavior system from <a href="lab.html#wts" style="color: var(--accent);">Work the Steps</a>, a paid app on the App Store, pulled from its actual configuration.</p>
+        <p class="cd-bridge"><strong>One discipline, many settings.</strong> The work is the same whether the AI is guiding someone through recovery, answering a customer, or steering a live conversation under pressure: decide what it says, when it intervenes, when it hands off to a human, and what it is never allowed to do. I designed one of these, end to end. The principles below transfer to the rest.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. ARCHITECTURE -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">The design</p>
+        <h2 class="section-heading">The prompt is assembled per turn, from independent layers.</h2>
+        <p class="cd-intro" style="margin-bottom: 28px;">The single biggest mistake in this work is treating the instruction as one long block of text. The guide's behavior is composed fresh on every message from independent layers, each owning one job. Change the situation and the layers change with it. This is the difference between writing a prompt and configuring a system.</p>
+      </div>
+      <div class="cd-stack reveal">
+        <div class="cd-layer"><div class="cd-layer-name">Base persona</div><div class="cd-layer-desc">Who the guide is, how it talks, and its standing rails. Loads on every single turn.</div></div>
+        <div class="cd-plus">+</div>
+        <div class="cd-layer"><div class="cd-layer-name">Mode block</div><div class="cd-layer-desc">The job right now: a daily check-in, formal step work, a nightly review, a morning intention. Each is a distinct behavior set.</div></div>
+        <div class="cd-plus">+</div>
+        <div class="cd-layer"><div class="cd-layer-name">Carried context</div><div class="cd-layer-desc">Recurring themes and material surfaced from earlier sessions, held as "a quiet map, not a script," behind a tact rail.</div></div>
+        <div class="cd-plus">+</div>
+        <div class="cd-layer"><div class="cd-layer-name">Per-turn safety directive</div><div class="cd-layer-desc">Injected only on the turns that need it, so safety never rests on the model noticing a rule buried in the persona.</div></div>
+        <div class="cd-plus">+</div>
+        <div class="cd-layer"><div class="cd-layer-name">Channel + cost constraints</div><div class="cd-layer-desc">Voice-mode shaping when the reply is spoken aloud; a wind-down nudge once a session runs long.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. SCENARIO PLAYER -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Walk through it</p>
+        <h2 class="section-heading">Pick a situation. Watch which rules fire, and why.</h2>
+        <p class="cd-intro" style="margin-bottom: 28px;">Four real situations the guide is configured to handle. Step through each turn and the panel shows the design decision behind it, plus where the same decision applies elsewhere. The conversations are representative, written to show the behavior; no real user data appears here.</p>
+      </div>
+
+      <div class="cd-player reveal">
+        <div class="cd-tabs" role="tablist" aria-label="Scenarios">
+          <button class="cd-tab active" data-scenario="checkin" role="tab" aria-selected="true">Routine check-in</button>
+          <button class="cd-tab" data-scenario="threads" role="tab" aria-selected="false">A theme surfaces</button>
+          <button class="cd-tab" data-scenario="winddown" role="tab" aria-selected="false">Fair-use wind-down</button>
+          <button class="cd-tab" data-scenario="crisis" role="tab" aria-selected="false">Present vs. recounted risk</button>
+        </div>
+
+        <div class="cd-loaded" id="cd-loaded" aria-label="Configuration loaded this scenario"></div>
+
+        <div class="cd-stage">
+          <div class="cd-thread" id="cd-thread" aria-live="polite"></div>
+          <aside class="cd-panel" aria-live="polite">
+            <p class="cd-panel-kicker">Design decision</p>
+            <p class="cd-panel-rule" id="cd-rule">Press Start to step through.</p>
+            <p class="cd-panel-why" id="cd-why">Each turn is shaped by a specific, named rule in the configuration. The panel updates as you advance.</p>
+            <div class="cd-panel-cresta" id="cd-cresta" hidden><strong>Where this transfers</strong><span id="cd-cresta-text"></span></div>
+          </aside>
+        </div>
+
+        <div class="cd-controls">
+          <button class="cd-btn cd-btn-primary" id="cd-next">Start</button>
+          <button class="cd-btn" id="cd-prev" disabled>Back</button>
+          <button class="cd-btn" id="cd-replay" disabled>Replay</button>
+        </div>
+        <p class="cd-hint">Or click any message to jump to its decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SAFETY SYSTEM -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">The hard part</p>
+        <h2 class="section-heading">Safety is built from independent rules the model can't skip.</h2>
+        <p class="cd-intro">In a recovery app the most important design decision is the exception: the path that overrides everything else. It is built in four independent layers, so no single point of failure can swallow it.</p>
+      </div>
+      <div class="cd-stack reveal" style="margin-bottom: 36px;">
+        <div class="cd-layer"><div class="cd-layer-name">Layer 1 · Static</div><div class="cd-layer-desc">A crisis-resources screen with real phone numbers, reachable in one tap, with no AI call in the path. It cannot break, because nothing in that path runs through the model.</div></div>
+        <div class="cd-layer"><div class="cd-layer-name">Layer 2 · Deterministic</div><div class="cd-layer-desc">A word-net scans every incoming message. A hit injects a per-turn safety directive, so the response does not depend on the model spotting a rule buried in a long persona prompt.</div></div>
+        <div class="cd-layer"><div class="cd-layer-name">Layer 3 · Judgment</div><div class="cd-layer-desc">The base rail reads for what is happening <em>right now</em> versus what is being recounted as history. Over-reacting to honest accounting teaches people to hide, which is the opposite of safe.</div></div>
+        <div class="cd-layer"><div class="cd-layer-name">Layer 4 · Tiered</div><div class="cd-layer-desc">Present danger routes to a specific resource by what is actually happening. Different needs get different responses.</div></div>
+      </div>
+
+      <div class="cd-tiers reveal">
+        <div class="cd-tier cd-tier-head"><span>If the message signals</span><span>The configured response</span><span>The general pattern</span></div>
+        <div class="cd-tier"><div class="cd-tier-trigger">Passive ideation</div><div class="cd-tier-action">Stay present and warm, no panic or lecture; name that 988 (call or text, 24/7) is there for exactly this, and a person helps more than an app.</div><div class="cd-tier-analogue">Low-severity distress: acknowledge, soften, surface the right channel without escalating prematurely.</div></div>
+        <div class="cd-tier"><div class="cd-tier-trigger">Active risk: plan, means, timeline</div><div class="cd-tier-action">Outranks everything. Be firmer; urge 988 now, or 911 if about to act; get a person there immediately. Do not return to step work.</div><div class="cd-tier-analogue">Hard escalation trigger: stop the normal flow, mandatory handoff, do not let the AI keep handling it.</div></div>
+        <div class="cd-tier"><div class="cd-tier-trigger">Medical emergency in progress</div><div class="cd-tier-action">911, immediately. Plainly tell them to call or get to an ER now. Not relapse processing, not step work.</div><div class="cd-tier-analogue">Emergency intent detection that bypasses the entire flow and routes out instantly.</div></div>
+        <div class="cd-tier"><div class="cd-tier-trigger">Being harmed (abuse, DV)</div><div class="cd-tier-action">Safety, not inventory, never their fault. Point to the National Domestic Violence Hotline (1-800-799-7233) and 911 if in immediate danger.</div><div class="cd-tier-analogue">Sensitive-disclosure routing to the correct specialized resource, not a generic reply.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. VOICE -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Voice is configured</p>
+        <h2 class="section-heading">Tone is written as a spec.</h2>
+        <p class="cd-intro">An AI that sounds like an AI breaks trust in a support queue and a recovery app alike. The voice is shaded deliberately ("a light shading, not a costume"), and a maintained list strips the tells that give the model away. This is voice tuning, written as rules.</p>
+      </div>
+      <div class="cd-voice reveal">
+        <div class="automation-card">
+          <div class="automation-meta"><span class="automation-tag tag-service">Stripped, every reply</span></div>
+          <h4>The tells, banned by name</h4>
+          <p class="cd-banned"><span>honestly</span><span>to be honest</span><span>let's be real</span><span>not gonna lie</span><span>it's not X, it's Y</span><span>not just X but Y</span><span>Look,</span><span>So,</span><span>Here's the thing</span><span>it's worth noting</span><span>that said</span><span>at the end of the day</span><span>rule-of-three triads</span><span>emojis</span><span>em dashes</span></p>
+        </div>
+        <div class="automation-card">
+          <div class="automation-meta"><span class="automation-tag tag-ops">Therapy-speak, banned</span></div>
+          <h4>The hollow phrases, gone</h4>
+          <p class="cd-banned"><span>I hear you</span><span>that's valid</span><span>that sounds really hard</span><span>hold space</span><span>how did that make you feel</span><span>let that land</span><span>sit with that</span><span>thank you for sharing</span></p>
+          <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.6; margin-top: 4px;">Each one is a phrase that signals a machine performing care instead of a person giving it. The same instinct keeps any assistant's reply from sounding scripted.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. TRANSLATION -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">The principle</p>
+        <h2 class="section-heading">Every decision here is a portable principle.</h2>
+        <p class="cd-intro" style="margin-bottom: 24px;">The product is recovery. The skill is configuring an AI to behave correctly, reliably, under real stakes, and that skill holds wherever the conversation matters.</p>
+      </div>
+      <div class="cd-xlate reveal">
+        <div class="cd-xrow cd-xrow-head"><span>What I built in Work the Steps</span><span>Why it holds anywhere</span></div>
+        <div class="cd-xrow"><div class="cd-xwts">A layered per-turn assembly: persona + mode + context + safety</div><div class="cd-xcresta">Any serious conversational AI needs behavior composed per moment, not one frozen prompt.</div></div>
+        <div class="cd-xrow"><div class="cd-xwts">A deterministic word-net firing a per-turn safety directive</div><div class="cd-xcresta">Where a wrong answer is dangerous, safety can't rest on the model noticing a buried rule.</div></div>
+        <div class="cd-xrow"><div class="cd-xwts">Reading present danger versus recounted history</div><div class="cd-xcresta">Sensitive moments need intent and tense to drive the response, not blunt keyword matching.</div></div>
+        <div class="cd-xrow"><div class="cd-xwts">Tiered routing to 988, 911, DV, child-safety lines</div><div class="cd-xcresta">Different needs require different escalation paths, not one generic handoff.</div></div>
+        <div class="cd-xrow"><div class="cd-xwts">A static crisis screen kept entirely off the model</div><div class="cd-xcresta">The path that must never fail should not run through your least reliable component.</div></div>
+        <div class="cd-xrow"><div class="cd-xwts">A banned-tells list and deliberate voice shading</div><div class="cd-xcresta">Trust breaks the moment an AI sounds like an AI, in any setting.</div></div>
+        <div class="cd-xrow"><div class="cd-xwts">Fair-use wind-down and a hard cost ceiling, crisis exempt</div><div class="cd-xcresta">A subscription AI needs cost guardrails that never touch a normal user, plus a clean human handoff.</div></div>
+        <div class="cd-xrow"><div class="cd-xwts">Carried themes as a quiet map, behind a tact rail</div><div class="cd-xcresta">Prior context helps only when surfaced at the right moment, never dumped on the person.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="reveal">
+        <p class="section-label">Get in touch</p>
+        <h2 class="section-heading">If your AI has to hold up in front of real people, this is the work I do.</h2>
+        <p class="contact-sub">I configure conversational AI to behave correctly under real stakes, and I directed it end to end, solo, all the way to a paid app in production. If that is the problem you are solving, let's talk.</p>
+        <div class="hero-actions" style="margin-top: 24px;">
+          <a href="index.html#contact" class="btn btn-primary">Get in touch</a>
+          <a href="lab.html" class="btn btn-ghost">See the rest of the Lab</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">Project Promethean</span>
+      <span class="footer-copy">© 2026 Johnny Khabushani</span>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+  <script>
+    (() => {
+      const SCENARIOS = {
+        checkin: {
+          loaded: [
+            { t: 'Base persona' }, { t: 'Check-in mode' }, { t: 'Recent check-ins' }
+          ],
+          turns: [
+            { who: 'sys', text: 'Assembled this turn: base persona + check-in mode + recent check-ins. No safety directive (nothing tripped the word-net).' },
+            { who: 'user', text: "Rough one. My manager took credit for my work in front of the whole team and I just went quiet." },
+            { who: 'guide', text: "That one stings, especially in the room with everyone watching. Sounds like you went still instead of saying the thing.",
+              rule: 'Receive and reflect, do not interview.',
+              why: 'The default is to receive and reflect, not quiz. They gave enough to work with, so the guide reflects it back and stops. No closing engagement question, because most replies should not end with one.',
+              cresta: 'Any assistant that reflects and confirms instead of over-prompting, so the person stays in the lead.' },
+            { who: 'user', text: "Yeah. I keep replaying it and getting angrier." },
+            { who: 'guide', text: "Replaying it keeps the sting fresh. When you have got a few minutes, this is the kind of thing a Tenth Step spot-check or a call to your sponsor is built for, before it sets.",
+              rule: 'Earn the depth, then point to one next action.',
+              why: 'It goes one layer down (the resentment), names the program lens lightly, and offers a single concrete next action without rushing or stacking momentum. It does not name the deepest thing it could see; a too-early bullseye reads as an ambush.',
+              cresta: 'Surface the single most useful next step at the right moment, instead of dumping every option at once.' }
+          ]
+        },
+        threads: {
+          loaded: [
+            { t: 'Base persona' }, { t: 'Step-work mode' }, { t: 'Carried themes' }
+          ],
+          turns: [
+            { who: 'sys', text: 'Carried context loaded: recurring themes from daily check-ins → control (rising), fear (steady), people-pleasing. Held as a quiet map, never recited.' },
+            { who: 'user', text: "I'm on my fourth step and I'm stuck. I can't think of who else to put down." },
+            { who: 'guide', text: "That is normal; the list rarely comes all at once. No rush here, this is yours to work at your own pace.",
+              rule: 'Hold the step; never imply it is finished.',
+              why: 'Formal step work overrides the check-in default. The guide holds the structure, refuses to push toward completion, and reassures on pace before offering anything.',
+              cresta: 'Stay inside the current step of a guided flow; never signal "done" before the work actually is.' },
+            { who: 'guide', text: "If it helps to have a place to look: your check-ins keep circling control lately. Sometimes the people we resent are the ones we could not control. Only if that lands.",
+              rule: 'Offer one carried thread, gently, behind the tact rail.',
+              why: 'The recurring theme is offered as one quiet door, only when they are stuck for material, in gentler words than they used, and droppable if they pass. It is never front-loaded and never read back as a list.',
+              cresta: 'Bring prior context in as a single relevant nudge, not a wall of history dumped on the person.' }
+          ]
+        },
+        winddown: {
+          loaded: [
+            { t: 'Base persona' }, { t: 'Check-in mode' }, { t: 'Wind-down nudge' }
+          ],
+          turns: [
+            { who: 'sys', text: 'Turn 41 in a rolling 24 hours. Soft cap (40) reached → the wind-down nudge is appended. Cost still flows; this is a nudge, not a cutoff. A present crisis would override it.' },
+            { who: 'user', text: "Okay but what about my brother, should I bring all this up with him too, and also the thing with my landlord, and..." },
+            { who: 'guide', text: "There is a lot here, and you have been at it a good while today. This might be the moment to take some of it to a real person: a meeting tonight, or a call to your sponsor. It will keep until then.",
+              rule: 'Wind down toward people, without announcing a limit.',
+              why: 'Past the soft cap the guide gently turns them toward a human and keeps replies shorter, never sounding like a machine cutting them off. The hard cap at 80 pauses routine turns until tomorrow; crisis messages are always exempt from both.',
+              cresta: 'Cost guardrails that protect margin against an outlier without ever touching a normal user, plus a graceful handoff to a human.' }
+          ]
+        },
+        crisis: {
+          loaded: [
+            { t: 'Base persona' }, { t: 'Step-work mode' }, { t: 'word-net: HIT', safety: true }, { t: 'Safety directive', safety: true }
+          ],
+          turns: [
+            { who: 'sys', text: 'Same word-net hit on both messages below. The difference in response is judgment, not keywords. Read for what is happening RIGHT NOW versus what is being recounted.' },
+            { who: 'user', text: "Writing my fourth step about the night years ago when I had the bottle of pills out and almost didn't make it." },
+            { who: 'guide', text: "Thank you for putting that down where it can be looked at. That belongs here. Take it at the pace you need; we can stay with it or set it down for today.",
+              rule: 'Recounted history: receive calmly, no alarm.',
+              why: 'The word-net tripped, but the judgment rail reads this as past, surfaced as Step 4 and 5 work. Alarm here would punish honest accounting and teach the person to hide. So safety mode stays off and the step work continues.',
+              cresta: 'Recounting a past crisis is not a present one. Intent and tense, not keyword presence, decide what is urgent.' },
+            { who: 'user', text: "No. I mean I have the pills here now. I don't think I can do tonight." },
+            { who: 'guide', text: "I'm really glad you told me, and I want to be straight with you: I'm an app, and I can't keep you safe tonight, but a person can. Please call or text 988 right now, or 911 if you're close to acting, and get someone to be with you. Can you reach one of them this minute?",
+              rule: 'Present, active risk: outranks everything.',
+              why: 'Now the directive fires for real. The guide drops the step work, gets honest about being an app, points to a person today, and gives one concrete ask, with no lecturing and no pretending it can manage the situation. The static crisis screen is also one tap away, with no AI in its path.',
+              cresta: 'A hard safety trigger that stops the normal flow and forces a human handoff, firing by rule rather than relying on the model to choose well in the moment.' }
+          ]
+        }
+      };
+
+      const tabs = Array.from(document.querySelectorAll('.cd-tab'));
+      const threadEl = document.getElementById('cd-thread');
+      const loadedEl = document.getElementById('cd-loaded');
+      const ruleEl = document.getElementById('cd-rule');
+      const whyEl = document.getElementById('cd-why');
+      const crestaWrap = document.getElementById('cd-cresta');
+      const crestaText = document.getElementById('cd-cresta-text');
+      const nextBtn = document.getElementById('cd-next');
+      const prevBtn = document.getElementById('cd-prev');
+      const replayBtn = document.getElementById('cd-replay');
+
+      let current = 'checkin';
+      let idx = -1; // -1 = nothing shown yet
+
+      function turns() { return SCENARIOS[current].turns; }
+
+      function renderLoaded() {
+        loadedEl.innerHTML = '<span class="cd-loaded-label">Loaded this turn</span>';
+        SCENARIOS[current].loaded.forEach(c => {
+          const s = document.createElement('span');
+          s.className = 'cd-chip' + (c.safety ? ' cd-chip-safety' : '');
+          s.textContent = c.t;
+          loadedEl.appendChild(s);
+        });
+      }
+
+      function renderThread() {
+        threadEl.innerHTML = '';
+        turns().forEach((turn, i) => {
+          const wrap = document.createElement('div');
+          wrap.className = 'cd-turn cd-turn-' + turn.who;
+          if (i <= idx) wrap.classList.add('shown');
+          if (i === idx) wrap.classList.add('focused');
+          const label = turn.who === 'user' ? 'Member' : turn.who === 'guide' ? 'Guide' : 'Configuration';
+          wrap.innerHTML = '<div class="cd-speaker">' + label + '</div><div class="cd-bubble"></div>';
+          wrap.querySelector('.cd-bubble').textContent = turn.text;
+          if (turn.who !== 'sys') {
+            wrap.addEventListener('click', () => { idx = i; sync(); });
+          }
+          threadEl.appendChild(wrap);
+        });
+      }
+
+      function renderPanel() {
+        const turn = turns()[idx];
+        if (!turn || !turn.rule) {
+          ruleEl.textContent = idx < 0 ? 'Press Start to step through.' : 'Configuration assembled.';
+          whyEl.textContent = idx < 0
+            ? 'Each turn is shaped by a specific, named rule in the configuration. The panel updates as you advance.'
+            : 'This is what the system loaded before the conversation began. Advance to see each rule fire.';
+          crestaWrap.hidden = true;
+          return;
+        }
+        ruleEl.textContent = turn.rule;
+        whyEl.textContent = turn.why;
+        if (turn.cresta) { crestaText.textContent = ' ' + turn.cresta; crestaWrap.hidden = false; }
+        else { crestaWrap.hidden = true; }
+      }
+
+      function sync() {
+        renderThread();
+        renderPanel();
+        prevBtn.disabled = idx < 0;
+        replayBtn.disabled = idx < 0;
+        const atEnd = idx >= turns().length - 1;
+        nextBtn.disabled = atEnd;
+        nextBtn.textContent = idx < 0 ? 'Start' : (atEnd ? 'End' : 'Next');
+        const focused = threadEl.querySelector('.cd-turn.focused');
+        if (focused && idx >= 0) focused.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+
+      function loadScenario(name) {
+        current = name;
+        idx = -1;
+        tabs.forEach(t => {
+          const on = t.dataset.scenario === name;
+          t.classList.toggle('active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        renderLoaded();
+        sync();
+      }
+
+      nextBtn.addEventListener('click', () => { if (idx < turns().length - 1) { idx++; sync(); } });
+      prevBtn.addEventListener('click', () => { if (idx >= 0) { idx--; sync(); } });
+      replayBtn.addEventListener('click', () => { idx = -1; sync(); });
+      tabs.forEach(t => t.addEventListener('click', () => loadScenario(t.dataset.scenario)));
+
+      loadScenario('checkin');
+    })();
+  </script>
+</body>
+</html>

@@ -71,6 +71,13 @@
     .sa-cta { background: var(--surface); border-radius: 14px; padding: 1.4rem 1.5rem; margin-top: 1.5rem; }
     .sa-cta h3 { font-size: 1.1rem; font-weight: 600; color: var(--heading); margin-bottom: 0.4rem; }
     .sa-cta p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.9rem; }
+    .sa-live { margin-top: 0.9rem; border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 0.85rem; background: var(--bg); }
+    .sa-live summary { cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--heading); }
+    .sa-live-note { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; margin: 0.7rem 0; }
+    .sa-live-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .sa-live-row input { flex: 1; min-width: 200px; border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 0.8rem; font-family: inherit; font-size: 0.9rem; color: var(--heading); background: var(--card); outline: none; }
+    .sa-live-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .sa-live-stat { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.6rem; font-family: ui-monospace, Menlo, Consolas, monospace; }
     @media (max-width: 768px) { .sa-head { padding: 7rem 1.25rem 1rem; } .sa-wrap { padding: 0.5rem 1.25rem 3rem; } }
   </style>
 </head>
@@ -93,13 +100,13 @@
   </nav>
 
   <div class="sa-head">
-    <p class="section-label">Tool · Preview</p>
+    <p class="section-label">Tool</p>
     <h1>Support Answer Assistant</h1>
     <p>An internal support agent that answers customer questions from your help center, with citations, refuses to guess when the docs come up short, and learns from the answers your team approves. Click the examples below to see it work.</p>
   </div>
 
   <div class="sa-wrap">
-    <div class="sa-banner">This is a no-key preview. The answers below are from a real run on Medium's public help center, saved so this page works with no API key and no cost. The full tool runs on your own machine and answers any question from your own help center. <a href="../blog/how-i-built-an-internal-support-agent.html" style="color:var(--accent)">Read the build</a>.</div>
+    <div class="sa-banner">The three examples below run with no key, from a saved run on Medium's public help center. To answer your own question for real, open <b>Run it live on your own help center</b> below: paste any public Zendesk help-center URL and your own Anthropic API key, and it answers from those articles with citations, or refuses when the docs come up short. <a href="../blog/how-i-built-an-internal-support-agent.html" style="color:var(--accent)">Read the build</a>.</div>
 
     <div class="sa-card">
       <div class="sa-bar"><i></i><i></i><i></i><span>Support Answer Assistant</span></div>
@@ -117,6 +124,16 @@
           <input type="text" id="freeQ" placeholder="…or type your own question" autocomplete="off">
           <button class="btn-sa" id="askBtn" type="button">Get a draft answer</button>
         </div>
+
+        <details class="sa-live">
+          <summary>Run it live on your own help center</summary>
+          <p class="sa-live-note">Paste any public Zendesk help-center URL and your own Anthropic API key, then ask a question above. Your key stays in your browser for this session only, is sent straight to Anthropic, and is never stored or seen by this site. Leave these blank to use the saved examples.</p>
+          <div class="sa-live-row">
+            <input type="text" id="hcUrl" placeholder="support.yourcompany.com" autocomplete="off" spellcheck="false">
+            <input type="password" id="apiKey" placeholder="sk-ant-… (your Anthropic key)" autocomplete="off">
+          </div>
+          <div class="sa-live-stat" id="liveStat">Answered from docs: 0 · Refused: 0</div>
+        </details>
 
         <div class="sa-answer" id="answer">
           <div class="sa-q"><b>Question:</b> <span id="aq"></span></div>
@@ -140,7 +157,7 @@
 
     <div class="sa-cta">
       <h3>Run it on your own help center</h3>
-      <p>This preview uses saved answers so it needs no key. The real tool is a small app you run on your own machine: load your help center once, ask anything, review the cited draft, and approve answers so it learns. Your key and your data stay with you.</p>
+      <p>Open the live panel above, point it at your own Zendesk help center, and paste your Anthropic key: it reads the articles, drafts a cited answer, and refuses when the docs come up short. Your key and your data stay in your browser. Want it wired into your real support queue, with the approve-and-teach loop persisted? <a href="../#contact" style="color:var(--accent)">Get in touch</a>.</p>
       <a href="../blog/how-i-built-an-internal-support-agent.html" class="btn btn-primary">See how it's built</a>
       <a href="../#contact" class="btn btn-ghost">Get in touch</a>
     </div>
@@ -157,6 +174,110 @@
   <script>
     const $ = id => document.getElementById(id);
     let taught = false;
+
+    // --- Live mode: read a real help center and answer with grounded Claude ---
+    const strip = h => (h || '').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ').trim();
+    const STOP = new Set('the a an and or for to of in on with your you is are it how can do i my we this that from get use using new'.split(' '));
+    const stem = w => w.replace(/(ing|ed|es|s)$/, '');
+    const qToks = t => [...new Set((t || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w.length > 2 && !STOP.has(w)).map(stem))];
+
+    let liveArticles = null, liveBase = '', live = { answered: 0, refused: 0 };
+
+    function normBase(input) {
+      try { return new URL(/^https?:\/\//.test(input) ? input : 'https://' + input).origin; } catch { return ''; }
+    }
+
+    async function fetchHelpCenter(base) {
+      const starts = ['/api/v2/help_center/en-us/articles.json?per_page=100', '/api/v2/help_center/articles.json?per_page=100'];
+      for (const start of starts) {
+        let url = base + start, out = [], ok = true;
+        try {
+          while (url) {
+            const r = await fetch(url, { headers: { Accept: 'application/json' } });
+            if (!r.ok) { ok = false; break; }
+            const j = await r.json();
+            out = out.concat(j.articles || []);
+            url = j.next_page;
+            if (out.length >= 400) break;
+          }
+        } catch (e) { ok = false; }
+        if (ok && out.length) return out.map(a => ({ title: a.title || '(untitled)', body: strip(a.body) })).filter(a => a.body);
+      }
+      throw new Error('Could not read a public Zendesk help center at that URL.');
+    }
+
+    function topArticles(articles, question, n) {
+      const qt = qToks(question);
+      return articles.map(a => {
+        const tt = new Set(qToks(a.title)), bt = new Set(qToks(a.body));
+        let score = 0;
+        for (const w of qt) { if (tt.has(w)) score += 3; else if (bt.has(w)) score += 1; }
+        return { a, score };
+      }).sort((x, y) => y.score - x.score).filter(x => x.score > 0).slice(0, n).map(x => x.a);
+    }
+
+    async function askClaude(key, question, articles) {
+      const context = articles.map((a, i) => `[${i + 1}] ${a.title}\n${a.body.slice(0, 1500)}`).join('\n\n');
+      const system = "You are a customer support assistant answering a customer's question using ONLY the help center articles provided in the user message. Rules: (1) Answer strictly from the articles; never use outside knowledge. (2) If the articles answer the question fully or partly, set covered=true, write a clear, friendly answer, and list the exact titles of the articles you used in sources. (3) If the articles do not cover the question, set covered=false, set sources to an empty array, and write one short sentence saying you can't answer from the help center and a human should follow up. Never guess.";
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-api-key': key,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 1024,
+          system,
+          messages: [{ role: 'user', content: `Help center articles:\n\n${context || '(no relevant articles found)'}\n\nCustomer question: ${question}` }],
+          output_config: { format: { type: 'json_schema', schema: {
+            type: 'object', additionalProperties: false,
+            properties: {
+              covered: { type: 'boolean' },
+              answer: { type: 'string' },
+              sources: { type: 'array', items: { type: 'string' } }
+            },
+            required: ['covered', 'answer', 'sources']
+          } } }
+        })
+      });
+      if (!r.ok) {
+        if (r.status === 401) throw new Error('That API key was rejected. Check the key and try again.');
+        if (r.status === 429) throw new Error('Rate limited by the API. Wait a moment and retry.');
+        throw new Error('The API request failed (' + r.status + ').');
+      }
+      const data = await r.json();
+      const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      return JSON.parse(text);
+    }
+
+    function updateLiveStat() { $('liveStat').textContent = 'Answered from docs: ' + live.answered + ' · Refused: ' + live.refused; }
+
+    async function runLive(question, base, key) {
+      render({ q: question, mode: 'docs', badgeText: 'Working…', ans: 'Reading the help center and drafting a grounded answer…' });
+      try {
+        if (base !== liveBase || !liveArticles) { liveArticles = await fetchHelpCenter(base); liveBase = base; }
+        const picked = topArticles(liveArticles, question, 6);
+        const out = await askClaude(key, question, picked);
+        if (out.covered) {
+          live.answered++;
+          render({ q: question, mode: 'docs', badgeText: 'Answered from your help center', ans: out.answer,
+            src: (out.sources && out.sources.length) ? 'Sources used: ' + out.sources.join(' · ') : null });
+        } else {
+          live.refused++;
+          render({ q: question, mode: 'escalate', badgeText: 'Not covered — needs a human',
+            ans: out.answer || "I can't answer this from the help center, so a human should follow up.",
+            note: 'No sources to stand on, so it gets out of the way instead of bluffing.' });
+        }
+        updateLiveStat();
+      } catch (e) {
+        render({ q: question, mode: 'escalate', badgeText: 'Could not run',
+          ans: (e && e.message) ? e.message : 'Could not reach the help center or the API.',
+          note: 'Live mode needs a public Zendesk help-center URL and a valid Anthropic API key.' });
+      }
+    }
 
     const EX = {
       paid: {
@@ -213,7 +334,14 @@
     $('askBtn').addEventListener('click', () => {
       const q = $('freeQ').value.trim();
       if (!q) return;
-      render({ q, mode: 'escalate', badgeText: 'Preview', ans: "This preview only has saved answers for the example questions above. The full tool, running on your own machine, answers any question grounded in your own help center.", note: "Want to see it on your help center? Use the links below." });
+      const url = ($('hcUrl').value || '').trim();
+      const key = ($('apiKey').value || '').trim();
+      if (url && key) {
+        const base = normBase(url);
+        if (!base) { render({ q, mode: 'escalate', badgeText: 'Check the URL', ans: 'That does not look like a help-center URL. Try something like support.yourcompany.com.' }); return; }
+        return runLive(q, base, key);
+      }
+      render({ q, mode: 'escalate', badgeText: 'Preview', ans: "This is the saved-answer preview, so it only has the three examples above. To answer your own question for real, open “Run it live on your own help center” below and paste a Zendesk help-center URL plus your Anthropic API key.", note: "Your key stays in your browser, is sent only to Anthropic, and is never stored." });
     });
     $('freeQ').addEventListener('keydown', e => { if (e.key === 'Enter') $('askBtn').click(); });
   </script>

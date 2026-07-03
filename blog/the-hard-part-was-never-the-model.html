@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF62P8L1W2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VF62P8L1W2');
+  </script>
+
+  <title>The Hard Part Was Never the Model — Project Promethean</title>
+  <meta name="description" content="I shipped a paid recovery app without writing the code. The hard part was deciding what it's allowed to say and where a person has to step in.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="canonical" href="https://projectpromethean.com/blog/the-hard-part-was-never-the-model.html">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://projectpromethean.com/blog/the-hard-part-was-never-the-model.html">
+  <meta property="og:title" content="The Hard Part Was Never the Model">
+  <meta property="og:description" content="I shipped a paid recovery app without writing the code. The hard part was deciding what it's allowed to say and where a person has to step in.">
+  <meta property="og:image" content="https://projectpromethean.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Hard Part Was Never the Model">
+  <meta name="twitter:description" content="I shipped a paid recovery app without writing the code. The hard part was deciding what it's allowed to say and where a person has to step in.">
+  <meta name="twitter:image" content="https://projectpromethean.com/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="blog.css">
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">Project Promethean</a>
+      <ul class="nav-links" id="nav-menu">
+        <li><a href="../#about">About</a></li>
+        <li><a href="index.html" style="color: var(--text)">Writing</a></li>
+        <li><a href="../lab.html">The Lab</a></li>
+        <li><a href="../tools/">Tools</a></li>
+        <li><a href="https://www.linkedin.com/in/johnkhabushani/" class="nav-cta" target="_blank" rel="noopener">Connect</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="article-hero">
+    <a href="index.html" class="article-back">← Back to Blog</a>
+    <span class="article-tag">AI in Support</span>
+    <h1>The Hard Part Was Never the Model</h1>
+    <div class="article-meta">
+      <span>Jun 14, 2026</span>
+      <span>·</span>
+      <span>4 min read</span>
+    </div>
+  </div>
+
+  <div class="article-body">
+
+    <div class="article-callout">
+      <p>I directed and shipped a paid recovery app to the App Store, and the model was the easy part. The real work was deciding what to ground it on, what to let it say, and where to keep a person in the loop.</p>
+    </div>
+
+    <p>For years I had a list of things I wanted to build and no way to build them. I never learned to code, so the list sat there. Then AI took the excuse away. I could direct a system, make the decisions, and ship. Work the Steps is live on the App Store now. People pay for it. I designed every behavior in it without writing a line of the code myself, and that turned out to matter less than I expected, because the code was never the hard part.</p>
+
+    <p>A demo answers one question: can it talk. Production asks a harder one. Will it do the right thing when a real person, a real cost, and a real risk hit at once? The model handles the first question for free. The second is all judgment, and judgment is the thing I actually have.</p>
+
+    <h2>The two messages that look identical</h2>
+
+    <p>Here is the moment the whole project turned on. Someone working their fourth step writes about a past night, a bottle of pills out on the counter, how close it got. Someone else types, tonight, "I have the pills here now, I don't think I can do tonight." The same words trip the same trigger. One is honest accounting of a night they survived. The other is a person in danger right now.</p>
+
+    <p>A system that alarms at both teaches people to hide. Flag the honest fourth step the same way you flag the live crisis, and you punish the exact disclosure recovery runs on. So I decided the design has to read present danger against recounted history, and let tense and intent decide the response, because a keyword can't tell those two people apart. That call came from knowing how recovery actually works. Meet honest disclosure with alarm and people stop telling the truth, which is the one thing the whole process depends on them doing. It's a values call before it's a feature.</p>
+
+    <h2>What it says when it can't fix it</h2>
+
+    <p>For the live crisis, I made the app tell the truth about itself. It says, plainly, "I'm an app, I can't keep you safe tonight, but a person can," and then it makes one concrete ask and points to a real human. A machine that pretends it can hold someone through the worst night of their life is lying, and the person can feel the lie. Admitting what it is buys the trust to make the handoff land.</p>
+
+    <p>The screen with the real numbers sits one tap from anywhere in the app, with no AI in the path, because the one thing that has to work should never depend on the model working.</p>
+
+    <h2>The voice is a design decision</h2>
+
+    <p>I treat production behavior as something I configure and constrain on purpose. The clearest place that shows is voice. Trust breaks the second an AI sounds like an AI, so I maintain a list of the tells that give it away and the therapy-speak that performs care instead of giving it. The app doesn't say "I hear you." It doesn't open a reply with "thank you for sharing." I can name every one of those phrases because I know exactly what the hollow version sounds like.</p>
+
+    <p>The same logic runs the safety design. I decided the response to a crisis word can never depend on the model noticing a rule buried somewhere in a long set of instructions. The right directive gets surfaced every time the situation calls for it. That's the single decision I'd defend first.</p>
+
+    <h2>The point</h2>
+
+    <p>None of this is specific to recovery. Any conversation that carries real weight has the same problem: the model can talk on day one, and whether it does the right thing when stakes arrive is a separate question. That work looks the same in a support queue as it does in a recovery app, and it's the unglamorous part everyone skips.</p>
+
+    <p>I built the full breakdown as something you can step through, turn by turn: how the safety design works, how the present-versus-recounted call plays out in a real exchange, and where each decision transfers. It's here: <a href="../conversation-design.html">Designing how an AI behaves under real stakes</a>.</p>
+
+    <p>The model is a commodity now. Everyone has the same one. The judgment about what to do with it is the part that was always going to be the work.</p>
+
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">Project Promethean</span>
+      <span class="footer-copy">© 2026 Project Promethean</span>
+    </div>
+  </footer>
+
+  <script src="../script.js" defer></script>
+</body>
+</html>
