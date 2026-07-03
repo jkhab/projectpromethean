@@ -91,6 +91,7 @@
     <a href="#throughscan">Throughscan</a>
     <a href="#assistant">Assistant</a>
     <a href="#wts">Work the Steps</a>
+    <a href="#cleanplate">Cleanplate</a>
     <a href="#vtc">Virtual TC</a>
     <a href="#offerletter">OfferLetter</a>
     <a href="#leadgen">Lead-Gen</a>
@@ -119,7 +120,7 @@
           </div>
           <h4>Throughscan</h4>
           <p class="card-specs">Claude · Cloudflare Worker · live at throughscan.com</p>
-          <p>An independent support-ops audit, built as its own product and business, now live and taking real payments. A support leader exports their tickets, uploads one file, and gets the read most dashboards hide: a plain-language diagnosis of what is working and where they leak, their true median and p90 response and resolution times, the average-vs-tail gap that quietly breaks their SLAs, what customers actually contact them about by volume, their re-contact rate, and starter macros, a knowledge base, and SLA targets drafted from their own history. It is delivered as a board-ready PDF, with a free placement that shows what the file can prove before they pay. No integration, no login, just an export.</p>
+          <p>An independent support-ops audit, built as its own product and business, now live and taking real payments. A support leader exports their tickets, uploads one file, and gets the read most dashboards hide: a plain-language diagnosis of what is working and where they leak, their true median and p90 response and resolution times, the average-vs-tail gap that quietly breaks their SLAs, what customers actually contact them about by volume, their re-contact rate, and starter macros, a knowledge base, and SLA targets drafted from their own history. It's delivered as a board-ready PDF, with a free placement that shows what the file can prove before they pay. No integration, no login, just an export.</p>
           <div class="flow">
             <div class="flow-step">Ticket export</div>
             <div class="flow-arrow">→</div>
@@ -173,7 +174,7 @@
             <div class="flow-arrow">→</div>
             <div class="flow-step">Step work</div>
           </div>
-          <p class="lab-decisions">Operator decisions baked in: a controlled voice and prompt architecture; per-user cost guardrails (prompt caching, daily fair-use caps, hard spend limits); crisis resources that bypass every gate and are never paywalled; on-device encryption at rest, with the key held in the iOS keychain; subscriptions, trials, and App Store compliance.</p>
+          <p class="lab-decisions">Operator decisions baked in: a controlled voice and prompt architecture; per-user cost guardrails (prompt caching, daily fair-use caps, hard spend limits); a crisis path kept entirely off the model; on-device encryption at rest, with the key held in the iOS keychain; subscriptions, trials, and App Store compliance.</p>
           <div class="card-media">
             <a href="https://workthesteps.app" target="_blank" rel="noopener" aria-label="Visit the Work the Steps site">
               <img class="lab-shot lab-shot--tall" src="img/lab-wts-threads.png" alt="Work the Steps: recurring themes surfacing from daily check-ins on the reflections screen" loading="lazy">
@@ -184,6 +185,28 @@
             <a href="https://workthesteps.app" class="btn btn-ghost" target="_blank" rel="noopener">Visit the site →</a>
           </div>
           <a href="conversation-design.html" class="automation-link" style="margin-top: 12px;">See how the conversation system is built →</a>
+        </div>
+
+        <div class="automation-card reveal" id="cleanplate">
+          <div class="automation-meta">
+            <span class="automation-tag tag-ops">Data Product</span>
+          </div>
+          <h4>Cleanplate</h4>
+          <p class="card-specs">Claude · Cloudflare Worker + D1 · live at cleanplate.app</p>
+          <p>A restaurant health-inspection product covering all of LA County. About 95% of graded restaurants carry an A, so the letter in the window can't tell you much. Cleanplate surfaces the actual 0-100 inspection score behind the grade, translates every violation code into plain English, and makes the county searchable by name, address, or ZIP, with a map view, the restaurants the county has closed right now, recent grade drops, and a weekly email of who lost a grade or got shut down.</p>
+          <div class="flow">
+            <div class="flow-step">County inspection data</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Real score + plain English</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Search, map, alerts</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Weekly auto-refresh</div>
+          </div>
+          <p class="lab-decisions">The pipeline runs itself: the county's full dataset lands in a D1 database, Claude turns the violation codes into plain English, and a scheduled GitHub Action refreshes everything weekly with no hands on it. The same data-honesty rules as the support work apply. Chain restaurants are matched against a verified brand list instead of trusting name collisions, and the data-journalism pages (grade drift, repeat offenders, the riskiest month to eat out) are computed in code from the same snapshot the search runs on.</p>
+          <img class="lab-shot" src="img/lab-cleanplate-hero.png" alt="The Cleanplate search page: an explainer noting about 95% of LA County restaurants carry an A, quick filters for closures and grade drops, and restaurants listed with their real 0-100 inspection scores" loading="lazy">
+          <a href="https://cleanplate.app" class="automation-link" target="_blank" rel="noopener">Visit Cleanplate →</a>
+          <a href="https://cleanplate.app/insights" class="automation-link" style="margin-left: 1.25rem;" target="_blank" rel="noopener">See the data pages →</a>
         </div>
 
         <div class="automation-card reveal" id="vtc">
@@ -238,7 +261,7 @@
             <div class="flow-arrow">→</div>
             <div class="flow-step">Measured leads</div>
           </div>
-          <p class="lab-status">Status: live, with partner agreements in negotiation. Deliberately unnamed here; they compete in their own markets. They are where I pressure-test how to instrument funnels and prove outcomes before claiming them.</p>
+          <p class="lab-status">Status: live, with partner agreements in negotiation. Deliberately unnamed here; they compete in their own markets. They're where I pressure-test how to instrument funnels and prove outcomes before claiming them.</p>
         </div>
 
         <div class="automation-card reveal card-split" id="recovery">
@@ -274,7 +297,7 @@
       <div class="reveal">
         <p class="section-label">Get in touch</p>
         <h2 class="section-heading">Building or leading support AI? Let's compare notes.</h2>
-        <p class="contact-sub">If you are working on AI that has to hold up in a real support queue, I'm always glad to talk it through.</p>
+        <p class="contact-sub">If you're working on AI that has to hold up in a real support queue, I'm always glad to talk it through.</p>
         <div class="hero-actions" style="margin-top: 24px;">
           <a href="index.html#contact" class="btn btn-primary">Get in touch</a>
           <a href="blog/" class="btn btn-ghost">Read the writing</a>
