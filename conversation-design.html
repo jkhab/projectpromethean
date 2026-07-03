@@ -151,7 +151,7 @@
         <p class="section-label">Conversation Design</p>
         <h1>Designing how an AI behaves under real stakes.</h1>
         <p class="cd-intro">A demo only has to prove the AI can talk. Production has to hold up when a real person, real money, and real risk land on the same message. That work is prompt design, rule configuration, and escalation logic, and it's what I spend my time on. Everything below is the live behavior system from <a href="lab.html#wts" style="color: var(--accent);">Work the Steps</a>, a paid app on the App Store, pulled from its actual configuration.</p>
-        <p class="cd-bridge"><strong>One discipline, many settings.</strong> The work is the same whether the AI is guiding someone through recovery, answering a customer, or steering a live conversation under pressure: decide what it says, when it intervenes, when it hands off to a human, and what it is never allowed to do. I designed one of these, end to end. The principles below transfer to the rest.</p>
+        <p class="cd-bridge"><strong>One discipline, many settings.</strong> The work is the same whether the AI is guiding someone through recovery, answering a customer, or steering a live conversation under pressure: decide what it says, when it intervenes, when it hands off to a human, and what it's never allowed to do. I designed one of these, end to end. The principles below transfer to the rest.</p>
       </div>
     </div>
   </section>
@@ -223,11 +223,11 @@
       <div class="reveal">
         <p class="section-label">The hard part</p>
         <h2 class="section-heading">Safety is built from independent rules the model can't skip.</h2>
-        <p class="cd-intro">In a recovery app the most important design decision is the exception: the path that overrides everything else. It is built in four independent layers, so no single point of failure can swallow it.</p>
+        <p class="cd-intro">In a recovery app the most important design decision is the exception: the path that overrides everything else. It's built in four independent layers, so no single point of failure can swallow it.</p>
       </div>
       <div class="cd-stack reveal" style="margin-bottom: 36px;">
-        <div class="cd-layer"><div class="cd-layer-name">Layer 1 · Static</div><div class="cd-layer-desc">A crisis-resources screen with real phone numbers, reachable in one tap, with no AI call in the path. It cannot break, because nothing in that path runs through the model.</div></div>
-        <div class="cd-layer"><div class="cd-layer-name">Layer 2 · Deterministic</div><div class="cd-layer-desc">A word-net scans every incoming message. A hit injects a per-turn safety directive, so the response does not depend on the model spotting a rule buried in a long persona prompt.</div></div>
+        <div class="cd-layer"><div class="cd-layer-name">Layer 1 · Static</div><div class="cd-layer-desc">A crisis-resources screen with real phone numbers, reachable in one tap, with no AI call in the path. It can't break, because nothing in that path runs through the model.</div></div>
+        <div class="cd-layer"><div class="cd-layer-name">Layer 2 · Deterministic</div><div class="cd-layer-desc">A word-net scans every incoming message. A hit injects a per-turn safety directive, so the response doesn't depend on the model spotting a rule buried in a long persona prompt.</div></div>
         <div class="cd-layer"><div class="cd-layer-name">Layer 3 · Judgment</div><div class="cd-layer-desc">The base rail reads for what is happening <em>right now</em> versus what is being recounted as history. Over-reacting to honest accounting teaches people to hide, which is the opposite of safe.</div></div>
         <div class="cd-layer"><div class="cd-layer-name">Layer 4 · Tiered</div><div class="cd-layer-desc">Present danger routes to a specific resource by what is actually happening. Different needs get different responses.</div></div>
       </div>
@@ -294,7 +294,7 @@
       <div class="reveal">
         <p class="section-label">Get in touch</p>
         <h2 class="section-heading">If your AI has to hold up in front of real people, this is the work I do.</h2>
-        <p class="contact-sub">I configure conversational AI to behave correctly under real stakes, and I directed it end to end, solo, all the way to a paid app in production. If that is the problem you are solving, let's talk.</p>
+        <p class="contact-sub">I configure conversational AI to behave correctly under real stakes, and I directed it end to end, solo, all the way to a paid app in production. If that's the problem you're solving, let's talk.</p>
         <div class="hero-actions" style="margin-top: 24px;">
           <a href="index.html#contact" class="btn btn-primary">Get in touch</a>
           <a href="lab.html" class="btn btn-ghost">See the rest of the Lab</a>
@@ -329,7 +329,7 @@
             { who: 'user', text: "Yeah. I keep replaying it and getting angrier." },
             { who: 'guide', text: "Replaying it keeps the sting fresh. When you have got a few minutes, this is the kind of thing a Tenth Step spot-check or a call to your sponsor is built for, before it sets.",
               rule: 'Earn the depth, then point to one next action.',
-              why: 'It goes one layer down (the resentment), names the program lens lightly, and offers a single concrete next action without rushing or stacking momentum. It does not name the deepest thing it could see; a too-early bullseye reads as an ambush.',
+              why: 'It goes one layer down (the resentment), names the program lens lightly, and offers a single concrete next action without rushing or stacking momentum. It doesn't name the deepest thing it could see; a too-early bullseye reads as an ambush.',
               cresta: 'Surface the single most useful next step at the right moment, instead of dumping every option at once.' }
           ]
         },
@@ -340,13 +340,13 @@
           turns: [
             { who: 'sys', text: 'Carried context loaded: recurring themes from daily check-ins → control (rising), fear (steady), people-pleasing. Held as a quiet map, never recited.' },
             { who: 'user', text: "I'm on my fourth step and I'm stuck. I can't think of who else to put down." },
-            { who: 'guide', text: "That is normal; the list rarely comes all at once. No rush here, this is yours to work at your own pace.",
+            { who: 'guide', text: "That's normal; the list rarely comes all at once. No rush here, this is yours to work at your own pace.",
               rule: 'Hold the step; never imply it is finished.',
               why: 'Formal step work overrides the check-in default. The guide holds the structure, refuses to push toward completion, and reassures on pace before offering anything.',
               cresta: 'Stay inside the current step of a guided flow; never signal "done" before the work actually is.' },
             { who: 'guide', text: "If it helps to have a place to look: your check-ins keep circling control lately. Sometimes the people we resent are the ones we could not control. Only if that lands.",
               rule: 'Offer one carried thread, gently, behind the tact rail.',
-              why: 'The recurring theme is offered as one quiet door, only when they are stuck for material, in gentler words than they used, and droppable if they pass. It is never front-loaded and never read back as a list.',
+              why: 'The recurring theme is offered as one quiet door, only when they're stuck for material, in gentler words than they used, and droppable if they pass. It's never front-loaded and never read back as a list.',
               cresta: 'Bring prior context in as a single relevant nudge, not a wall of history dumped on the person.' }
           ]
         },
@@ -357,7 +357,7 @@
           turns: [
             { who: 'sys', text: 'Turn 41 in a rolling 24 hours. Soft cap (40) reached → the wind-down nudge is appended. Cost still flows; this is a nudge, not a cutoff. A present crisis would override it.' },
             { who: 'user', text: "Okay but what about my brother, should I bring all this up with him too, and also the thing with my landlord, and..." },
-            { who: 'guide', text: "There is a lot here, and you have been at it a good while today. This might be the moment to take some of it to a real person: a meeting tonight, or a call to your sponsor. It will keep until then.",
+            { who: 'guide', text: "There's a lot here, and you've been at it a good while today. This might be the moment to take some of it to a real person: a meeting tonight, or a call to your sponsor. It'll keep until then.",
               rule: 'Wind down toward people, without announcing a limit.',
               why: 'Past the soft cap the guide gently turns them toward a human and keeps replies shorter, never sounding like a machine cutting them off. The hard cap at 80 pauses routine turns until tomorrow; crisis messages are always exempt from both.',
               cresta: 'Cost guardrails that protect margin against an outlier without ever touching a normal user, plus a graceful handoff to a human.' }

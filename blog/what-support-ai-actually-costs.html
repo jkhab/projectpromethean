@@ -65,36 +65,36 @@
   <div class="article-body">
 
     <div class="article-callout">
-      <p>The vendor quotes you a seat price. That is not what it costs. The real cost is per resolved chat, it grows the more your customers talk, and the ways it breaks are the part nobody puts in the deck.</p>
+      <p>The vendor quotes you a seat price. That's not what it costs. The real cost is per resolved chat, it grows the more your customers talk, and the ways it breaks are the part nobody puts in the deck.</p>
     </div>
 
-    <p>Every support-AI pitch leads with a price that sounds simple: a seat, a tier, a per-agent number. That is not what it costs to run. I have built the thin layer over the model myself, twice, so I know roughly what it takes to build versus buy. Here is the honest version.</p>
+    <p>Every support-AI pitch leads with a price that sounds simple: a seat, a tier, a per-agent number. That's not what it costs to run. I've built the thin layer over the model myself, twice, so I know roughly what it takes to build versus buy. Here's the honest version.</p>
 
     <h2>The seat price is not the real cost</h2>
 
     <p>A seat price is predictable. Real usage is not. The number that matters is your average cost per resolved chat, not cost per seat. You pay for every chat the AI touches, including the ones it fails and dumps on a human. A chat the AI fails costs you twice, once in the AI and once in the person who cleans it up. So the real math is total spend divided by chats that actually got resolved.</p>
 
-    <p>It gets pricier the better it works. The AI clears the easy, repeatable chats first, the ones a good knowledge base already handles. The chats left over are the long, hard ones. So your average cost per resolved chat climbs even as your dashboard looks better. A vendor's flat per-resolution quote prices the easy mix you have today, not the hard mix you are left with.</p>
+    <p>It gets pricier the better it works. The AI clears the easy, repeatable chats first, the ones a good knowledge base already handles. The chats left over are the long, hard ones. So your average cost per resolved chat climbs even as your dashboard looks better. A vendor's flat per-resolution quote prices the easy mix you have today, not the hard mix you're left with.</p>
 
     <h2>Long conversations cost the most</h2>
 
-    <p>The biggest driver is long conversations, because every back-and-forth re-reads the whole thread. Caching helps, but only with the repeated part, the stuff the AI has already seen. It does nothing for the new turns or the answers it writes. So a chatty customer is your most expensive customer. Do not ask a vendor whether they cache. Ask where your longest conversations land, not the average, because that is where the budget dies.</p>
+    <p>The biggest driver is long conversations, because every back-and-forth re-reads the whole thread. Caching helps, but only with the repeated part, the stuff the AI has already seen. It does nothing for the new turns or the answers it writes. So a chatty customer is your most expensive customer. Don't ask a vendor if they cache. Ask where your longest conversations land, not the average, because that's where the budget dies.</p>
 
     <h2>A spend cap is a customer-experience decision</h2>
 
-    <p>The economics only work with limits set before launch, not after the bill lands. But a spend cap in support is not just a finance control. The chat you cut off at a cap is, by definition, the hard one, the angriest or most complex customer. And you hit your monthly ceiling exactly during an outage or a launch, when you can least afford to throttle support. I have owned escalations on $500K to $1MM accounts, so I know what under-serving a flagship at the wrong moment costs.</p>
+    <p>The economics only work with limits set before launch, not after the bill lands. But a spend cap in support isn't just a finance control. The chat you cut off at a cap is, by definition, the hard one, the angriest or most complex customer. And you hit your monthly ceiling exactly during an outage or a launch, when you can least afford to throttle support. I've owned escalations on $500K to $1MM accounts, so I know what under-serving a flagship at the wrong moment costs.</p>
 
-    <p>So do not slam a wall. Step it down: a cheaper model, less context, or a clean handoff to a human. Build the cap to bend, not to slam shut.</p>
+    <p>So don't slam a wall. Step it down: a cheaper model, less context, or a clean handoff to a human. Build the cap to bend, not to slam shut.</p>
 
     <h2>Whoever defines "resolved" controls your bill</h2>
 
-    <p>Settle who writes the definition of resolved before you sign anything. Vendors quote per-resolution because it sounds fair, then call a resolution any chat the bot replied to and the customer did not immediately reopen. That counts abandoned and silently failed chats as wins you pay for. Tie resolved to a real outcome, like no human follow-up within a set window, not to the bot merely answering.</p>
+    <p>Settle who writes the definition of resolved before you sign anything. Vendors quote per-resolution because it sounds fair, then call a resolution any chat the bot replied to and the customer didn't immediately reopen. That counts abandoned and silently failed chats as wins you pay for. Tie resolved to a real outcome, like no human follow-up within a set window, not to the bot merely answering.</p>
 
     <h2>Build or buy</h2>
 
-    <p>I have built the layer that sits over the model: server-side keys, spend caps, and answers tied back to your own docs. It is buildable. Renting beats building when you need scale, integrations, SLAs, and someone else on call. Building wins when you have the engineering and the volume is modest. Knowing roughly what that layer costs to stand up is the best pressure-test you have, because it lets you call a vendor's bluff on what is actually hard.</p>
+    <p>I've built the layer that sits over the model: server-side keys, spend caps, and answers tied back to your own docs. It's buildable. Renting beats building when you need scale, integrations, SLAs, and someone else on call. Building wins when you have the engineering and the volume is modest. Knowing roughly what that layer costs to stand up is the best pressure-test you have, because it lets you call a vendor's bluff on what is actually hard.</p>
 
-    <p>For perspective on my own numbers: my paid AI app nets about five dollars a subscription after the model bill, and I cap the user. In your queue the customer drives the spend and you cannot cap a big account mid-incident. So do not import my app's math into yours.</p>
+    <p>For perspective on my own numbers: my paid AI app nets about five dollars a subscription after the model bill, and I cap the user. In your queue the customer drives the spend and you can't cap a big account mid-incident. So don't import my app's math into yours.</p>
 
     <p>Cost only matters if the thing is actually resolving anything. I wrote about how to tell whether it is <a href="how-to-tell-if-support-ai-is-working.html">here</a>.</p>
 

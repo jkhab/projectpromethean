@@ -328,7 +328,7 @@
       $('learnedCount').textContent = '1';
       $('learned').innerHTML = '<div class="item"><div class="q">' + SF_Q + '</div><div>' + LEARNED_ANSWER + '</div></div>';
       render({ q: SF_Q, mode: 'memory', badgeText: 'Saved — answered from a learned answer', ans: LEARNED_ANSWER,
-        note: "Taught once. Now it answers this instantly, forever. That is every escalation becoming tomorrow's self-service." });
+        note: "Taught once. Now it answers this instantly, forever. That's every escalation becoming tomorrow's self-service." });
     });
 
     $('askBtn').addEventListener('click', () => {
@@ -338,7 +338,7 @@
       const key = ($('apiKey').value || '').trim();
       if (url && key) {
         const base = normBase(url);
-        if (!base) { render({ q, mode: 'escalate', badgeText: 'Check the URL', ans: 'That does not look like a help-center URL. Try something like support.yourcompany.com.' }); return; }
+        if (!base) { render({ q, mode: 'escalate', badgeText: 'Check the URL', ans: "That doesn't look like a help-center URL. Try something like support.yourcompany.com." }); return; }
         return runLive(q, base, key);
       }
       render({ q, mode: 'escalate', badgeText: 'Preview', ans: "This is the saved-answer preview, so it only has the three examples above. To answer your own question for real, open “Run it live on your own help center” below and paste a Zendesk help-center URL plus your Anthropic API key.", note: "Your key stays in your browser, is sent only to Anthropic, and is never stored." });

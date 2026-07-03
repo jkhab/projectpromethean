@@ -14,12 +14,12 @@
   </script>
 
   <title>Knowledge Base Auditor — Project Promethean</title>
-  <meta name="description" content="Point it at a Zendesk help center and it flags what is quietly rotting: articles years out of date, duplicates, and pages too thin to answer the question. Runs in your browser.">
+  <meta name="description" content="Point it at a Zendesk help center and it flags what's quietly rotting: articles years out of date, duplicates, and pages too thin to answer the question. Runs in your browser.">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="canonical" href="https://projectpromethean.com/tools/kb-auditor.html">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Knowledge Base Auditor">
-  <meta property="og:description" content="Point it at a Zendesk help center and see what is quietly rotting before you ground an AI on it.">
+  <meta property="og:description" content="Point it at a Zendesk help center and see what's quietly rotting before you ground an AI on it.">
   <meta property="og:image" content="https://projectpromethean.com/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -96,7 +96,7 @@
   <div class="tool-head">
     <p class="section-label">Tool</p>
     <h1>Knowledge Base Auditor</h1>
-    <p>Before you ground an AI on your help center, you need to know what state it is in, because a confident answer built on a stale article is worse than no answer. Paste a Zendesk help-center URL and this reads every published article and flags what is quietly rotting: pages years out of date, near-duplicates, and articles too thin to actually answer the question. It reads the public help-center API directly from your browser.</p>
+    <p>Before you ground an AI on your help center, you need to know what state it's in, because a confident answer built on a stale article is worse than no answer. Paste a Zendesk help-center URL and this reads every published article and flags what's quietly rotting: pages years out of date, near-duplicates, and articles too thin to actually answer the question. It reads the public help-center API directly from your browser.</p>
   </div>
 
   <div class="tool-wrap">
@@ -186,7 +186,7 @@
       $('err').textContent = ''; $('results').classList.remove('show');
       let base;
       try { base = new URL(/^https?:\/\//.test(input) ? input : 'https://' + input).origin; }
-      catch { $('err').textContent = 'That does not look like a URL. Try something like support.yourcompany.com'; return; }
+      catch { $('err').textContent = "That doesn't look like a URL. Try something like support.yourcompany.com"; return; }
       $('status').textContent = 'Reading ' + base + ' …';
       try {
         const [articles, sections] = await Promise.all([getAll(base, 'articles'), getAll(base, 'sections').catch(() => [])]);

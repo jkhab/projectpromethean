@@ -91,13 +91,13 @@
 
     <p>For most of ten years in support, I was a lookup table with a pulse. The same dozen questions, over and over, plus the handful that only I knew the answer to because the answer lived in my head and nowhere else. New hires waited on me. Customers waited on the queue. And the most valuable thing in the building, what the senior people actually knew, was the least accessible thing in the building.</p>
 
-    <p>The fix I eventually built at work was not a customer-facing chatbot. It was an assistant for the team: load the knowledge in once, and stop being the bottleneck. It quietly took me out of the critical path, so the senior answer no longer waited on me. I cannot show you that one, so I rebuilt the idea from scratch, in the open. This is what it does, shown working, and how it helps.</p>
+    <p>The fix I eventually built at work wasn't a customer-facing chatbot. It was an assistant for the team: load the knowledge in once, and stop being the bottleneck. It quietly took me out of the critical path, so the senior answer no longer waited on me. I can't show you that one, so I rebuilt the idea from scratch, in the open. This is what it does, shown working, and how it helps.</p>
 
-    <p>One thing first: this is not advice on which support AI to buy. I build the thing and show you the parts that do not demo well. That is the only kind of authority worth having here.</p>
+    <p>One thing first: this isn't advice on which support AI to buy. I build the thing and show you the parts that don't demo well. That's the only kind of authority worth having here.</p>
 
     <h2>What it does, in one breath</h2>
 
-    <p>Load your help center once. Ask it a customer's question. It drafts an answer using only your own articles, shows you which ones it used, and hands it to a person to review and send. If your docs do not cover the question, it says so and routes to a human instead of inventing something. And when a person approves an answer, it saves it, so next time it already knows.</p>
+    <p>Load your help center once. Ask it a customer's question. It drafts an answer using only your own articles, shows you which ones it used, and hands it to a person to review and send. If your docs don't cover the question, it says so and routes to a human instead of inventing something. And when a person approves an answer, it saves it, so next time it already knows.</p>
 
     <h2>Watch it work, on a real help center</h2>
 
@@ -113,7 +113,7 @@
       </div>
     </div>
 
-    <p>That is correct, specific, and every fact in it traces to a named article a reviewer can open. It did not pull the $10 minimum or the Stripe detail out of thin air; it pulled them out of Medium's own docs.</p>
+    <p>That's correct, specific, and every fact in it traces to a named article a reviewer can open. It didn't pull the $10 minimum or the Stripe detail out of thin air; it pulled them out of Medium's own docs.</p>
 
     <div class="ui">
       <div class="ui-bar"><i></i><i></i><i></i><span>Support Answer Assistant</span></div>
@@ -125,7 +125,7 @@
       </div>
     </div>
 
-    <p>This is the part most demos skip, and it is the whole game. An ungrounded bot answers this confidently and wrongly. This one looked, found nothing to stand on, and got out of the way. A tool that does this is one your team trusts. A tool that bluffs is one they quietly stop using after it burns them once.</p>
+    <p>This is the part most demos skip, and it's the whole game. An ungrounded bot answers this confidently and wrongly. This one looked, found nothing to stand on, and got out of the way. A tool that does this is one your team trusts. A tool that bluffs is one they quietly stop using after it burns them once.</p>
 
     <h2>The part that makes it matter: it learns</h2>
 
@@ -140,13 +140,13 @@
       </div>
     </div>
 
-    <p>It went from "I don't know, escalate" to a clean, instant answer, because a person taught it once. That is the engine. Every escalation today becomes self-service tomorrow. The knowledge that used to live in one senior head gets captured the first time it is needed and is on tap from then on. This is the <a href="stop-answering-the-same-question-twice.html">stop answering the same question twice</a> idea, made real.</p>
+    <p>It went from "I don't know, escalate" to a clean, instant answer, because a person taught it once. That's the engine. Every escalation today becomes self-service tomorrow. The knowledge that used to live in one senior head gets captured the first time it's needed and is on tap from then on. This is the <a href="stop-answering-the-same-question-twice.html">stop answering the same question twice</a> idea, made real.</p>
 
     <h2>How it actually works</h2>
 
     <p>Three moving parts, and the clever part is which one does the work.</p>
 
-    <p><strong>It loads your whole help center once and keeps it.</strong> You point it at your help center, it reads every published article in one pass and holds onto them. After that you just ask. There is no re-importing, no spoon-feeding it articles per question.</p>
+    <p><strong>It loads your whole help center once and keeps it.</strong> You point it at your help center, it reads every published article in one pass and holds onto them. After that you just ask. There's no re-importing, no spoon-feeding it articles per question.</p>
 
     <p><strong>The real work is the instructions, not the model.</strong> When a question comes in, the model gets your articles, your team's approved answers, and a short set of rules. Those rules are the product:</p>
 
@@ -164,19 +164,19 @@ Never invent steps, prices, URLs, or policies.</code></pre>
 
     <p>"Use only the sources" is what stops it answering from the model's general memory, which sounds fine and is sometimes quietly wrong about your product. "Cite what you used" means a human verifies in seconds. And making "I don't know" a correct answer is what earns the whole thing its trust.</p>
 
-    <p><strong>A person stays between the draft and the customer.</strong> The output is a draft. Someone reads it, edits if needed, and sends. Resolution is not the bot replying, it is the customer getting what they came for, and a human in the loop protects that while the system earns its keep. I went deeper on measuring that gap <a href="how-to-tell-if-support-ai-is-working.html">here</a>.</p>
+    <p><strong>A person stays between the draft and the customer.</strong> The output is a draft. Someone reads it, edits if needed, and sends. Resolution isn't the bot replying, it's the customer getting what they came for, and a human in the loop protects that while the system earns its keep. I went deeper on measuring that gap <a href="how-to-tell-if-support-ai-is-working.html">here</a>.</p>
 
     <h2>How it helps, concretely</h2>
 
-    <p>The new hire on a Tuesday night gets the senior answer without waiting for the senior person. The expert answers each new thing once instead of fifty times. The questions nobody wrote down get written down the moment they are asked. And because every answer shows its sources and passes a human, trust builds instead of eroding. On a small team that is the difference between drowning as volume grows and absorbing it.</p>
+    <p>The new hire on a Tuesday night gets the senior answer without waiting for the senior person. The expert answers each new thing once instead of fifty times. The questions nobody wrote down get written down the moment they are asked. And because every answer shows its sources and passes a human, trust builds instead of eroding. On a small team that's the difference between drowning as volume grows and absorbing it.</p>
 
     <h2>Using it day to day</h2>
 
-    <p>It runs as an app on your own computer. Load your help center once. Type a question, read the draft, check the sources, edit if needed, send. Click approve to teach it. That is the loop. Your knowledge and your API key stay on your machine; nothing is uploaded.</p>
+    <p>It runs as an app on your own computer. Load your help center once. Type a question, read the draft, check the sources, edit if needed, send. Click approve to teach it. That's the loop. Your knowledge and your API key stay on your machine; nothing is uploaded.</p>
 
     <h2>The honest limits</h2>
 
-    <p>It is only as good as the docs behind it. A confident answer built on a stale article is worse than no answer, which is why step zero is auditing the help center, not adding the AI. I wrote about that <a href="fix-the-operation-before-you-add-the-ai.html">here</a>, and the tool I use to find the rot is <a href="../tools/kb-auditor.html">here</a>. It also has no memory of the specific customer, and the per-answer cost is small but real, so in front of a team you would put a hard spending cap and a kill switch on it, lessons I <a href="what-support-ai-actually-costs.html">paid for</a> elsewhere.</p>
+    <p>It's only as good as the docs behind it. A confident answer built on a stale article is worse than no answer, which is why step zero is auditing the help center, not adding the AI. I wrote about that <a href="fix-the-operation-before-you-add-the-ai.html">here</a>, and the tool I use to find the rot is <a href="../tools/kb-auditor.html">here</a>. It also has no memory of the specific customer, and the per-answer cost is small but real, so in front of a team you'd put a hard spending cap and a kill switch on it, lessons I <a href="what-support-ai-actually-costs.html">paid for</a> elsewhere.</p>
 
     <h2>The point</h2>
 
