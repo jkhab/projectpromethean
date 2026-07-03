@@ -1,10 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00d4ff"/>
-      <stop offset="100%" stop-color="#a855f7"/>
-    </linearGradient>
-  </defs>
-  <rect width="32" height="32" rx="6" fill="#080810"/>
-  <text x="7" y="24" font-family="Arial, sans-serif" font-weight="900" font-size="22" fill="url(#g)">P</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <style>path{fill:#4F46E5}@media(prefers-color-scheme:dark){path{fill:#EDEDF2}}</style>
+  <path d="M13.68 2.45 A9.7 9.7 0 1 0 21.55 10.32 L18.2 10.91 A6.3 6.3 0 1 1 13.09 5.8 Z"/>
+  <path d="M17.66 2.74 L21.26 6.34 L17.66 9.94 L14.06 6.34 Z"/>
 </svg>
