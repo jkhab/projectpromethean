@@ -18,3 +18,7 @@ blog/what-is-workflow-automation.html
 blog/real-estate-ai-automation.html
 blog/demo-tc-flow.html
 blog/demo-voice-offer-form.html
+
+# Retired 2026-07-07: reads as AI-written; pulled from deploy pending a from-scratch
+# rewrite under the current voice standard, if the topic earns a slot again. Preserved in repo.
+blog/what-support-ai-actually-costs.html
