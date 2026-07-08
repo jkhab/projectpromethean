@@ -14,7 +14,7 @@
   </script>
 
   <title>I Built a Support Agent That Reads Your Help Center and Learns — Project Promethean</title>
-  <meta name="description" content="Not how to buy support AI, how to build it. A grounded agent that reads your help center, drafts a cited answer, refuses to guess, and learns from your team. With real, live output you can check.">
+  <meta name="description" content="How to build support AI instead of buying it. A grounded agent that reads your help center, drafts a cited answer, refuses to guess, and learns from your team. Shown working on a real help center.">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
@@ -22,11 +22,11 @@
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://projectpromethean.com/blog/how-i-built-an-internal-support-agent.html">
   <meta property="og:title" content="I Built a Support Agent That Reads Your Help Center and Learns">
-  <meta property="og:description" content="A grounded support agent that answers from your help center with citations, refuses to guess, and learns from your team. Built, not bought, with real output.">
+  <meta property="og:description" content="A grounded support agent that answers from your help center with citations, refuses to guess, and learns from your team. Shown working on a real help center.">
   <meta property="og:image" content="https://projectpromethean.com/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="I Built a Support Agent That Reads Your Help Center and Learns">
-  <meta name="twitter:description" content="Answers from your help center with citations, refuses to guess, and learns from your team. Built, not bought, with real output.">
+  <meta name="twitter:description" content="Answers from your help center with citations, refuses to guess, and learns from your team. Shown working on a real help center.">
   <meta name="twitter:image" content="https://projectpromethean.com/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,18 +88,18 @@
   <div class="article-body">
 
     <div class="article-callout">
-      <p>You load your help center into it once. It answers customer questions from those docs, with citations, and it refuses to guess when the docs come up short. Every time a person approves an answer, it remembers, so the same question is never hard twice. I built it, it runs on a laptop, and below it is answering real questions on a real help center you can go check yourself.</p>
+      <p>You load your help center into it once. It answers customer questions from those docs, with citations, and when the docs come up short it says so instead of guessing. Answers a person approves get remembered, so the same question is never hard twice. It runs on a laptop, and below it's answering real questions on a real help center you can go check yourself.</p>
     </div>
 
-    <p>For most of ten years in support, I was a lookup table with a pulse. The same dozen questions, over and over, plus the handful that only I knew the answer to because the answer lived in my head and nowhere else. New hires waited on me. Customers waited on the queue. And the most valuable thing in the building, what the senior people actually knew, was the least accessible thing in the building.</p>
+    <p>For most of ten years in support, I was a lookup table with a pulse. The same dozen questions over and over, plus a handful only I could answer because the answer lived in my head and nowhere else. New hires waited on me for it, customers waited on the queue, and the stuff the senior people knew, the most useful knowledge in the building, stayed the hardest to get at.</p>
 
-    <p>The fix I eventually built at work wasn't a customer-facing chatbot. It was an assistant for the team: load the knowledge in once, and stop being the bottleneck. It quietly took me out of the critical path, so the senior answer no longer waited on me. I can't show you that one, so I rebuilt the idea from scratch, in the open. This is what it does, shown working, and how it helps.</p>
+    <p>The fix I eventually built at work wasn't a customer-facing chatbot. It was an assistant for the team: load the knowledge in once and stop being the bottleneck. I can't show you that one, so I rebuilt the idea from scratch in the open.</p>
 
-    <p>One thing first: this isn't advice on which support AI to buy. I build the thing and show you the parts that don't demo well. That's the only kind of authority worth having here.</p>
+    <p>One thing first: this isn't advice on which support AI to buy. I build the thing and show you the parts that don't demo well.</p>
 
     <h2>What it does, in one breath</h2>
 
-    <p>Load your help center once. Ask it a customer's question. It drafts an answer using only your own articles, shows you which ones it used, and hands it to a person to review and send. If your docs don't cover the question, it says so and routes to a human instead of inventing something. And when a person approves an answer, it saves it, so next time it already knows.</p>
+    <p>Load your help center once and ask it a customer's question. It drafts an answer using only your own articles, shows which ones it used, and hands the draft to a person to review and send. If your docs don't cover the question, it says so and routes to a human instead of inventing something. When a person approves an answer, it saves it, so next time it already knows.</p>
 
     <h2>Watch it work, on a real help center</h2>
 
@@ -115,7 +115,7 @@
       </div>
     </div>
 
-    <p>That's correct, specific, and every fact in it traces to a named article a reviewer can open. It didn't pull the $10 minimum or the Stripe detail out of thin air; it pulled them out of Medium's own docs.</p>
+    <p>That answer is right, and every fact in it traces to a named article a reviewer can open. The $10 minimum and the Stripe detail didn't come out of thin air; they came out of Medium's own docs.</p>
 
     <div class="ui">
       <div class="ui-bar"><i></i><i></i><i></i><span>Support Answer Assistant</span></div>
@@ -127,7 +127,7 @@
       </div>
     </div>
 
-    <p>This is the part most demos skip, and it's the whole game. An ungrounded bot answers this confidently and wrongly. This one looked, found nothing to stand on, and got out of the way. A tool that does this is one your team trusts. A tool that bluffs is one they quietly stop using after it burns them once.</p>
+    <p>This is the part most demos skip. An ungrounded bot answers this question confidently and wrongly. This one looked, found nothing it could stand on, and got out of the way. That behavior is what decides whether a team keeps using the tool, because a bot that bluffs only has to burn them once or twice before they quietly stop.</p>
 
     <h2>The part that makes it matter: it learns</h2>
 
@@ -142,15 +142,15 @@
       </div>
     </div>
 
-    <p>It went from "I don't know, escalate" to a clean, instant answer, because a person taught it once. That's the engine. Every escalation today becomes self-service tomorrow. The knowledge that used to live in one senior head gets captured the first time it's needed and is on tap from then on. This is the <a href="stop-answering-the-same-question-twice.html">stop answering the same question twice</a> idea, made real.</p>
+    <p>It went from "I don't know, escalate" to a clean, instant answer because a person taught it once. Every escalation today becomes tomorrow's self-service; that's the engine. It's the <a href="stop-answering-the-same-question-twice.html">stop answering the same question twice</a> idea in practice.</p>
 
     <h2>How it actually works</h2>
 
-    <p>Three moving parts, and the clever part is which one does the work.</p>
+    <p>Three moving parts, and the model is the least interesting one.</p>
 
-    <p><strong>It loads your whole help center once and keeps it.</strong> You point it at your help center, it reads every published article in one pass and holds onto them. After that you just ask. There's no re-importing, no spoon-feeding it articles per question.</p>
+    <p><strong>It loads your whole help center once and keeps it.</strong> You point it at your help center, it reads every published article in one pass, and it holds onto them. After that you just ask; there's no re-importing or feeding it articles per question.</p>
 
-    <p><strong>The real work is the instructions, not the model.</strong> When a question comes in, the model gets your articles, your team's approved answers, and a short set of rules. Those rules are the product:</p>
+    <p><strong>The instructions do the real work.</strong> When a question comes in, the model gets your articles, your team's approved answers, and a short set of rules. Those rules are the product:</p>
 
     <pre><code>Answer using ONLY the approved answers and help-center articles
 provided. Do not use outside knowledge.
@@ -164,13 +164,13 @@ plausible answer the sources don't support.
 
 Never invent steps, prices, URLs, or policies.</code></pre>
 
-    <p>"Use only the sources" is what stops it answering from the model's general memory, which sounds fine and is sometimes quietly wrong about your product. "Cite what you used" means a human verifies in seconds. And making "I don't know" a correct answer is what earns the whole thing its trust.</p>
+    <p>The "only the sources" rule stops it answering from the model's general memory, which sounds fine and is sometimes quietly wrong about your product. Citing what it used means a human can verify in seconds. And "I don't know" counts as a correct answer, which is where the escalation behavior above comes from.</p>
 
-    <p><strong>A person stays between the draft and the customer.</strong> The output is a draft. Someone reads it, edits if needed, and sends. Resolution isn't the bot replying, it's the customer getting what they came for, and a human in the loop protects that while the system earns its keep. I went deeper on measuring that gap <a href="how-to-tell-if-support-ai-is-working.html">here</a>.</p>
+    <p><strong>A person stays between the draft and the customer.</strong> The output is a draft; someone reads it, edits if needed, and sends it. A reply from the bot only counts as a resolution once the customer actually got what they came for, and keeping a human in the loop protects that while the system earns its keep. I went deeper on measuring that gap <a href="how-to-tell-if-support-ai-is-working.html">here</a>.</p>
 
     <h2>How it helps, concretely</h2>
 
-    <p>The new hire on a Tuesday night gets the senior answer without waiting for the senior person. The expert answers each new thing once instead of fifty times. The questions nobody wrote down get written down the moment they are asked. And because every answer shows its sources and passes a human, trust builds instead of eroding. On a small team that's the difference between drowning as volume grows and absorbing it.</p>
+    <p>The new hire on a Tuesday night gets the senior answer without waiting for the senior person, and the expert answers each new thing once instead of fifty times. Questions nobody ever wrote down get written down the moment they're first asked. And because every answer shows its sources and passes through a person, the team comes to trust it instead of working around it. On a small team, that's the difference between drowning as volume grows and keeping up with it.</p>
 
     <h2>Using it day to day</h2>
 
@@ -178,11 +178,11 @@ Never invent steps, prices, URLs, or policies.</code></pre>
 
     <h2>The honest limits</h2>
 
-    <p>It's only as good as the docs behind it. A confident answer built on a stale article is worse than no answer, which is why step zero is auditing the help center, not adding the AI. I wrote about that <a href="fix-the-operation-before-you-add-the-ai.html">here</a>, and the tool I use to find the rot is <a href="../tools/kb-auditor.html">here</a>. It also has no memory of the specific customer, and the per-answer cost is small but real, so in front of a team you'd put a hard spending cap and a kill switch on it, lessons I paid for elsewhere.</p>
+    <p>It's only as good as the docs behind it. A confident answer built on a stale article is worse than no answer, which is why step zero is auditing the help center before the AI gets anywhere near it. I wrote about that <a href="fix-the-operation-before-you-add-the-ai.html">here</a>, and the tool I use to find the rot is <a href="../tools/kb-auditor.html">here</a>. It also has no memory of the specific customer, and the per-answer cost is small but real, so in front of a team you'd put a hard spending cap and a kill switch on it, lessons I paid for elsewhere.</p>
 
     <h2>The point</h2>
 
-    <p>The whole thing is about a hundred and fifty lines and runs on a laptop with no setup beyond a key. Almost none of that work was the model. It was the judgment: what to ground it on, what to let it say, where a person stays in the loop, and how it learns from the people who already know the answers. That judgment is the thing I actually have, and this is what it looks like built.</p>
+    <p>The whole thing is about a hundred and fifty lines and runs on a laptop with no setup beyond an API key. Almost none of the work was the model. It was judgment about what to ground it on, when it should answer, and when it should get out of the way, and ten years in the queue is where that came from. This is what it looks like built.</p>
 
     <p>Want to see it run on your own help center, or talk about putting something like it in front of a team? <a href="../#contact">Get in touch</a>.</p>
 
