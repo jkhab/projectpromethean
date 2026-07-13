@@ -77,7 +77,6 @@
       <a href="index.html" class="nav-logo"><svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" style="color:var(--accent)"><path fill="currentColor" d="M13.68 2.45 A9.7 9.7 0 1 0 21.55 10.32 L18.2 10.91 A6.3 6.3 0 1 1 13.09 5.8 Z"/><path fill="currentColor" d="M17.66 2.74 L21.26 6.34 L17.66 9.94 L14.06 6.34 Z"/></svg>Project Promethean</a>
       <ul class="nav-links" id="nav-menu">
         <li><a href="index.html#about">About</a></li>
-        <li><a href="blog/">Writing</a></li>
         <li><a href="lab.html" style="color: var(--text)">The Lab</a></li>
         <li><a href="tools/">Tools</a></li>
         <li><a href="https://www.linkedin.com/in/johnkhabushani/" class="nav-cta" target="_blank" rel="noopener">Connect</a></li>
@@ -94,6 +93,8 @@
     <a href="#assistant">Assistant</a>
     <a href="#wts">Work the Steps</a>
     <a href="#cleanplate">Cleanplate</a>
+    <a href="#reinstara">Reinstara</a>
+    <a href="#truetotal">TrueTotal</a>
     <a href="#vtc">Virtual TC</a>
     <a href="#offerletter">OfferLetter</a>
     <a href="#leadgen">Lead-Gen</a>
@@ -155,9 +156,8 @@
             <div class="flow-step">Reply sent</div>
           </div>
           <p class="lab-decisions">First I systematized that two-person team's knowledge and workflows, and with no added headcount we absorbed roughly 30% ticket growth over two years, driven by client and product expansion, at a 72% single-reply resolution rate. The assistant came later, to capture that judgment so the senior answer isn't trapped in my head. It follows the rule I write about: ground every answer in real documentation, keep a person between the draft and the send, and measure the customer's outcome instead of the deflection.</p>
-          <p class="lab-decisions">I rebuilt this idea from scratch in the open, as a small app that loads a help center once, drafts cited answers a human reviews, and learns from the ones you approve. The full build, with real output from a live help center, is written up below.</p>
-          <a href="blog/how-i-built-an-internal-support-agent.html" class="automation-link">Read the build →</a>
-          <a href="tools/support-agent.html" class="automation-link" style="margin-left: 1.25rem;">Try the preview →</a>
+          <p class="lab-decisions">I rebuilt this idea from scratch in the open, as a small app that loads a help center once, drafts cited answers a human reviews, and learns from the ones you approve. A working preview of it, running against a live help center, is linked below.</p>
+          <a href="tools/support-agent.html" class="automation-link">Try the preview →</a>
         </div>
 
         <div class="automation-card reveal card-split" id="wts">
@@ -211,6 +211,46 @@
           <a href="https://cleanplate.app/insights" class="automation-link" style="margin-left: 1.25rem;" target="_blank" rel="noopener">See the data pages →</a>
         </div>
 
+        <div class="automation-card reveal" id="reinstara">
+          <div class="automation-meta">
+            <span class="automation-tag tag-service">Consumer AI</span>
+          </div>
+          <h4>Reinstara</h4>
+          <p class="card-specs">Claude · Cloudflare Worker + D1 · Stripe · live at reinstara.com</p>
+          <p>A deactivated gig driver pastes their notice, picks the platform and reason, and describes what happened. The tool writes a platform-formatted reinstatement appeal built entirely from their own facts, across six platforms (Uber, Lyft, DoorDash, Instacart, Spark, Amazon Flex). A free readiness check shows the strongest version of their case before anyone pays; the full letter is a one-time charge.</p>
+          <div class="flow">
+            <div class="flow-step">Paste the notice</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Platform + reason</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Facts + evidence</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Formatted appeal</div>
+          </div>
+          <p class="lab-decisions">The rails are the product. The letter is written only from the user's stated facts, never fabricated; it never promises reactivation, only a stronger case; and it reads the way the worker would actually put it, plain and human. A per-platform knowledge base of the real appeal channels, deadlines, and winning angles drives every draft, and the model key stays server-side behind rate limits and a spend ceiling.</p>
+          <a href="https://reinstara.com" class="automation-link" target="_blank" rel="noopener">Visit Reinstara →</a>
+        </div>
+
+        <div class="automation-card reveal" id="truetotal">
+          <div class="automation-meta">
+            <span class="automation-tag tag-service">Consumer AI</span>
+          </div>
+          <h4>TrueTotal</h4>
+          <p class="card-specs">Claude · Cloudflare Worker + D1 · Stripe · live at gettruetotal.com</p>
+          <p>When an insurer totals a car, the payout is often lowballed. The owner enters the claim details and the settlement offer, and the tool builds a documented dispute from their own numbers: the comparable-vehicle argument, the specific line items worth challenging, and a formatted letter to the adjuster. A free gap-check flags whether an offer looks low before anyone pays.</p>
+          <div class="flow">
+            <div class="flow-step">Claim + offer</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Comparable read</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Line items to contest</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Dispute letter</div>
+          </div>
+          <p class="lab-decisions">Same discipline as the rest of the work: the letter argues only from the owner's stated figures, never invents a valuation, and it's framed as self-help with a clear line that it isn't legal advice. The mechanism is grounded in how total-loss valuations actually get contested, and the key stays server-side behind rate limits and a spend cap.</p>
+          <a href="https://gettruetotal.com" class="automation-link" target="_blank" rel="noopener">Visit TrueTotal →</a>
+        </div>
+
         <div class="automation-card reveal" id="vtc">
           <div class="automation-meta">
             <span class="automation-tag tag-re">Real Estate</span>
@@ -230,9 +270,7 @@
             <div class="flow-step">Deadline events</div>
           </div>
           <p class="lab-decisions">Built for messy reality: extraction against scanned, inconsistent PDFs; deadline logic derived from the contract's own terms; framed AI-assisted and human-verified, because liability lives in the gaps.</p>
-          <img class="lab-shot" src="blog/img/tc-email-full.webp" alt="Virtual TC output: the generated deal timeline email with deal summary, key dates and deadlines, and next steps" loading="lazy">
-          <a href="blog/real-estate-tc-automation.html" class="automation-link">Read the build story →</a>
-        </div>
+          <img class="lab-shot" src="blog/img/tc-email-full.webp" alt="Virtual TC output: the generated deal timeline email with deal summary, key dates and deadlines, and next steps" loading="lazy">        </div>
 
         <div class="automation-card reveal" id="offerletter">
           <div class="automation-meta">
@@ -243,9 +281,7 @@
           <p>A web form covering every field of the California purchase agreement, driven by voice. The agent speaks the deal in plain language, the fields populate across the form, the address geocodes itself, and the finished data maps into the official CAR PDF, routed to the buyer for review and then to the listing agent. Thirty to forty-five minutes of form entry became about five minutes of talking.</p>
           <img class="lab-shot" src="blog/img/voice-form-screenshot.png" alt="OfferLetter voice intake: a spoken deal transcript and 18 form fields populated from a single voice input, with the street address geocoded" loading="lazy">
           <p class="lab-decisions">Built for how agents actually work: profile auto-fill, support for up to three buyers, contingency math, close-of-escrow as days or a date, and voice input that never makes you narrate field names.</p>
-          <p class="lab-status">Status: built, demonstrated, and deliberately retired. Its browser-side API key got drained, and that bill rewrote how I handle keys: server-side only, per-IP rate limits, a model whitelist, and an over-the-air kill switch. Stack: Cloudflare Pages, browser voice capture, Claude API via Make.com, Google Maps geocoding.</p>
-          <a href="blog/voice-to-text-real-estate-contract.html" class="automation-link">Read the build story →</a>
-        </div>
+          <p class="lab-status">Status: built, demonstrated, and deliberately retired. Its browser-side API key got drained, and that bill rewrote how I handle keys: server-side only, per-IP rate limits, a model whitelist, and an over-the-air kill switch. Stack: Cloudflare Pages, browser voice capture, Claude API via Make.com, Google Maps geocoding.</p>        </div>
 
         <div class="automation-card reveal" id="leadgen">
           <div class="automation-meta">
@@ -302,7 +338,7 @@
         <p class="contact-sub">If you're working on AI that has to hold up in a real support queue, I'm always glad to talk it through.</p>
         <div class="hero-actions" style="margin-top: 24px;">
           <a href="index.html#contact" class="btn btn-primary">Get in touch</a>
-          <a href="blog/" class="btn btn-ghost">Read the writing</a>
+          <a href="https://www.linkedin.com/in/johnkhabushani/" class="btn btn-ghost" target="_blank" rel="noopener">Connect on LinkedIn</a>
         </div>
       </div>
     </div>
