@@ -22,3 +22,15 @@ blog/demo-voice-offer-form.html
 # Retired 2026-07-07: reads as AI-written; pulled from deploy pending a from-scratch
 # rewrite under the current voice standard, if the topic earns a slot again. Preserved in repo.
 blog/what-support-ai-actually-costs.html
+
+# Retired 2026-07-12: the writing/blog section, pulled from the live deploy pending
+# a from-scratch rewrite in Johnny's own voice. Unlinked from nav + Lab this session;
+# files preserved in the repo. blog/img/ stays served (two Lab cards use images from it).
+blog/index.html
+blog/the-hard-part-was-never-the-model.html
+blog/how-i-built-an-internal-support-agent.html
+blog/fix-the-operation-before-you-add-the-ai.html
+blog/stop-answering-the-same-question-twice.html
+blog/how-to-tell-if-support-ai-is-working.html
+blog/real-estate-tc-automation.html
+blog/voice-to-text-real-estate-contract.html
